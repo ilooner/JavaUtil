@@ -15,13 +15,23 @@
  */
 package com.topekalabs.math.utils;
 
+/**
+ * This class provides utility methods for floats.
+ * @author Topeka Labs
+ */
 public final class FloatUtils
 {
     private FloatUtils()
     {
+        //Do nothing
     }
     
-    public static void isInfinite(float value)
+    /**
+     * This method throws an IllegalArgumentException if the given value is
+     * infinite.
+     * @param value The value to check. 
+     */
+    public static void isInfiniteException(float value)
     {
         if(Float.isInfinite(value))
         {
@@ -29,7 +39,13 @@ public final class FloatUtils
         }
     }
     
-    public static void isInfinite(float value, String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given value is
+     * infinite.
+     * @param value The value to check.
+     * @param valueName The name of the value.
+     */
+    public static void isInfiniteException(float value, String valueName)
     {
         if(Float.isInfinite(value))
         {
@@ -37,25 +53,65 @@ public final class FloatUtils
         }
     }
     
-    public static void isValidFloat(float value)
+    /**
+     * This method throws an IllegalArgumentException if the given value is NaN.
+     * @param value The value to check.
+     */
+    public static void isNaNException(float value)
     {
-        if(Float.isInfinite(value) || Float.isNaN(value))
+        if(Float.isNaN(value))
         {
-            throw new IllegalArgumentException("The value cannot be NaN or Infinite.");
+            throw new IllegalArgumentException("The given value cannot be NaN.");
         }
     }
     
-    public static void isValidFloat(float value, String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given value is NaN.
+     * This method displays the name of the value in the exception message.
+     * @param value The value to check.
+     * @param valueName The name of the value to check.
+     */
+    public static void isNaNException(float value, String valueName)
     {
-        if(Float.isInfinite(value) || Float.isNaN(value))
+        if(Float.isNaN(value))
         {
-            throw new IllegalArgumentException("The given value of " + valueName + " cannot be NaN or Infinite.");
+            throw new IllegalArgumentException("The given value for " +
+                                               valueName +
+                                               " cannot be NaN.");
         }
     }
     
-    public static void isPositiveFloat(float value)
+    /**
+     * This method throws an IllegalArgumentException if the given value is not a valid floating
+     * point number.
+     * @param value The value to test.
+     */
+    public static void isValidFloatException(float value)
     {
-        isValidFloat(value);
+        FloatUtils.isInfiniteException(value);
+        FloatUtils.isNaNException(value);
+    }
+    
+    /**
+     * This method throws an IllegalArgumentException if the given value is not a valid floating
+     * point number.
+     * @param value The value to test.
+     * @param valueName The name of the value.
+     */
+    public static void isValidFloatException(float value, String valueName)
+    {
+        FloatUtils.isInfiniteException(value, valueName);
+        FloatUtils.isNaNException(value, valueName);
+    }
+    
+    /**
+     * This method throws an IllegalArgumentException if the given value is not a valid positive
+     * floating point number.
+     * @param value The value to test.
+     */
+    public static void isPositiveFloatException(float value)
+    {
+        isValidFloatException(value);
         
         if(value <= 0.0f)
         {
@@ -63,9 +119,16 @@ public final class FloatUtils
         }
     }
     
+    
+    /**
+     * This method throws an IllegalArgumentException if the given value is not a valid positive
+     * floating point number.
+     * @param value The value to test.
+     * @param valueName The name of the value.
+     */
     public static void isPositiveFloat(float value, String valueName)
     {
-        isValidFloat(value, valueName);
+        isValidFloatException(value, valueName);
         
         if(value <= 0.0f)
         {
@@ -73,9 +136,13 @@ public final class FloatUtils
         }
     }
     
-    public static void isNonNegativeFloat(float value)
+    /**
+     * This method throws an IllegalArgumentException if the given float value is positive.
+     * @param value The value to test.
+     */
+    public static void isNonNegativeFloatException(float value)
     {
-        isValidFloat(value);
+        isValidFloatException(value);
         
         if(value < 0.0f)
         {
@@ -83,9 +150,14 @@ public final class FloatUtils
         }
     }
     
-    public static void isNonNegativeFloat(float value, String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given float value is positive.
+     * @param value The value to test.
+     * @param valueName The name of the value.
+     */
+    public static void isNonNegativeFloatException(float value, String valueName)
     {
-        isValidFloat(value, valueName);
+        isValidFloatException(value, valueName);
         
         if(value < 0.0f)
         {
@@ -93,9 +165,13 @@ public final class FloatUtils
         }
     }
     
+    /**
+     * This method throws an IllegalArgumentException if the given float is non negative.
+     * @param value The value to test.
+     */
     public static void isNegativeFloat(float value)
     {
-        isValidFloat(value);
+        isValidFloatException(value);
         
         if(value >= 0.0f)
         {
@@ -103,9 +179,14 @@ public final class FloatUtils
         }
     }
     
+    /**
+     * This method throws an IllegalArgumentException if the given float is non negative.
+     * @param value The value to test.
+     * @param valueName The name of the value.
+     */
     public static void isNegativeFloat(float value, String valueName)
     {
-        isValidFloat(value, valueName);
+        isValidFloatException(value, valueName);
         
         if(value < 0.0f)
         {
@@ -113,9 +194,13 @@ public final class FloatUtils
         }
     }
     
-    public static void isNonPositiveFloat(float value)
+    /**
+     * This method throws an IllegalArgumentException if the given float is negative.
+     * @param value The value to test.
+     */
+    public static void isNonPositiveFloatException(float value)
     {
-        isValidFloat(value);
+        isValidFloatException(value);
         
         if(value <= 0.0f)
         {
@@ -123,9 +208,14 @@ public final class FloatUtils
         }
     }
     
-    public static void isNonPositiveFloat(float value, String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given float is negative.
+     * @param value The value to test.
+     * @param valueName The name of the value.
+     */
+    public static void isNonPositiveFloatException(float value, String valueName)
     {
-        isValidFloat(value, valueName);
+        isValidFloatException(value, valueName);
         
         if(value <= 0.0f)
         {
@@ -133,8 +223,17 @@ public final class FloatUtils
         }
     }
     
+    /**
+     * This method returns the minimum of the two given values.
+     * @param a A value to compare.
+     * @param b A value to compare.
+     * @return The minimum value.
+     */
     public static float min(float a, float b)
     {
+        FloatUtils.isValidFloatException(a, "a");
+        FloatUtils.isValidFloatException(b, "b");
+        
         if(a < b)
         {
             return a;
@@ -144,26 +243,121 @@ public final class FloatUtils
             return b;
         }
     }
-    
-    public static float[] uniformArray(int numValues,
-                                       FloatInterval floatInterval)
+
+    /**
+     * This method adds the given 2D vector to the vector specified in the array.
+     * @param array The array which contains vectors.
+     * @param vectorIndex The index of the vector to add to.
+     * @param x The x component to add to the vector.
+     * @param y The y component to add to the vector.
+     */
+    public static void vectorAdd2D(float[] array,
+                                   int vectorIndex,
+                                   float x,
+                                   float y)
     {
-        IntUtils.isGreaterThan(numValues, 1, "numValues");
         
-        float[] values = new float[numValues];
-        float length = floatInterval.getRange();
-        float intervalWidth = length / ((float) (numValues - 1));
         
-        values[0] = floatInterval.getStartInterval();
-        values[numValues - 1] = floatInterval.getEndInterval();
+        int tempIndex = 2 * vectorIndex;
+        array[tempIndex] += x;
+        array[tempIndex + 1] += y;
+    }
+    
+    /**
+     * This method adds the given 3D vector to the vector specified in the array.
+     * @param array The array which contains vectors.
+     * @param vectorIndex The index of the vector to add to.
+     * @param x The x component to add to the vector.
+     * @param y The y component to add to the vector.
+     * @param z The z component to add to the vector.
+     */
+    public static void vectorAdd3D(float[] array,
+                                   int vectorIndex,
+                                   float x,
+                                   float y,
+                                   float z)
+    {
         
-        for(int counter = 1;
-            counter < numValues - 1;
+        
+        int tempIndex = 3 * vectorIndex;
+        array[tempIndex] += x;
+        array[tempIndex + 1] += y;
+        array[tempIndex + 2] += z;
+    }
+
+    /**
+     * This method multiplies the given 2D vector by the specified scale amount.
+     * @param array The array which contains vectors.
+     * @param vectorIndex The index of the vector to scale.
+     * @param scale The value to scale the vector by.
+     */
+    public static void vectorMult2D(float[] array,
+                                    int vectorIndex,
+                                    float scale)
+    {
+        int tempIndex = 2 * vectorIndex;
+        array[tempIndex + 0] *= scale;
+        array[tempIndex + 1] *= scale;
+    }
+    
+    /**
+     * This method multiplies the given 3D vector by the specified scale amount.
+     * @param array The array which contains vectors.
+     * @param vectorIndex The index of the vector to scale.
+     * @param scale The value to scale the vector by.
+     */
+    public static void vectorMult3D(float[] array,
+                                    int vectorIndex,
+                                    float scale)
+    {
+        int tempIndex = 3 * vectorIndex;
+        array[tempIndex + 0] *= scale;
+        array[tempIndex + 1] *= scale;
+        array[tempIndex + 2] *= scale;
+    }
+    
+    /**
+     * This method divides the given 2D vector by the give scale value.
+     * @param array The array containing the vector of interest.
+     * @param vectorIndex This is the index of the vector in the array.
+     * @param scale The scale value to divide the vector by.
+     */
+    public static void vectorDiv2D(float[] array,
+                                   int vectorIndex,
+                                   float scale)
+    {
+        int tempIndex = 2 * vectorIndex;
+        array[tempIndex] /= scale;
+        array[tempIndex + 1] /= scale;
+    }
+
+    /**
+     * This method divides the given 3D vector by the give scale value.
+     * @param array The array containing the vector of interest.
+     * @param vectorIndex This is the index of the vector in the array.
+     * @param scale The scale value to divide the vector by.
+     */
+    public static void vectorDiv3D(float[] array,
+                                   int vectorIndex,
+                                   float scale)
+    {
+        int tempIndex = 3 * vectorIndex;
+        array[tempIndex] /= scale;
+        array[tempIndex + 1] /= scale;
+        array[tempIndex + 2] /= scale;
+    }
+    
+    /**
+     * This method fills the given array of floats with zeros.
+     * @param array The array to zero fill.
+     */
+    public static void zeroFill(float[] array)
+    {
+        for(int counter = 0;
+            counter < array.length;
             counter++)
         {
-            values[counter] = ((float) counter) * intervalWidth;
+            array[counter] = 0.0f;
         }
-        
-        return values;
     }
 }

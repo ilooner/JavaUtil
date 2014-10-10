@@ -15,22 +15,43 @@
  */
 package com.topekalabs.java.utils;
 
+/**
+ * This is a simple wrapper object allows its payload object to be mutable.
+ * @author Topeka Labs
+ * @param <T> The type of the payload object.
+ */
 public final class MutableObject<T>
 {
+    /**
+     * The payload object.
+     */
     private T object;
     
+    /**
+     * This constructor creates a mutable object with the given payload object.
+     * @param object The payload object.
+     */
     public MutableObject(T object)
     {
         setObject(object);
     }
     
+    /**
+     * This method sets the payload object. A NullPointerException is thrown if
+     * the object is null.
+     * @param object The payload object.
+     */
     public void setObject(T object)
     {
-        ExceptionUtils.isNull(object);
+        ExceptionUtils.isNullException(object);
         
         this.object = object;
     }
     
+    /**
+     * This method gets the payload object.
+     * @return The payload object.
+     */
     public T getObject()
     {
         return object;

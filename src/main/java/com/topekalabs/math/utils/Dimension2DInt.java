@@ -15,155 +15,301 @@
  */
 package com.topekalabs.math.utils;
 
+/**
+ * This class represents the dimensions of a 2D array.
+ * @author Topeka Labs
+ */
 public class Dimension2DInt
 {
-    private int xCount;
-    private float xCountFloat;
-    private int xCountM1;
-    private float xCountM1Float;
-    private int xCountP1;
-    private float xCountP1Float;
-    private int yCount;
-    private float yCountFloat;
-    private int yCountM1;
-    private float yCountM1Float;
-    private int yCountP1;
-    private float yCountP1Float;
+    /**
+     * The number of columns as an int.
+     */
+    private int columnCount;
+    /**
+     * The number of columns as a float.
+     */
+    private float columnCountFloat;
+    /**
+     * The number of columns minus one.
+     */
+    private int columnCountM1;
+    /**
+     * The number of columns minus one as a float.
+     */
+    private float columnCountM1Float;
+    /**
+     * The number of columns plus one.
+     */
+    private int columnCountP1;
+    /**
+     * The number of columns plus one as float.
+     */
+    private float columnCountP1Float;
+    /**
+     * The number of rows.
+     */
+    private int rowCount;
+    /**
+     * The number of rows as a float.
+     */
+    private float rowCountFloat;
+    /**
+     * The number of rows minus one.
+     */
+    private int rowCountM1;
+    /**
+     * The number of rows minus one as a float.
+     */
+    private float rowCountM1Float;
+    /**
+     * The number of rows plus one.
+     */
+    private int rowCountP1;
+    /**
+     * The number of rows plus one as a float.
+     */
+    private float rowCountP1Float;
+    /**
+     * The total number of elements rowCount * columnCount.
+     */
     private int totalSize;
+    /**
+     * The total number of elements as a float.
+     */
     private float totalSizeFloat;
+    /**
+     * The total size minus 1.
+     */
     private int totalSizeM1;
+    /**
+     * The total size minus 1 as a float.
+     */
     private float totalSizeM1Float;
+    /**
+     * The total size plus 1.
+     */    
     private int totalSizeP1;
+    /**
+     * The total size plus 1 as a float.
+     */    
     private float totalSizeP1Float;
     
-    public Dimension2DInt(int xCount,
-                          int yCount)
+    /**
+     * This creates a dimension object with the given column and row counts.
+     * @param columnCount The column count of the dimension object.
+     * @param rowCount The row count of the dimension object.
+     */
+    public Dimension2DInt(int columnCount,
+                          int rowCount)
     {
-        setXCount(xCount);
-        setYCount(yCount);
+        setColumnCount(columnCount);
+        setRowCount(rowCount);
         
         initialize();
     }
     
+    /**
+     * This initializes the dimension object.
+     */
     private void initialize()
     {
-        totalSize = xCount * yCount;
+        totalSize = columnCount * rowCount;
         totalSizeFloat = (float) totalSize;
-        totalSizeM1 = xCountM1 * yCountM1;
+        totalSizeM1 = columnCountM1 * rowCountM1;
         totalSizeM1Float = (float) totalSizeM1;
-        totalSizeP1 = xCountP1 * yCountP1;
+        totalSizeP1 = columnCountP1 * rowCountP1;
         totalSizeP1Float = (float) totalSizeP1;
     }
     
-    private void setXCount(int xCount)
+    /**
+     * This sets the column count for the dimension object.
+     * @param columnCount The column count for the dimension object.
+     */
+    private void setColumnCount(int columnCount)
     {
-        IntUtils.isPositive(xCount, "xCount");
+        IntUtils.isPositiveException(columnCount, "columnCount");
         
-        this.xCount = xCount;
-        this.xCountFloat = (float) xCount;
-        this.xCountM1 = xCount - 1;
-        this.xCountM1Float = (float) xCountM1;
-        this.xCountP1 = xCount + 1;
-        this.xCountP1Float = (float) xCountP1Float;
+        this.columnCount = columnCount;
+        this.columnCountFloat = (float) columnCount;
+        this.columnCountM1 = columnCount - 1;
+        this.columnCountM1Float = (float) columnCountM1;
+        this.columnCountP1 = columnCount + 1;
+        this.columnCountP1Float = (float) columnCountP1Float;
     }
     
-    public int getXCount()
+    /**
+     * This gets the column count for the dimension object.
+     * @return The column count for the dimension object.
+     */
+    public int getColumnCount()
     {
-        return xCount;
+        return columnCount;
     }
     
-    public float getXCountFloat()
+    /**
+     * This gets the column count for the dimension object as a float.
+     * @return The column count for the dimension object as a float.
+     */
+    public float getColumnCountFloat()
     {
-        return xCountFloat;
+        return columnCountFloat;
     }
     
-    public int getXCountM1()
+    /**
+     * This gets the column count for the dimension object minus 1.
+     * @return The column count for the dimension object minus 1.
+     */
+    public int getColumnCountM1()
     {
-        return xCountM1;
+        return columnCountM1;
     }
     
-    public float getXCountM1Float()
+    /**
+     * This gets the column count for the dimension object minus 1 as a float.
+     * @return The column count for the dimension object minus 1 as a float.
+     */
+    public float getColumnCountM1Float()
     {
-        return xCountM1Float;
+        return columnCountM1Float;
     }
     
-    public int getXCountP1()
+    /**
+     * This gets the column count for the dimension object plus 1.
+     * @return The column count for the dimension object plus 1.
+     */
+    public int getColumnCountP1()
     {
-        return xCountP1;
+        return columnCountP1;
     }
     
-    public float getXCountP1Float()
+    /**
+     * This gets the column count for the dimension object plus 1 as a float.
+     * @return The column count for the dimension object plus 1 as a float.
+     */
+    public float getColumnCountP1Float()
     {
-        return xCountP1Float;
+        return columnCountP1Float;
     }
     
-    private void setYCount(int yCount)
+    /**
+     * This sets the row count for the dimension object.
+     * @param rowCount The row count for the dimension object.
+     */
+    private void setRowCount(int rowCount)
     {
-        IntUtils.isPositive(yCount, "yCount");
+        IntUtils.isPositiveException(rowCount, "rowCount");
         
-        this.yCount = yCount;
-        this.yCountFloat = (float) yCount;
-        this.yCountM1 = yCount - 1;
-        this.yCountM1Float = (float) yCountM1;
-        this.yCountP1 = yCount + 1;
-        this.yCountP1Float = (float) yCountP1;
+        this.rowCount = rowCount;
+        this.rowCountFloat = (float) rowCount;
+        this.rowCountM1 = rowCount - 1;
+        this.rowCountM1Float = (float) rowCountM1;
+        this.rowCountP1 = rowCount + 1;
+        this.rowCountP1Float = (float) rowCountP1;
     }
     
-    public int getYCount()
+    /**
+     * This gets the row count for the dimension object.
+     * @return The row count for the dimension object.
+     */
+    public int getRowCount()
     {
-        return yCount;
+        return rowCount;
     }
     
-    public float getYCountFloat()
+    /**
+     * This gets the row count for the dimension object as a float.
+     * @return The row count for the dimension object as a float.
+     */
+    public float getRowCountFloat()
     {
-        return yCountFloat;
+        return rowCountFloat;
     }
     
-    public int getYCountM1()
+    /**
+     * This gets the row count for the dimension object minus 1.
+     * @return The row count for the dimension object minus 1.
+     */
+    public int getRowCountM1()
     {
-        return yCountM1;
+        return rowCountM1;
     }
     
-    public float getYCountM1Float()
+    /**
+     * This gets the row count for the dimension object minus 1 as a float.
+     * @return The row count for the dimension object minus 1 as a float.
+     */
+    public float getRowCountM1Float()
     {
-        return yCountM1Float;
+        return rowCountM1Float;
     }
     
-    public int getYCountP1()
+    /**
+     * This gets the row count of the dimension object plus 1 as a float.
+     * @return The row count of the dimension object plus 1 as a float.
+     */
+    public int getRowCountP1()
     {
-        return yCountP1;
+        return rowCountP1;
     }
     
-    public float getYCountP1Float()
+    /**
+     * This gets the row count of the dimension object plus 1 as a float.
+     * @return The row count of the dimension object plus 1 as a float.
+     */
+    public float getRowCountP1Float()
     {
-        return yCountP1Float;
+        return rowCountP1Float;
     }
     
+    /**
+     * This gets the total size of the dimension object.
+     * @return The total size of the dimension object.
+     */
     public int getTotalSize()
     {
         return totalSize;
     }
     
+    /**
+     * This gets the total size of the dimension object as a float.
+     * @return The total size of the dimension object as a float.
+     */
     public float getTotalSizeFloat()
     {
         return totalSizeFloat;
     }
     
+    /**
+     * The total size of the dimension object minus 1.
+     * @return The total size of the dimension object minus 1.
+     */
     public int getTotalSizeM1()
     {
         return totalSizeM1;
     }
     
+    /**
+     * This gets the total size of the dimension object minus 1 as a float.
+     * @return The total size of the dimension object minus 1 as a float.
+     */
     public float getTotalSizeM1Float()
     {
         return totalSizeM1Float;
     }
     
+    /**
+     * The total size of the dimension object plus 1.
+     * @return The total size of the dimension object plus 1.
+     */
     public int getTotalSizeP1()
     {
         return totalSizeP1;
     }
     
+    /**
+     * This gets the total size of the dimension object plus 1 as a float.
+     * @return The total size of the dimension object plus 1 as a float.
+     */
     public float getTotalSizeP1Float()
     {
         return totalSizeP1Float;
@@ -184,7 +330,7 @@ public class Dimension2DInt
         
         Dimension2DInt dimension = (Dimension2DInt) object;
         
-        return getXCount() == dimension.getXCount() &&
-               getYCount() == dimension.getYCount();
+        return getColumnCount() == dimension.getColumnCount() &&
+               getRowCount() == dimension.getRowCount();
     }
 }

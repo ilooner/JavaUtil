@@ -15,15 +15,22 @@
  */
 package com.topekalabs.java.utils;
 
-import java.util.Collection;
-
+/**
+ * This class contains utility methods for throwing exceptions.
+ * @author Topeka Labs
+ */
 public final class ExceptionUtils
 {
     private ExceptionUtils()
     {
+        //Do nothing
     }
     
-    public static void isNull(Object object)
+    /**
+     * This method throws a NullPointerException if the given object is null.
+     * @param object The object to check.
+     */
+    public static void isNullException(Object object)
     {
         if(object == null)
         {
@@ -31,7 +38,13 @@ public final class ExceptionUtils
         }
     }
     
-    public static void isNull(Object object, String objectName)
+    /**
+     * This method throws a NullPointerException if the given object is null.
+     * The name of the object is included in the exception message.
+     * @param object The object to check.
+     * @param objectName The name of the object.
+     */
+    public static void isNullException(Object object, String objectName)
     {
         if(object == null)
         {
@@ -39,38 +52,9 @@ public final class ExceptionUtils
         }
     }
     
-    public static void arrayIsEmpty(Object[] objects)
-    {
-        if(objects.length == 0)
-        {
-            throw new IllegalArgumentException("The given array cannot be empty.");
-        }
-    }
-    
-    public static void arrayIsEmpty(Object[] objects, String objectsName)
-    {
-        if(objects.length == 0)
-        {
-            throw new IllegalArgumentException("The given " + objectsName + " cannot be empty.");
-        }
-    }
-    
-    public static void collectionIsEmpty(Collection objects)
-    {
-        if(objects.isEmpty())
-        {
-            throw new IllegalArgumentException("The given collection cannot be empty.");
-        }
-    }
-    
-    public static void collectionIsEmpty(Collection objects, String objectsName)
-    {
-        if(objects.isEmpty())
-        {
-            throw new IllegalArgumentException("The given " + objectsName + " cannot be empty.");
-        }
-    }
-    
+    /**
+     * Convenience method for throwing an UnsupportedOperationException.
+     */
     public static void thisShouldNotHappen()
     {
         throw new UnsupportedOperationException("This should not happen.");

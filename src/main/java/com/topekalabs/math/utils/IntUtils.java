@@ -24,11 +24,17 @@ public final class IntUtils
 {
     private IntUtils()
     {
+        //Do nothing.
     }
     
-    public static void isEqualTo(int value,
-                                 int equal,
-                                 String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the two given values don't
+     * equal.
+     * @param value This is compared to equal for equality.
+     * @param equal This is compared to value for equality.
+     */
+    public static void isEqualToException(int value,
+                                          int equal)
     {
         if(value != equal)
         {
@@ -40,8 +46,59 @@ public final class IntUtils
         }
     }
     
-    public static void isGreaterThan(int value,
-                                     int threshold)
+    /**
+     * This method throws an IllegalArgumentException if the two given values don't
+     * equal. The name of value is added to the exception message.
+     * @param value This is compared to equal for equality.
+     * @param equal This is compared to value for equality.
+     * @param valueName This is the name of value.
+     */
+    public static void isEqualToException(int value,
+                                          int equal,
+                                          String valueName)
+    {
+        if(value != equal)
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               value + " (" + valueName + ")" +
+                                               " must be equal to " +
+                                               equal +
+                                               ".");
+        }
+    }
+    
+    /**
+     * This method throws an IllegalArgumentException if the two given values don't
+     * equal. The name of value is added to the exception message. The name of equals
+     * is added to the exception message.
+     * @param value This is compared to equal for equality.
+     * @param equal This is compared to value for equality.
+     * @param valueName This is the name of value.
+     * @param equalName This is the name of equal.
+     */
+    public static void isEqualToException(int value,
+                                          int equal,
+                                          String valueName,
+                                          String equalName)
+    {
+        if(value != equal)
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               value + " (" + valueName + ")" +
+                                               " must be equal to " +
+                                               equal + " (" + equalName + ")" +
+                                               ".");
+        }
+    }
+    
+    /**
+     * This method throws an IllegalArgumentException if the given value is
+     * less than or equal to the threshold.
+     * @param value The value to check.
+     * @param threshold The threshold to compare against.
+     */
+    public static void isGreaterThanException(int value,
+                                              int threshold)
     {
         if(value <= threshold)
         {
@@ -53,9 +110,16 @@ public final class IntUtils
         }
     }
     
-    public static void isGreaterThan(int value,
-                                     int threshold,
-                                     String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given value is
+     * less than or equal to the threshold. The name of value is added to the exception message.
+     * @param value The value to check.
+     * @param threshold The threshold to compare against.
+     * @param valueName The name of the given value.
+     */
+    public static void isGreaterThanException(int value,
+                                              int threshold,
+                                              String valueName)
     {
         if(value <= threshold)
         {
@@ -70,7 +134,12 @@ public final class IntUtils
         }
     }
     
-    public static void isPositive(int value)
+    /**
+     * This method throws an IllegalArgumentException if the given value is not
+     * positive.
+     * @param value The value to check. 
+     */
+    public static void isPositiveException(int value)
     {
         if(value <= 0)
         {
@@ -78,7 +147,13 @@ public final class IntUtils
         }
     }
     
-    public static void isPositive(int value, String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given value is not
+     * positive.
+     * @param value The value to check.
+     * @param valueName The name of the value.
+     */
+    public static void isPositiveException(int value, String valueName)
     {
         if(value <= 0)
         {
@@ -86,7 +161,11 @@ public final class IntUtils
         }
     }
     
-    public static void isNonNegative(int value)
+    /**
+     * This method throws an IllegalArgumentException if the given value is negative.
+     * @param value The value to check.
+     */
+    public static void isNonNegativeException(int value)
     {
         if(value < 0)
         {
@@ -94,7 +173,12 @@ public final class IntUtils
         }
     }
     
-    public static void isNonNegative(int value, String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given value is negative.
+     * @param value The value to check.
+     * @param valueName The name of the value.
+     */
+    public static void isNonNegativeException(int value, String valueName)
     {
         if(value < 0)
         {
@@ -102,15 +186,24 @@ public final class IntUtils
         }
     }
     
-    public static void isNegative(int value)
+    /**
+     * This method throws an IllegalArgumentException if the given value is non negative.
+     * @param value The value to check.
+     */
+    public static void isNegativeException(int value)
     {
         if(value >= 0)
         {
             throw new IllegalArgumentException("The given value " + value + " must be negative.");
         }
     }
-    
-    public static void isNegative(int value, String valueName)
+
+    /**
+     * This method throws an IllegalArgumentException if the given value is non negative.
+     * @param value The value to check.
+     * @param valueName The name of the value.
+     */
+    public static void isNegativeException(int value, String valueName)
     {
         if(value >= 0)
         {
@@ -118,7 +211,11 @@ public final class IntUtils
         }
     }
     
-    public static void isNonPositive(int value)
+    /**
+     * This method throws and IllegalArgumentException if the given value is positive.
+     * @param value The value to check.
+     */
+    public static void isNonPositiveException(int value)
     {
         if(value > 0)
         {
@@ -126,7 +223,12 @@ public final class IntUtils
         }
     }
     
-    public static void isNonPositive(int value, String valueName)
+    /**
+     * This method throws an IllegalArgumentException if the given value is positive.
+     * @param value The value to check.
+     * @param valueName The name of the value.
+     */
+    public static void isNonPositiveException(int value, String valueName)
     {
         if(value > 0)
         {
@@ -134,25 +236,11 @@ public final class IntUtils
         }
     }
     
-    public static void isInIntervalInclusive(int start,
-                                             int end,
-                                             int value,
-                                             String valueName)
-    {
-        if(start <= value && value <= end)
-        {
-            throw new IllegalArgumentException("The given value " +
-                                               valueName +
-                                               " " +
-                                               value +
-                                               " must be between " +
-                                               start +
-                                               " and " +
-                                               end +
-                                               " inclusive.");
-        }
-    }
-    
+    /**
+     * This method returns the absolute value of the provided value.
+     * @param value The value to take the absolute value of.
+     * @return The absolute value of the given value.
+     */
     public static int abs(int value)
     {
         if(value < 0)
@@ -163,6 +251,12 @@ public final class IntUtils
         return value;
     }
     
+    /**
+     * This method throws an IllegalArgumentException if the two provided integers
+     * cannot be added without an overflow or underflow occurring.
+     * @param a An integer to add.
+     * @param b An integer to add.
+     */
     public static void safeAddException(int a, int b)
     {
         if(a == 0 || b == 0)
@@ -194,38 +288,13 @@ public final class IntUtils
         }
     }
     
-    /*
-    public static void safeAddException(int a, int b)
-    {
-        if(a == 0 || b == 0)
-        {
-            return;
-        }
-        
-        if((a < 0 && b > 0) ||
-           (a > 0 && b < 0))
-        {
-            return;
-        }
-        
-        if(a < 0)
-        {
-            if(a + b >= 0)
-            {
-                throw new IllegalArgumentException("Adding the two numbers " + a +
-                                                   " and " + b + " causes an underflow.");
-            }
-        }
-        else
-        {
-            if(a + b <= 0)
-            {
-                throw new IllegalArgumentException("Adding the two numbers " + a +
-                                                   " and " + b + " causes an overflow.");
-            }
-        }
-    }*/
-    
+    /**
+     * This method returns true if the two provided integers can be added with an
+     * overflow or underflow.
+     * @param a An integer to be added.
+     * @param b An integer to be added.
+     * @return The sum of the two provided integers.
+     */
     public static boolean isSafeAdd(int a, int b)
     {
         if(a == 0 || b == 0)
@@ -257,57 +326,16 @@ public final class IntUtils
         return true;
     }
     
+    /**
+     * This method safely adds two integers. An IllegalArgumentException is thrown
+     * if an underflow or overflow would occur.
+     * @param a An integer to add.
+     * @param b An integer to add.
+     * @return The sum of the two input integers.
+     */
     public static int safeAdd(int a, int b)
     {
         safeAddException(a, b);
         return a + b;
-    }
-    
-    public static void safeMultiplyException(int a, int b)
-    {
-        if(a == 0 || b == 0)
-        {
-            return;
-        }
-        
-        int greatest = a;
-        
-        if(a < b)
-        {
-            greatest = b;
-        }
-        
-        if(a * b < greatest)
-        {
-            throw new IllegalArgumentException("It is not safe to multiple " + a +
-                                               " and " + b);
-        }
-    }
-    
-    public static boolean isSafeMultiply(int a, int b)
-    {
-        if(a == 0 || b == 0)
-        {
-            return true;
-        }
-        
-        int greatest = a;
-        
-        if(a < b)
-        {
-            greatest = b;
-        }
-        
-        if(a * b < greatest)
-        {
-            return false;
-        }
-        
-        return true;
-    }
-    
-    public static void safeMultiply(int a, int b)
-    {
-        safeMultiplyException(a, b);
     }
 }
