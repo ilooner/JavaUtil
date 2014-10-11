@@ -1,3 +1,5 @@
+[![Build Status](https://www.timwiki.com:8443/jenkins/job/JavaUtils/badge/icon)](https://www.timwiki.com:8443/jenkins/job/JavaUtils/)
+
 JavaUtil
 ========
 
