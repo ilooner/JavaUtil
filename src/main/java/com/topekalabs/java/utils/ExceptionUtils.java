@@ -15,6 +15,8 @@
  */
 package com.topekalabs.java.utils;
 
+import com.topekalabs.error.utils.CodingError;
+
 /**
  * This class contains utility methods for throwing exceptions.
  * @author Topeka Labs
@@ -53,10 +55,66 @@ public final class ExceptionUtils
     }
     
     /**
-     * Convenience method for throwing an UnsupportedOperationException.
+     * Convenience method for throwing a CodingError.
      */
     public static void thisShouldNotHappen()
     {
-        throw new UnsupportedOperationException("This should not happen.");
+        throw new CodingError("This should not happen.");
+    }
+    
+    public static void thisShouldNotHappen(String message)
+    {
+        throw new CodingError(message);
+    }
+    
+    /**
+     * Convenience method for throwing a Coding error when the given boolean is
+     * true.
+     * @param throwError When true a coding error is thrown. 
+     */
+    public static void thisShouldNotHappen(boolean throwError)
+    {
+        if(throwError)
+        {
+            thisShouldNotHappen();
+        }
+    }
+    
+    public static void thisShouldNotHappen(boolean throwError,
+                                           String message)
+    {
+        if(throwError)
+        {
+            thisShouldNotHappen(message);
+        }
+    }
+    
+    /**
+     * Convenience method for throwing a CodingError
+     * @param throwable The Throwable to wrap.
+     */
+    public static void thisShouldNotHappen(Throwable throwable)
+    {
+        throw new CodingError("This should not happen.", throwable);
+    }
+    
+    /**
+     * 
+     * @param message
+     * @param throwable 
+     */
+    public static void thisShouldNotHappen(String message,
+                                           Throwable throwable)
+    {
+        throw new CodingError(message, throwable);
+    }
+    
+    /**
+     * This is a convenience method for throwing an UnsupportedOperationException.
+     * @param message This is a method to include in the unsupported operation exception.
+     */
+    public static void unsupported(String message)
+    {
+        throw new UnsupportedOperationException(message);
     }
 }
