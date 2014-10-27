@@ -15,107 +15,42 @@
  */
 package com.topekalabs.math.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
 import java.util.Random;
 
 /**
  * This class represents a float interval.
  * @author Topeka Labs
  */
-public class FloatInterval 
-{
-    /**
-     * The range of the interval.
-     */
-    private float range;
-    
-    /**
-     * Half the range of the interval.
-     */
-    private float rangeHalf;
-    
-    /**
-     * The center of the interval.
-     */
-    private float center;
-    
+public class LongInterval 
+{   
     /**
      * The start of the interval.
      */
-    private float startInterval;
+    private long startInterval;
     
     /**
      * The end of the interval.
      */
-    private float endInterval;
+    private long endInterval;
     
     /**
-     * An enum representing the constructor to use.
+     * The range of the interval.
      */
-    public enum ConstructorType
-    {
-        /**
-         * A constructor which accepts a start and end.
-         */
-        START_AND_END,
-        /**
-         * A constructor which accepts a range and center.
-         */
-        RANGE_AND_CENTER;
-    }
+    private long range;
     
     /**
-     * This constructor takes a type argument as well as two values to construct
-     * the interval.
-     * @param constructorType The type of constructor to use either START_AND_END
-     * or RANGE_AND_CENTER.
-     * @param val1 When the constructor type is START_AND_END then this is the
-     * start of the interval. When the constructor type is RANGE_AND_CENTER then
-     * this is the range of the interval.
-     * @param val2 When the constructor type is START_AND_END then this is the
-     * end of the interval. When the constructor type is RANGE_AND_CENTER then
-     * this is the center of the interval. 
+     * The number of integers in the interval.
      */
-    public FloatInterval(ConstructorType constructorType,
-                         float val1,
-                         float val2)
-    {
-        if(constructorType == ConstructorType.START_AND_END)
-        {
-            intervalConstructor(val1,
-                                val2);
-        }
-        else if(constructorType == ConstructorType.RANGE_AND_CENTER)
-        {
-            rangeConstructor(val1,
-                             val2);
-        }
-        else
-        {
-            ExceptionUtils.thisShouldNotHappen();
-        }
-    }
+    private long numInts;
     
     /**
-     * This constructs the interval from start and end values.
-     * @param startInterval The start of the interval.
+     * This constructor creates an interval with the given start and end values.
+     * @param startInterval The beginning of the interval.
      * @param endInterval The end of the interval.
      */
-    private void intervalConstructor(float startInterval,
-                                     float endInterval)
+    public LongInterval(long startInterval,
+                        long endInterval)
     {
-        if(Float.isInfinite(startInterval) ||
-           Float.isNaN(startInterval))
-        {
-            throw new IllegalArgumentException("The given startInterval must be a valid floating point number.");
-        }
-        
-        if(Float.isInfinite(endInterval) ||
-           Float.isNaN(endInterval))
-        {
-            throw new IllegalArgumentException("The given endInterval must be a valid floating point number.");
-        }
-        
         if(startInterval >= endInterval)
         {
             throw new IllegalArgumentException("The startInterval must be less than the endInterval: (" + startInterval + ", " + endInterval + ")");
@@ -123,29 +58,23 @@ public class FloatInterval
         
         setStartInterval(startInterval);
         setEndInterval(endInterval);
-        setRange(endInterval - startInterval);
-        setCenter((startInterval + endInterval) / 2.0f);
+        initialize();
     }
     
     /**
-     * This constructs the interval from range and center values.
-     * @param range The range of the interval.
-     * @param center The center of the interval.
+     * This method initializes the interval.
      */
-    private void rangeConstructor(float range,
-                                  float center)
+    private void initialize()
     {
-        setRange(range);
-        setCenter(center);
-        setStartInterval(center - rangeHalf);
-        setEndInterval(center + rangeHalf);
+        range = endInterval - startInterval;
+        numInts = range + 1;
     }
     
     /**
      * This sets the start of the interval.
      * @param startInterval The start of the interval.
      */
-    private void setStartInterval(float startInterval)
+    private void setStartInterval(long startInterval)
     {
         FloatUtils.isValidFloatException(startInterval, "startInterval");
         
@@ -156,7 +85,7 @@ public class FloatInterval
      * This sets the end of the interval.
      * @param endInterval The end of the interval.
      */
-    private void setEndInterval(float endInterval)
+    private void setEndInterval(long endInterval)
     {
         FloatUtils.isValidFloatException(endInterval, "endInterval");
         
@@ -164,50 +93,10 @@ public class FloatInterval
     }
     
     /**
-     * This sets the range of the interval.
-     * @param range The range of the interval.
-     */
-    private void setRange(float range)
-    {
-        FloatUtils.isValidFloatException(range, "range");
-        
-        this.range = range;
-        this.rangeHalf = range / 2.0f;
-    }
-    
-    /**
-     * This sets the center of the interval.
-     * @param center The center of the interval.
-     */
-    private void setCenter(float center)
-    {
-        if(Float.isInfinite(center) || Float.isNaN(range))
-        {
-            throw new IllegalArgumentException("The given float must be a valid number.");
-        }
-        
-        this.center = center;
-    }
-    
-    /**
-     * This creates a new interval with twice the range and the same center.
-     * @param scale The amount by which to scale the interval.
-     * @return A new scaled interval.
-     */
-    public FloatInterval createScale(float scale)
-    {
-        FloatUtils.isPositiveFloat(scale, "scale");
-        
-        return new FloatInterval(FloatInterval.ConstructorType.RANGE_AND_CENTER,
-                                 range * scale,
-                                 center);
-    }
-    
-    /**
      * This method returns the start of the interval.
      * @return The start of the interval.
      */
-    public float getStartInterval()
+    public long getStartInterval()
     {
         return startInterval;
     }
@@ -216,27 +105,9 @@ public class FloatInterval
      * This method returns the end of the interval.
      * @return The end of the interval.
      */
-    public float getEndInterval()
+    public long getEndInterval()
     {
         return endInterval;
-    }
-    
-    /**
-     * This method returns the range of the interval.
-     * @return The range of the interval.
-     */
-    public float getRange()
-    {
-        return range;
-    }
-    
-    /**
-     * This method returns the center of the interval.
-     * @return The center of the interval.
-     */
-    public float getCenter()
-    {
-        return center;
     }
     
     /**
@@ -245,7 +116,7 @@ public class FloatInterval
      */
     public boolean isPositive()
     {
-        return startInterval > 0.0f;
+        return startInterval > 0;
     }
     
     /**
@@ -266,7 +137,7 @@ public class FloatInterval
      */
     public boolean isNonNegative()
     {
-        return startInterval >= 0.0f;
+        return startInterval >= 0L;
     }
     
     /**
@@ -286,10 +157,8 @@ public class FloatInterval
      * @param value The value to test against.
      * @return True if this interval is less than the given value.
      */
-    public boolean isLT(float value)
+    public boolean isLT(long value)
     {
-        FloatUtils.isValidFloatException(value, "value");
-        
         return value > endInterval;
     }
     
@@ -298,10 +167,8 @@ public class FloatInterval
      * @param value The value to test against.
      * @return True if this interval is less than or equal to the given value.
      */
-    public boolean isLTE(float value)
+    public boolean isLTE(long value)
     {
-        FloatUtils.isValidFloatException(value, "value");
-        
         return value >= endInterval;
     }
     
@@ -310,10 +177,8 @@ public class FloatInterval
      * @param value The value to test against.
      * @return True if this interval is greater than the given value.
      */
-    public boolean isGT(float value)
+    public boolean isGT(long value)
     {
-        FloatUtils.isValidFloatException(value, "value");
-        
         return value < startInterval;
     }
     
@@ -322,10 +187,8 @@ public class FloatInterval
      * @param value The value to test against.
      * @return True if this interval is greater than or equal to the given value.
      */
-    public boolean isGTE(float value)
+    public boolean isGTE(long value)
     {
-        FloatUtils.isValidFloatException(value, "value");
-        
         return value <= startInterval;
     }
     
@@ -337,7 +200,7 @@ public class FloatInterval
      * @param value The value to truncate.
      * @return The truncated value.
      */
-    public float truncate(float value)
+    public float truncate(long value)
     {
         if(isLT(value))
         {
@@ -357,10 +220,8 @@ public class FloatInterval
      * @param value The value to check.
      * @return True if the given value is in this interval inclusively.
      */
-    public boolean isInIntervalExclusive(float value)
+    public boolean isInIntervalExclusive(long value)
     {
-        FloatUtils.isValidFloatException(value, "value");
-        
         return startInterval < value && value < endInterval;
     }
     
@@ -369,7 +230,7 @@ public class FloatInterval
      * in this interval exclusively.
      * @param value The value to check.
      */
-    public void isInIntervalExclusiveException(float value)
+    public void isInIntervalExclusiveException(long value)
     {
         if(!isInIntervalExclusive(value))
         {
@@ -390,7 +251,7 @@ public class FloatInterval
      * @param value The value to check.
      * @param valueName The name of the value.
      */
-    public void isInIntervalExclusiveException(float value, String valueName)
+    public void isInIntervalExclusiveException(long value, String valueName)
     {
         if(!isInIntervalExclusive(value))
         {
@@ -413,10 +274,8 @@ public class FloatInterval
      * @return true if the the given value is inclusively in the
      * interval.
      */
-    public boolean isInIntervalInclusive(float value)
+    public boolean isInIntervalInclusive(long value)
     {
-        FloatUtils.isValidFloatException(value, "value");
-        
         return startInterval <= value && value <= endInterval;
     }
     
@@ -425,7 +284,7 @@ public class FloatInterval
      * in the interval inclusively.
      * @param value The value to check.
      */
-    public void isInIntervalInclusiveException(float value)
+    public void isInIntervalInclusiveException(long value)
     {
         if(!isInIntervalInclusive(value))
         {
@@ -446,7 +305,7 @@ public class FloatInterval
      * @param value The value to check.
      * @param valueName The name of the value.
      */
-    public void isInIntervalInclusiveException(float value, String valueName)
+    public void isInIntervalInclusiveException(long value, String valueName)
     {
         if(!isInIntervalInclusive(value))
         {
@@ -467,11 +326,11 @@ public class FloatInterval
      * @param floatInterval The float interval to compare against.
      * @return True if this interval inclusively intersects the given interval.
      */
-    public boolean intersectsThisIntervalInclusive(FloatInterval floatInterval)
+    public boolean intersectsThisIntervalInclusive(LongInterval floatInterval)
     {
         return (thisStartLTThatStart(floatInterval) &&
                 thisEndGTEThatStart(floatInterval)) ||
-               thisStartLTEThatEnd(floatInterval);
+                thisStartLTEThatEnd(floatInterval);
     }
     
     /**
@@ -481,7 +340,7 @@ public class FloatInterval
      * @return True if this interval intersects the given interval
      * exclusively.
      */
-    public boolean intersectsThisIntervalExclusive(FloatInterval floatInterval)
+    public boolean intersectsThisIntervalExclusive(LongInterval floatInterval)
     {
         return (thisStartLTThatStart(floatInterval) &&
                 thisEndGTThatStart(floatInterval)) ||
@@ -495,7 +354,7 @@ public class FloatInterval
      * @return True if this interval contains the given interval
      * inclusively.
      */
-    public boolean containsThisIntervalInclusive(FloatInterval floatInterval)
+    public boolean containsThisIntervalInclusive(LongInterval floatInterval)
     {
         return (startInterval <= floatInterval.getStartInterval() && 
                 floatInterval.getStartInterval() <= endInterval) &&
@@ -508,7 +367,7 @@ public class FloatInterval
      * contain the given interval inclusively.
      * @param floatInterval The interval to compare against.
      */
-    public void containsThisIntervalInclusiveException(FloatInterval floatInterval)
+    public void containsThisIntervalInclusiveException(LongInterval floatInterval)
     {
         if(!containsThisIntervalInclusive(floatInterval))
         {
@@ -523,7 +382,7 @@ public class FloatInterval
      * @return True if this interval contains the given
      * interval exclusively.
      */
-    public boolean containsThisIntervalExclusive(FloatInterval floatInterval)
+    public boolean containsThisIntervalExclusive(LongInterval floatInterval)
     {
         return (startInterval < floatInterval.getStartInterval() && 
                 floatInterval.getStartInterval() < endInterval) &&
@@ -538,7 +397,7 @@ public class FloatInterval
      * @return True if the end of this interval equals the start of
      * the other interval.
      */
-    public boolean thisEndEqualsThatStart(FloatInterval floatInterval)
+    public boolean thisEndEqualsThatStart(LongInterval floatInterval)
     {
         return endInterval == floatInterval.getStartInterval();
     }
@@ -550,7 +409,7 @@ public class FloatInterval
      * @return True if the end of this interval is greater than the
      * start of the other interval.
      */
-    public boolean thisEndGTThatStart(FloatInterval floatInterval)
+    public boolean thisEndGTThatStart(LongInterval floatInterval)
     {
         return endInterval > floatInterval.getStartInterval();
     }
@@ -562,7 +421,7 @@ public class FloatInterval
      * @return True if the start of this interval equals the end of the other
      * interval.
      */
-    public boolean thisStartEqualsThatEnd(FloatInterval floatInterval)
+    public boolean thisStartEqualsThatEnd(LongInterval floatInterval)
     {
         return startInterval == floatInterval.getEndInterval();
     }
@@ -574,7 +433,7 @@ public class FloatInterval
      * @return True if the start of this interval is less than the
      * end of the other interval.
      */
-    public boolean thisStartLTThatEnd(FloatInterval floatInterval)
+    public boolean thisStartLTThatEnd(LongInterval floatInterval)
     {
         return startInterval < floatInterval.getEndInterval();
     }
@@ -586,7 +445,7 @@ public class FloatInterval
      * @return True if the start of this interval is less than or
      * equal to the end of the other interval.
      */
-    public boolean thisStartLTEThatEnd(FloatInterval floatInterval)
+    public boolean thisStartLTEThatEnd(LongInterval floatInterval)
     {
         return startInterval <= floatInterval.getEndInterval();
     }
@@ -598,7 +457,7 @@ public class FloatInterval
      * @return True if the start of this interval is equal to the
      * start of the other interval.
      */
-    public boolean thisStartEqualsThatStart(FloatInterval floatInterval)
+    public boolean thisStartEqualsThatStart(LongInterval floatInterval)
     {
         return startInterval == floatInterval.getStartInterval();
     }
@@ -610,7 +469,7 @@ public class FloatInterval
      * @return True if the start of this interval is less than the
      * start of the other interval.
      */
-    public boolean thisStartLTThatStart(FloatInterval floatInterval)
+    public boolean thisStartLTThatStart(LongInterval floatInterval)
     {
         return startInterval < floatInterval.getStartInterval();
     }
@@ -622,7 +481,7 @@ public class FloatInterval
      * @return True if the start of this interval is less than or
      * equal to the start of the other interval.
      */
-    public boolean thisStartLTEThatStart(FloatInterval floatInterval)
+    public boolean thisStartLTEThatStart(LongInterval floatInterval)
     {
         return startInterval <= floatInterval.getStartInterval();
     }
@@ -634,7 +493,7 @@ public class FloatInterval
      * @return True if the end of this interval is greater than or
      * equal to the start of the other interval.
      */
-    public boolean thisEndGTEThatStart(FloatInterval floatInterval)
+    public boolean thisEndGTEThatStart(LongInterval floatInterval)
     {
         return endInterval >= floatInterval.getStartInterval();
     }
@@ -646,7 +505,7 @@ public class FloatInterval
      * @return True if the end of this interval equals the end of
      * the other interval.
      */
-    public boolean thisEndEqualsThatEnd(FloatInterval floatInterval)
+    public boolean thisEndEqualsThatEnd(LongInterval floatInterval)
     {
         return endInterval == floatInterval.getEndInterval();
     }
@@ -658,37 +517,9 @@ public class FloatInterval
      * @return True if the end of this interval is less than or
      * equal to the start of the other interval.
      */
-    public boolean thisEndLTEThatStart(FloatInterval floatInterval)
+    public boolean thisEndLTEThatStart(LongInterval floatInterval)
     {
         return endInterval <= floatInterval.getStartInterval();
-    }
-    
-    /**
-     * This method build an array out of uniformly sampled values from this
-     * interval.
-     * @param numValues The number of values in the resulting array. This must
-     * be greater than 1.
-     * @return An array of uniformly sampled values from this interval.
-     */
-    public float[] uniformArray(int numValues)
-    {
-        IntUtils.isLTEException(numValues, 1, "numValues");
-        
-        float[] values = new float[numValues];
-        float length = getRange();
-        float intervalWidth = length / ((float) (numValues - 1));
-        
-        values[0] = getStartInterval();
-        values[numValues - 1] = getEndInterval();
-        
-        for(int counter = 1;
-            counter < numValues - 1;
-            counter++)
-        {
-            values[counter] = ((float) counter) * intervalWidth;
-        }
-        
-        return values;
     }
     
     /**
@@ -696,8 +527,8 @@ public class FloatInterval
      * @param random The random object to use for generation.
      * @return A uniformly random number within the interval.
      */
-    public float getRandom(Random random)
+    public long getRandom(Random random)
     {
-        return random.nextFloat() * range - rangeHalf + center;
+        return startInterval + random.nextLong() % numInts;
     }
 }

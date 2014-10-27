@@ -23,6 +23,12 @@ import com.topekalabs.math.utils.IntUtils;
  */
 public class ErrorCode
 {
+    //Loading errors from properties file
+    static
+    {
+        
+    }
+    
     /**
      * The value of the error code.
      */

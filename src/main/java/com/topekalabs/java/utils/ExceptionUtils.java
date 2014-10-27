@@ -117,4 +117,20 @@ public final class ExceptionUtils
     {
         throw new UnsupportedOperationException(message);
     }
+    
+    public static boolean executeAndCatchIllegalArgumentException(FunctionPointer fp)
+    {
+        boolean caught = false;
+        
+        try
+        {
+            fp.execute();
+        }
+        catch(IllegalArgumentException e)
+        {
+            caught = true;
+        }
+        
+        return caught;
+    }
 }

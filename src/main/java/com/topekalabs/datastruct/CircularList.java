@@ -15,6 +15,7 @@
  */
 package com.topekalabs.datastruct;
 
+import com.google.common.collect.Lists;
 import com.topekalabs.collection.utils.CollectionUtils;
 import com.topekalabs.math.utils.IntInterval;
 import com.topekalabs.math.utils.IntUtils;
@@ -84,7 +85,7 @@ public class CircularList<T>
     {
         CollectionUtils.isEmptyException(list);
         
-        this.list = new ArrayList<T>();
+        this.list = Lists.newArrayList();
         
         for(T item: list)
         {
@@ -109,7 +110,7 @@ public class CircularList<T>
      */
     public final void setStepSize(int stepSize)
     {
-        IntUtils.isPositiveException(stepSize, "stepSize");
+        IntUtils.isNonPositiveException(stepSize, "stepSize");
         
         this.stepSize = stepSize;
     }

@@ -17,24 +17,24 @@ package com.topekalabs.math.utils;
 
 /**
  * This is a class which provides common utility methods for dealing with
- * integers.
+ * longs.
  * @author Topeka Labs
  */
-public final class IntUtils
+public final class LongUtils
 {
-    private IntUtils()
+    private LongUtils()
     {
         //Do nothing.
     }
     
-    public static void isNotInIntervalInclusiveException(int startingIndex,
-                                                         int endingIndex,
-                                                         int value)
+    public static void isNotInIntervalInclusiveException(long startingIndex,
+                                                         long endingIndex,
+                                                         long value)
     {
-        IntUtils.isGTEException(endingIndex, startingIndex);
+        LongUtils.isGTEException(endingIndex, startingIndex);
         
-        IntUtils.isGTException(endingIndex, value, "value");
-        IntUtils.isLTException(startingIndex, value, "value");
+        LongUtils.isGTException(endingIndex, value, "value");
+        LongUtils.isLTException(startingIndex, value, "value");
     }
     
     /**
@@ -43,8 +43,8 @@ public final class IntUtils
      * @param value This is compared to equal for equality.
      * @param equal This is compared to value for equality.
      */
-    public static void isNotEqualToException(int equal,
-                                             int value)
+    public static void isNotEqualToException(long equal,
+                                             long value)
     {
         if(value != equal)
         {
@@ -63,8 +63,8 @@ public final class IntUtils
      * @param equal This is compared to value for equality.
      * @param valueName This is the name of value.
      */
-    public static void isNotEqualToException(int equal,
-                                             int value,
+    public static void isNotEqualToException(long equal,
+                                             long value,
                                              String valueName)
     {
         if(value != equal)
@@ -86,8 +86,8 @@ public final class IntUtils
      * @param valueName This is the name of value.
      * @param equalName This is the name of equal.
      */
-    public static void isNotEqualToException(int equal,
-                                             int value,
+    public static void isNotEqualToException(long equal,
+                                             long value,
                                              String equalName,
                                              String valueName)
     {
@@ -107,8 +107,8 @@ public final class IntUtils
      * @param value The value to check.
      * @param threshold The threshold to compare against.
      */
-    public static void isLTEException(int threshold,
-                                      int value)
+    public static void isLTEException(long threshold,
+                                      long value)
     {
         if(value <= threshold)
         {
@@ -127,8 +127,8 @@ public final class IntUtils
      * @param threshold The threshold to compare against.
      * @param valueName The name of the given value.
      */
-    public static void isLTEException(int threshold,
-                                      int value,
+    public static void isLTEException(long threshold,
+                                      long value,
                                       String valueName)
     {
         if(value <= threshold)
@@ -150,10 +150,10 @@ public final class IntUtils
      * @param value The value to check.
      * @param threshold The threshold to compare against.
      */
-    public static void isLTException(int threshold,
-                                     int value)
+    public static void isLTException(long threshold,
+                                     long value)
     {
-        if(value < threshold)
+        if(value >= threshold)
         {
             throw new IllegalArgumentException("The given value " +
                                                value +
@@ -170,16 +170,17 @@ public final class IntUtils
      * @param threshold The threshold to compare against.
      * @param valueName The name of the given value.
      */
-    public static void isLTException(int threshold,
-                                     int value,
+    public static void isLTException(long threshold,
+                                     long value,
                                      String valueName)
     {
-        if(value < threshold)
+        if(value >= threshold)
         {
             throw new IllegalArgumentException("The given value " +
                                                value +
                                                " " +
                                                valueName +
+                                               " " +
                                                " must be greater than or equal to " +
                                                threshold +
                                                ".");
@@ -192,8 +193,8 @@ public final class IntUtils
      * @param value The value to check.
      * @param threshold The threshold to compare against.
      */
-    public static void isGTException(int threshold,
-                                     int value)
+    public static void isGTException(long threshold,
+                                     long value)
     {
         if(value > threshold)
         {
@@ -212,8 +213,8 @@ public final class IntUtils
      * @param threshold The threshold to compare against.
      * @param valueName The name of the given value.
      */
-    public static void isGTException(int threshold,
-                                     int value,
+    public static void isGTException(long threshold,
+                                     long value,
                                      String valueName)
     {
         if(value > threshold)
@@ -235,8 +236,8 @@ public final class IntUtils
      * @param value The value to check.
      * @param threshold The threshold to compare against.
      */
-    public static void isGTEException(int threshold,
-                                      int value)
+    public static void isGTEException(long threshold,
+                                      long value)
     {
         if(value >= threshold)
         {
@@ -255,8 +256,8 @@ public final class IntUtils
      * @param threshold The threshold to compare against.
      * @param valueName The name of the given value.
      */
-    public static void isGTEException(int threshold,
-                                      int value,
+    public static void isGTEException(long threshold,
+                                      long value,
                                       String valueName)
     {
         if(value >= threshold)
@@ -277,7 +278,7 @@ public final class IntUtils
      * positive.
      * @param value The value to check. 
      */
-    public static void isNonPositiveException(int value)
+    public static void isNonPositiveException(long value)
     {
         if(value <= 0)
         {
@@ -291,7 +292,7 @@ public final class IntUtils
      * @param value The value to check.
      * @param valueName The name of the value.
      */
-    public static void isNonPositiveException(int value, 
+    public static void isNonPositiveException(long value, 
                                               String valueName)
     {
         if(value <= 0)
@@ -304,7 +305,7 @@ public final class IntUtils
      * This method throws an IllegalArgumentException if the given value is negative.
      * @param value The value to check.
      */
-    public static void isNegativeException(int value)
+    public static void isNegativeException(long value)
     {
         if(value < 0)
         {
@@ -317,7 +318,7 @@ public final class IntUtils
      * @param value The value to check.
      * @param valueName The name of the value.
      */
-    public static void isNegativeException(int value, String valueName)
+    public static void isNegativeException(long value, String valueName)
     {
         if(value < 0)
         {
@@ -329,7 +330,7 @@ public final class IntUtils
      * This method throws an IllegalArgumentException if the given value is non negative.
      * @param value The value to check.
      */
-    public static void isNonNegativeException(int value)
+    public static void isNonNegativeException(long value)
     {
         if(value >= 0)
         {
@@ -342,7 +343,7 @@ public final class IntUtils
      * @param value The value to check.
      * @param valueName The name of the value.
      */
-    public static void isNonNegativeException(int value, String valueName)
+    public static void isNonNegativeException(long value, String valueName)
     {
         if(value >= 0)
         {
@@ -354,7 +355,7 @@ public final class IntUtils
      * This method throws and IllegalArgumentException if the given value is positive.
      * @param value The value to check.
      */
-    public static void isPositiveException(int value)
+    public static void isPositiveException(long value)
     {
         if(value > 0)
         {
@@ -367,7 +368,7 @@ public final class IntUtils
      * @param value The value to check.
      * @param valueName The name of the value.
      */
-    public static void isPositiveException(int value, String valueName)
+    public static void isPositiveException(long value, String valueName)
     {
         if(value > 0)
         {
@@ -380,7 +381,7 @@ public final class IntUtils
      * @param value The value to take the absolute value of.
      * @return The absolute value of the given value.
      */
-    public static int abs(int value)
+    public static long abs(long value)
     {
         if(value < 0)
         {
@@ -396,7 +397,7 @@ public final class IntUtils
      * @param a An integer to add.
      * @param b An integer to add.
      */
-    public static void safeAddException(int a, int b)
+    public static void safeAddException(long a, long b)
     {
         if(a == 0 || b == 0)
         {
@@ -434,7 +435,7 @@ public final class IntUtils
      * @param b An integer to be added.
      * @return The sum of the two provided integers.
      */
-    public static boolean isSafeAdd(int a, int b)
+    public static boolean isSafeAdd(long a, long b)
     {
         if(a == 0 || b == 0)
         {
@@ -472,7 +473,7 @@ public final class IntUtils
      * @param b An integer to add.
      * @return The sum of the two input integers.
      */
-    public static int safeAdd(int a, int b)
+    public static long safeAdd(long a, long b)
     {
         safeAddException(a, b);
         return a + b;

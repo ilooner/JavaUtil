@@ -527,7 +527,7 @@ public class IntInterval
      * @param random The random object to use for generation.
      * @return A uniformly random number within the interval.
      */
-    public float getRandom(Random random)
+    public int getRandom(Random random)
     {
         return startInterval + random.nextInt(numInts);
     }
