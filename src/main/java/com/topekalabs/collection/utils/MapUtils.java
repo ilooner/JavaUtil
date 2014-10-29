@@ -79,4 +79,16 @@ public class MapUtils
             ExceptionUtils.isNullException(map.get(key), "value");
         }
     }
+    
+    public static <K, V> void isPopulatedException(Map<K, V> map,
+                                                   String mapName)
+    {
+        isEmptyException(map);
+        
+        for(K key: map.keySet())
+        {
+            ExceptionUtils.isNullException(key, mapName + " key");
+            ExceptionUtils.isNullException(map.get(key), mapName + " value");
+        }
+    }
 }

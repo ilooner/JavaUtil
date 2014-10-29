@@ -13,39 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.datastruct;
+package com.topekalabs.synchronization;
 
 import com.topekalabs.java.utils.ExceptionUtils;
-import java.util.HashMap;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  *
  * @author Topeka Labs
  */
-public class NNHashMap<K, V> extends HashMap<K, V>
+public class SpinLock
 {
-    @Override
-    public V put(K key, V value)
+    private final AtomicReference<Integer> csw = new AtomicReference<Integer>(0);
+    
+    public SpinLock()
     {
-        ExceptionUtils.isNullException(key, "key");
-        ExceptionUtils.isNullException(value, "value");
-        
-        return super.put(key, value);
     }
     
-    @Override
-    public V remove(Object key)
+    public void lock()
     {
-        ExceptionUtils.isNullException(key, "key");
-        
-        return super.remove(key);
+        while(!csw.compareAndSet(0, 1))
+        {
+            //Do nothing
+        }
     }
     
-    @Override
-    public V get(Object key)
+    public void unlock()
     {
-        ExceptionUtils.isNullException(key, "key");
-        
-        return super.get(key);
+        ExceptionUtils.thisShouldNotHappen(!csw.compareAndSet(1, 0),
+                                           "This spin lock is not locked.");
     }
 }

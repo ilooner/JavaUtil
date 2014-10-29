@@ -22,6 +22,8 @@ package com.topekalabs.math.utils;
  */
 public final class LongUtils
 {
+    public static final long INTEGER_MAX = (long) ((int) Integer.MAX_VALUE);
+    
     private LongUtils()
     {
         //Do nothing.
@@ -477,5 +479,21 @@ public final class LongUtils
     {
         safeAddException(a, b);
         return a + b;
+    }
+    
+    public static long divCeil(long value, long divisor)
+    {
+        long mod;
+        
+        if(value % divisor == 0L)
+        {
+            mod = 0L;
+        }
+        else
+        {
+            mod = 1L;
+        }
+        
+        return value / divisor + mod;
     }
 }

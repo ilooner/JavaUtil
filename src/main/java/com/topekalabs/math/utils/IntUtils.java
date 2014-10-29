@@ -477,4 +477,20 @@ public final class IntUtils
         safeAddException(a, b);
         return a + b;
     }
+    
+    public static int divCeil(int value, int divisor)
+    {
+        int mod;
+        
+        if(value % divisor == 0)
+        {
+            mod = 0;
+        }
+        else
+        {
+            mod = 1;
+        }
+        
+        return value / divisor + mod;
+    }
 }

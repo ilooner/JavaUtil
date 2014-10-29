@@ -15,37 +15,11 @@
  */
 package com.topekalabs.datastruct;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-import java.util.HashMap;
-
 /**
  *
  * @author Topeka Labs
  */
-public class NNHashMap<K, V> extends HashMap<K, V>
+public class JumboArrayLong
 {
-    @Override
-    public V put(K key, V value)
-    {
-        ExceptionUtils.isNullException(key, "key");
-        ExceptionUtils.isNullException(value, "value");
-        
-        return super.put(key, value);
-    }
     
-    @Override
-    public V remove(Object key)
-    {
-        ExceptionUtils.isNullException(key, "key");
-        
-        return super.remove(key);
-    }
-    
-    @Override
-    public V get(Object key)
-    {
-        ExceptionUtils.isNullException(key, "key");
-        
-        return super.get(key);
-    }
 }
