@@ -15,7 +15,7 @@
  */
 package com.topekalabs.collection.utils;
 
-import com.topekalabs.datastruct.CircularList;
+import com.topekalabs.collection.CircularList;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.Assert;

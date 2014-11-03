@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.datastruct;
+package com.topekalabs.collection;
 
 import com.google.common.collect.Lists;
 import com.topekalabs.collection.utils.CollectionUtils;

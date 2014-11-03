@@ -15,6 +15,8 @@
  */
 package com.topekalabs.math.utils;
 
+import static com.topekalabs.math.utils.LongUtils.maxSetBitPosition;
+
 /**
  * This is a class which provides common utility methods for dealing with
  * integers.
@@ -22,6 +24,8 @@ package com.topekalabs.math.utils;
  */
 public final class IntUtils
 {
+    public static final IntInterval BIT_INTERVAL = new IntInterval(0, 31);
+    
     private IntUtils()
     {
         //Do nothing.
@@ -478,19 +482,245 @@ public final class IntUtils
         return a + b;
     }
     
-    public static int divCeil(int value, int divisor)
+    public static boolean ugt(int a, int b)
     {
-        int mod;
-        
-        if(value % divisor == 0)
+        return ult(b, a);
+    }
+    
+    public static boolean ugte(long a, long b)
+    {
+        return ulte(b, a);
+    }
+    
+    public static boolean ulte(long a, long b)
+    {
+        return a == b || ult(a, b);
+    }
+    
+    public static boolean ult(long a, long b)
+    {
+        if(a > 0L)
         {
-            mod = 0;
+            if(b > 0L)
+            {
+                if(a < b)
+                {
+                    return true;
+                }
+                
+                return false;
+            }
+            else if(b == 0L)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if(a == 0)
+        {
+            if(b == 0)
+            {
+                return false;
+            }
+            
+            return true;
         }
         else
         {
-            mod = 1;
+            if(b >= 0L)
+            {
+                return false;
+            }
+            else
+            {
+                return a > b;
+            }
+        }
+    }
+    
+    public static int uCompareTo(long a, long b)
+    {
+        if(a == b)
+        {
+            return 0;
         }
         
-        return value / divisor + mod;
+        if(ult(a, b))
+        {
+            return -1;
+        }
+        
+        return 1;
+    }
+    
+    public static int urs(int value, int shift)
+    {
+        if(value >= 0)
+        {
+            return value >> shift;
+        }
+        
+        shift %= 32;
+        shift += 32;
+        shift %= 32;
+        
+        if(shift == 0)
+        {
+            return value;
+        }
+        
+        shift--;
+        value = (value >> 1) & 0x7FFFFFFF;
+        return value >> shift;
+    }
+    
+    public static int uDiv(int value, int divisor)
+    {
+        if(divisor == 0)
+        {
+            throw new IllegalArgumentException("Should not divide by zero.");
+        }
+        
+        if(value == 0)
+        {
+            return 0;
+        }
+        
+        if(IntUtils.ult(value, divisor))
+        {
+            return 0;
+        }
+        
+        int maxBitPosValue = maxSetBitPosition(value);
+        int maxBitPosDivisor = maxSetBitPosition(divisor);
+        int quotient = 0;
+        
+        for(int diff = maxBitPosValue - maxBitPosDivisor;
+            diff >= 0;
+            diff--)
+        {
+            int tempDivisor = divisor << diff;
+            
+            if(IntUtils.ult(value, tempDivisor))
+            {
+                continue;
+            }
+            
+            value -= tempDivisor;
+            quotient |= 1 << diff;
+        }
+        
+        return quotient;
+    }
+    
+    public static int uMod(int value, int mod)
+    {
+        int quotient = uDiv(value, mod);
+        return value - quotient * mod;
+    }
+    
+    public static int bitReverse(int value)
+    {
+        int byte1 = getByte0(value);
+        int byte2 = getByte1(value);
+        int byte3 = getByte2(value);
+        int byte4 = getByte3(value);
+        
+        byte1 = ByteUtils.getReversedByte(byte1);
+        byte2 = ByteUtils.getReversedByte(byte2);
+        byte3 = ByteUtils.getReversedByte(byte3);
+        byte4 = ByteUtils.getReversedByte(byte4);
+        
+        int rValue = 0;
+        rValue |= byte1 << 24;
+        rValue |= byte2 << 16;
+        rValue |= byte3 << 8;
+        rValue |= byte4;
+        
+        return rValue;
+    }
+    
+    public static int getByte0(int val)
+    {
+        return val & 0xFF;
+    }
+    
+    public static int getByte1(int val)
+    {
+        return (val >> 8) & 0xFF;
+    }
+    
+    public static int getByte2(int val)
+    {
+        return (val >> 16) & 0xFF;
+    }
+    
+    public static int getByte3(int val)
+    {
+        return (val >> 24) & 0xFF;
+    }
+    
+    public static boolean bitSet(int value, int bit)
+    {
+        return (value & (1 << bit)) > 0;
+    }
+    
+    public static int maxSetBitPosition(int value)
+    {
+        if(value == 0)
+        {
+            return -1;
+        }
+        
+        for(int bitCounter = 0;
+            bitCounter < 32;
+            bitCounter++)
+        {
+            value = value >> 1;
+            
+            if(value == 0)
+            {
+                return bitCounter;
+            }
+        }
+        
+        return 31;
+    }
+    
+    public String uToOctalString(int value)
+    {
+        return uToString(value, 8);
+    }
+    
+    public String uToHexString(int value)
+    {
+        return uToString(value, 16);
+    }
+    
+    public String uToString(int value)
+    {
+        return uToString(value, 10);
+    }
+    
+    public String uToString(int value, int radix)
+    {
+        if(value == 0)
+        {
+            return "0";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(;
+            IntUtils.ugt(value, 0);
+            value = IntUtils.uDiv(value, radix))
+        {
+            sb.append(LongUtils.uMod(value, radix));
+        }
+        
+        return sb.toString();
     }
 }

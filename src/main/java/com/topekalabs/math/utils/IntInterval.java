@@ -43,6 +43,11 @@ public class IntInterval
      */
     private int numInts;
     
+    public IntInterval(int numInts)
+    {
+        this(0, numInts - 1);
+    }
+    
     /**
      * This constructor creates an interval with the given start and end values.
      * @param startInterval The beginning of the interval.
@@ -76,8 +81,6 @@ public class IntInterval
      */
     private void setStartInterval(int startInterval)
     {
-        FloatUtils.isValidFloatException(startInterval, "startInterval");
-        
         this.startInterval = startInterval;
     }
     
@@ -87,8 +90,6 @@ public class IntInterval
      */
     private void setEndInterval(int endInterval)
     {
-        FloatUtils.isValidFloatException(endInterval, "endInterval");
-        
         this.endInterval = endInterval;
     }
     
@@ -323,53 +324,53 @@ public class IntInterval
     
     /**
      * This method returns true if this interval inclusively intersects the given interval.
-     * @param floatInterval The float interval to compare against.
+     * @param intInterval The float interval to compare against.
      * @return True if this interval inclusively intersects the given interval.
      */
-    public boolean intersectsThisIntervalInclusive(IntInterval floatInterval)
+    public boolean intersectsThisIntervalInclusive(IntInterval intInterval)
     {
-        return (thisStartLTThatStart(floatInterval) &&
-                thisEndGTEThatStart(floatInterval)) ||
-                thisStartLTEThatEnd(floatInterval);
+        return (thisStartLTThatStart(intInterval) &&
+                thisEndGTEThatStart(intInterval)) ||
+                thisStartLTEThatEnd(intInterval);
     }
     
     /**
      * This method returns true if this interval intersects the given interval
      * exclusively.
-     * @param floatInterval The interval to compare against.
+     * @param intInterval The interval to compare against.
      * @return True if this interval intersects the given interval
      * exclusively.
      */
-    public boolean intersectsThisIntervalExclusive(IntInterval floatInterval)
+    public boolean intersectsThisIntervalExclusive(IntInterval intInterval)
     {
-        return (thisStartLTThatStart(floatInterval) &&
-                thisEndGTThatStart(floatInterval)) ||
-               thisStartLTThatEnd(floatInterval);
+        return (thisStartLTThatStart(intInterval) &&
+                thisEndGTThatStart(intInterval)) ||
+               thisStartLTThatEnd(intInterval);
     }
     
     /**
      * This method returns true if this interval contains the given interval
      * inclusively.
-     * @param floatInterval The interval to compare against.
+     * @param intInterval The interval to compare against.
      * @return True if this interval contains the given interval
      * inclusively.
      */
-    public boolean containsThisIntervalInclusive(IntInterval floatInterval)
+    public boolean containsThisIntervalInclusive(IntInterval intInterval)
     {
-        return (startInterval <= floatInterval.getStartInterval() && 
-                floatInterval.getStartInterval() <= endInterval) &&
-               (startInterval <= floatInterval.getEndInterval() &&
-                floatInterval.getEndInterval() <= endInterval);
+        return (startInterval <= intInterval.getStartInterval() && 
+                intInterval.getStartInterval() <= endInterval) &&
+               (startInterval <= intInterval.getEndInterval() &&
+                intInterval.getEndInterval() <= endInterval);
     }
     
     /**
      * This method throws an IllegalArgumentException if this interval does not
      * contain the given interval inclusively.
-     * @param floatInterval The interval to compare against.
+     * @param intInterval The interval to compare against.
      */
-    public void containsThisIntervalInclusiveException(IntInterval floatInterval)
+    public void containsThisIntervalInclusiveException(IntInterval intInterval)
     {
-        if(!containsThisIntervalInclusive(floatInterval))
+        if(!containsThisIntervalInclusive(intInterval))
         {
             throw new IllegalArgumentException("The given interval is not valid");
         }
@@ -378,148 +379,174 @@ public class IntInterval
     /**
      * This method returns true if this interval contains the given
      * interval exclusively.
-     * @param floatInterval The interval to check.
+     * @param intInterval The interval to check.
      * @return True if this interval contains the given
      * interval exclusively.
      */
-    public boolean containsThisIntervalExclusive(IntInterval floatInterval)
+    public boolean containsThisIntervalExclusive(IntInterval intInterval)
     {
-        return (startInterval < floatInterval.getStartInterval() && 
-                floatInterval.getStartInterval() < endInterval) &&
-               (startInterval < floatInterval.getEndInterval() &&
-                floatInterval.getEndInterval() < endInterval);        
+        return (startInterval < intInterval.getStartInterval() && 
+                intInterval.getStartInterval() < endInterval) &&
+               (startInterval < intInterval.getEndInterval() &&
+                intInterval.getEndInterval() < endInterval);        
     }
     
     /**
      * This method returns true if the end of this interval equals the start of
      * the other interval.
-     * @param floatInterval The interval to compare against.
+     * @param intInterval The interval to compare against.
      * @return True if the end of this interval equals the start of
      * the other interval.
      */
-    public boolean thisEndEqualsThatStart(IntInterval floatInterval)
+    public boolean thisEndEqualsThatStart(IntInterval intInterval)
     {
-        return endInterval == floatInterval.getStartInterval();
+        return endInterval == intInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the end of this interval is greater than the
      * start of the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the end of this interval is greater than the
      * start of the other interval.
      */
-    public boolean thisEndGTThatStart(IntInterval floatInterval)
+    public boolean thisEndGTThatStart(IntInterval intInterval)
     {
-        return endInterval > floatInterval.getStartInterval();
+        return endInterval > intInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the start of this interval equals the end of
      * the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the start of this interval equals the end of the other
      * interval.
      */
-    public boolean thisStartEqualsThatEnd(IntInterval floatInterval)
+    public boolean thisStartEqualsThatEnd(IntInterval intInterval)
     {
-        return startInterval == floatInterval.getEndInterval();
+        return startInterval == intInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than the
      * end of the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the start of this interval is less than the
      * end of the other interval.
      */
-    public boolean thisStartLTThatEnd(IntInterval floatInterval)
+    public boolean thisStartLTThatEnd(IntInterval intInterval)
     {
-        return startInterval < floatInterval.getEndInterval();
+        return startInterval < intInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than or
      * equal to the end of the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the start of this interval is less than or
      * equal to the end of the other interval.
      */
-    public boolean thisStartLTEThatEnd(IntInterval floatInterval)
+    public boolean thisStartLTEThatEnd(IntInterval intInterval)
     {
-        return startInterval <= floatInterval.getEndInterval();
+        return startInterval <= intInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the start of this interval is equal to the
      * start of the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the start of this interval is equal to the
      * start of the other interval.
      */
-    public boolean thisStartEqualsThatStart(IntInterval floatInterval)
+    public boolean thisStartEqualsThatStart(IntInterval intInterval)
     {
-        return startInterval == floatInterval.getStartInterval();
+        return startInterval == intInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than the
      * start of the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the start of this interval is less than the
      * start of the other interval.
      */
-    public boolean thisStartLTThatStart(IntInterval floatInterval)
+    public boolean thisStartLTThatStart(IntInterval intInterval)
     {
-        return startInterval < floatInterval.getStartInterval();
+        return startInterval < intInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than or
      * equal to the start of the other interval.
-     * @param floatInterval the other interval to compare against.
+     * @param intInterval the other interval to compare against.
      * @return True if the start of this interval is less than or
      * equal to the start of the other interval.
      */
-    public boolean thisStartLTEThatStart(IntInterval floatInterval)
+    public boolean thisStartLTEThatStart(IntInterval intInterval)
     {
-        return startInterval <= floatInterval.getStartInterval();
+        return startInterval <= intInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the end of this interval is greater than or
      * equal to the start of the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the end of this interval is greater than or
      * equal to the start of the other interval.
      */
-    public boolean thisEndGTEThatStart(IntInterval floatInterval)
+    public boolean thisEndGTEThatStart(IntInterval intInterval)
     {
-        return endInterval >= floatInterval.getStartInterval();
+        return endInterval >= intInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the end of this interval equals the end of
      * the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the end of this interval equals the end of
      * the other interval.
      */
-    public boolean thisEndEqualsThatEnd(IntInterval floatInterval)
+    public boolean thisEndEqualsThatEnd(IntInterval intInterval)
     {
-        return endInterval == floatInterval.getEndInterval();
+        return endInterval == intInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the end of this interval is less than or
      * equal to the start of the other interval.
-     * @param floatInterval The other interval to compare against.
+     * @param intInterval The other interval to compare against.
      * @return True if the end of this interval is less than or
      * equal to the start of the other interval.
      */
-    public boolean thisEndLTEThatStart(IntInterval floatInterval)
+    public boolean thisEndLTEThatStart(IntInterval intInterval)
     {
-        return endInterval <= floatInterval.getStartInterval();
+        return endInterval <= intInterval.getStartInterval();
+    }
+    
+    public void notInIntervalInclusiveException(int value)
+    {
+        if(value < startInterval)
+        {
+            throw new IllegalArgumentException("The given value was less than " +
+                                               "the start of the interval: " +
+                                               startInterval);
+        }
+        
+        if(value > endInterval)
+        {
+            throw new IllegalArgumentException("The given value was greater than " +
+                                               "the end of the interval: " +
+                                               endInterval);
+        }
+    }
+    
+    /**
+     * Returns the number of values in the interval inclusive.
+     * @return The number of values in the interval inclusive.
+     */
+    public int getNumVals()
+    {
+        return numInts;
     }
     
     /**

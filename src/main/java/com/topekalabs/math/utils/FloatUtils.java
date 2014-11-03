@@ -21,6 +21,12 @@ package com.topekalabs.math.utils;
  */
 public final class FloatUtils
 {
+    public static final float POW_2_0 = 1.0f;
+    public static final float POW_2_8 = 256.0f;
+    public static final float POW_2_16 = (float) Math.pow(2.0, 16.0);
+    public static final float POW_2_32 = (float) Math.pow(2.0, 32.0);
+    public static final float POW_2_64 = (float) Math.pow(2.0, 64.0);
+    
     private FloatUtils()
     {
         //Do nothing

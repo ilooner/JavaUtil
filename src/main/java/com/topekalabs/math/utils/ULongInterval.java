@@ -21,7 +21,7 @@ import java.util.Random;
  * This class represents a float interval.
  * @author Topeka Labs
  */
-public class LongInterval 
+public class ULongInterval 
 {   
     /**
      * The start of the interval.
@@ -43,7 +43,7 @@ public class LongInterval
      */
     private long numVals;
     
-    public LongInterval(long numVals)
+    public ULongInterval(long numVals)
     {
         this(0, numVals - 1);
     }
@@ -53,7 +53,7 @@ public class LongInterval
      * @param startInterval The beginning of the interval.
      * @param endInterval The end of the interval.
      */
-    public LongInterval(long startInterval,
+    public ULongInterval(long startInterval,
                         long endInterval)
     {
         if(startInterval >= endInterval)
@@ -89,7 +89,7 @@ public class LongInterval
      * @param endInterval The end of the interval.
      */
     private void setEndInterval(long endInterval)
-    { 
+    {
         this.endInterval = endInterval;
     }
     
@@ -109,48 +109,6 @@ public class LongInterval
     public long getEndInterval()
     {
         return endInterval;
-    }
-    
-    /**
-     * This returns true if all the numbers in the interval are positive.
-     * @return True if all the numbers in the interval are positive.
-     */
-    public boolean isPositive()
-    {
-        return startInterval > 0;
-    }
-    
-    /**
-     * This method throws an IllegalArgumentException if the interval is not
-     * positive.
-     */
-    public void isPositiveException()
-    {
-        if(!isPositive())
-        {
-            throw new IllegalArgumentException("The interval must be positive.");
-        }
-    }
-    
-    /**
-     * This method returns true if all the numbers in the interval are non negative.
-     * @return True if all the numbers in the interval are non negative.
-     */
-    public boolean isNonNegative()
-    {
-        return startInterval >= 0L;
-    }
-    
-    /**
-     * This method throws an IllegalArgumentException if all the numbers in the
-     * interval are not non negative.
-     */
-    public void isNonNegativeException()
-    {
-        if(!isNonNegative())
-        {
-            throw new IllegalArgumentException("The interval must be nonnegative.");
-        }
     }
     
     /**
@@ -324,53 +282,53 @@ public class LongInterval
     
     /**
      * This method returns true if this interval inclusively intersects the given interval.
-     * @param longInterval The float interval to compare against.
+     * @param floatInterval The float interval to compare against.
      * @return True if this interval inclusively intersects the given interval.
      */
-    public boolean intersectsThisIntervalInclusive(LongInterval longInterval)
+    public boolean intersectsThisIntervalInclusive(ULongInterval floatInterval)
     {
-        return (thisStartLTThatStart(longInterval) &&
-                thisEndGTEThatStart(longInterval)) ||
-                thisStartLTEThatEnd(longInterval);
+        return (thisStartLTThatStart(floatInterval) &&
+                thisEndGTEThatStart(floatInterval)) ||
+                thisStartLTEThatEnd(floatInterval);
     }
     
     /**
      * This method returns true if this interval intersects the given interval
      * exclusively.
-     * @param longInterval The interval to compare against.
+     * @param floatInterval The interval to compare against.
      * @return True if this interval intersects the given interval
      * exclusively.
      */
-    public boolean intersectsThisIntervalExclusive(LongInterval longInterval)
+    public boolean intersectsThisIntervalExclusive(ULongInterval floatInterval)
     {
-        return (thisStartLTThatStart(longInterval) &&
-                thisEndGTThatStart(longInterval)) ||
-               thisStartLTThatEnd(longInterval);
+        return (thisStartLTThatStart(floatInterval) &&
+                thisEndGTThatStart(floatInterval)) ||
+               thisStartLTThatEnd(floatInterval);
     }
     
     /**
      * This method returns true if this interval contains the given interval
      * inclusively.
-     * @param longInterval The interval to compare against.
+     * @param floatInterval The interval to compare against.
      * @return True if this interval contains the given interval
      * inclusively.
      */
-    public boolean containsThisIntervalInclusive(LongInterval longInterval)
+    public boolean containsThisIntervalInclusive(ULongInterval floatInterval)
     {
-        return (startInterval <= longInterval.getStartInterval() && 
-                longInterval.getStartInterval() <= endInterval) &&
-               (startInterval <= longInterval.getEndInterval() &&
-                longInterval.getEndInterval() <= endInterval);
+        return (startInterval <= floatInterval.getStartInterval() && 
+                floatInterval.getStartInterval() <= endInterval) &&
+               (startInterval <= floatInterval.getEndInterval() &&
+                floatInterval.getEndInterval() <= endInterval);
     }
     
     /**
      * This method throws an IllegalArgumentException if this interval does not
      * contain the given interval inclusively.
-     * @param longInterval The interval to compare against.
+     * @param floatInterval The interval to compare against.
      */
-    public void containsThisIntervalInclusiveException(LongInterval longInterval)
+    public void containsThisIntervalInclusiveException(ULongInterval floatInterval)
     {
-        if(!containsThisIntervalInclusive(longInterval))
+        if(!containsThisIntervalInclusive(floatInterval))
         {
             throw new IllegalArgumentException("The given interval is not valid");
         }
@@ -379,166 +337,148 @@ public class LongInterval
     /**
      * This method returns true if this interval contains the given
      * interval exclusively.
-     * @param longInterval The interval to check.
+     * @param floatInterval The interval to check.
      * @return True if this interval contains the given
      * interval exclusively.
      */
-    public boolean containsThisIntervalExclusive(LongInterval longInterval)
+    public boolean containsThisIntervalExclusive(ULongInterval floatInterval)
     {
-        return (startInterval < longInterval.getStartInterval() && 
-                longInterval.getStartInterval() < endInterval) &&
-               (startInterval < longInterval.getEndInterval() &&
-                longInterval.getEndInterval() < endInterval);        
+        return (startInterval < floatInterval.getStartInterval() && 
+                floatInterval.getStartInterval() < endInterval) &&
+               (startInterval < floatInterval.getEndInterval() &&
+                floatInterval.getEndInterval() < endInterval);        
     }
     
     /**
      * This method returns true if the end of this interval equals the start of
      * the other interval.
-     * @param longInterval The interval to compare against.
+     * @param floatInterval The interval to compare against.
      * @return True if the end of this interval equals the start of
      * the other interval.
      */
-    public boolean thisEndEqualsThatStart(LongInterval longInterval)
+    public boolean thisEndEqualsThatStart(ULongInterval floatInterval)
     {
-        return endInterval == longInterval.getStartInterval();
+        return endInterval == floatInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the end of this interval is greater than the
      * start of the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the end of this interval is greater than the
      * start of the other interval.
      */
-    public boolean thisEndGTThatStart(LongInterval longInterval)
+    public boolean thisEndGTThatStart(ULongInterval floatInterval)
     {
-        return endInterval > longInterval.getStartInterval();
+        return endInterval > floatInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the start of this interval equals the end of
      * the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the start of this interval equals the end of the other
      * interval.
      */
-    public boolean thisStartEqualsThatEnd(LongInterval longInterval)
+    public boolean thisStartEqualsThatEnd(ULongInterval floatInterval)
     {
-        return startInterval == longInterval.getEndInterval();
+        return startInterval == floatInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than the
      * end of the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the start of this interval is less than the
      * end of the other interval.
      */
-    public boolean thisStartLTThatEnd(LongInterval longInterval)
+    public boolean thisStartLTThatEnd(ULongInterval floatInterval)
     {
-        return startInterval < longInterval.getEndInterval();
+        return startInterval < floatInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than or
      * equal to the end of the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the start of this interval is less than or
      * equal to the end of the other interval.
      */
-    public boolean thisStartLTEThatEnd(LongInterval longInterval)
+    public boolean thisStartLTEThatEnd(ULongInterval floatInterval)
     {
-        return startInterval <= longInterval.getEndInterval();
+        return startInterval <= floatInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the start of this interval is equal to the
      * start of the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the start of this interval is equal to the
      * start of the other interval.
      */
-    public boolean thisStartEqualsThatStart(LongInterval longInterval)
+    public boolean thisStartEqualsThatStart(ULongInterval floatInterval)
     {
-        return startInterval == longInterval.getStartInterval();
+        return startInterval == floatInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than the
      * start of the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the start of this interval is less than the
      * start of the other interval.
      */
-    public boolean thisStartLTThatStart(LongInterval longInterval)
+    public boolean thisStartLTThatStart(ULongInterval floatInterval)
     {
-        return startInterval < longInterval.getStartInterval();
+        return startInterval < floatInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the start of this interval is less than or
      * equal to the start of the other interval.
-     * @param longInterval the other interval to compare against.
+     * @param floatInterval the other interval to compare against.
      * @return True if the start of this interval is less than or
      * equal to the start of the other interval.
      */
-    public boolean thisStartLTEThatStart(LongInterval longInterval)
+    public boolean thisStartLTEThatStart(ULongInterval floatInterval)
     {
-        return startInterval <= longInterval.getStartInterval();
+        return startInterval <= floatInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the end of this interval is greater than or
      * equal to the start of the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the end of this interval is greater than or
      * equal to the start of the other interval.
      */
-    public boolean thisEndGTEThatStart(LongInterval longInterval)
+    public boolean thisEndGTEThatStart(ULongInterval floatInterval)
     {
-        return endInterval >= longInterval.getStartInterval();
+        return endInterval >= floatInterval.getStartInterval();
     }
     
     /**
      * This method returns true if the end of this interval equals the end of
      * the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the end of this interval equals the end of
      * the other interval.
      */
-    public boolean thisEndEqualsThatEnd(LongInterval longInterval)
+    public boolean thisEndEqualsThatEnd(ULongInterval floatInterval)
     {
-        return endInterval == longInterval.getEndInterval();
+        return endInterval == floatInterval.getEndInterval();
     }
     
     /**
      * This method returns true if the end of this interval is less than or
      * equal to the start of the other interval.
-     * @param longInterval The other interval to compare against.
+     * @param floatInterval The other interval to compare against.
      * @return True if the end of this interval is less than or
      * equal to the start of the other interval.
      */
-    public boolean thisEndLTEThatStart(LongInterval longInterval)
+    public boolean thisEndLTEThatStart(ULongInterval floatInterval)
     {
-        return endInterval <= longInterval.getStartInterval();
-    }
-    
-    
-    public void notInIntervalInclusiveException(long value)
-    {
-        if(value < startInterval)
-        {
-            throw new IllegalArgumentException("The given value was less than " +
-                                               "the start of the interval: " +
-                                               startInterval);
-        }
-        
-        if(value > endInterval)
-        {
-            throw new IllegalArgumentException("The given value was greater than " +
-                                               "the end of the interval: " +
-                                               endInterval);
-        }
+        return endInterval <= floatInterval.getStartInterval();
     }
     
     /**

@@ -481,7 +481,53 @@ public final class LongUtils
         return a + b;
     }
     
-    public static long divCeil(long value, long divisor)
+    public static long uDiv(long value, long divisor)
+    {
+        if(divisor == 0L)
+        {
+            throw new IllegalArgumentException("Should not divide by zero.");
+        }
+        
+        if(value == 0L)
+        {
+            return 0L;
+        }
+        
+        if(LongUtils.ult(value, divisor))
+        {
+            return 0L;
+        }
+        
+        long maxBitPosValue = maxSetBitPosition(value);
+        long maxBitPosDivisor = maxSetBitPosition(divisor);
+        long quotient = 0;
+        
+        for(long diff = maxBitPosValue - maxBitPosDivisor;
+            diff >= 0;
+            diff--)
+        {
+            long tempDivisor = divisor << diff;
+            
+            if(LongUtils.ult(value, tempDivisor))
+            {
+                continue;
+            }
+            
+            value -= tempDivisor;
+            quotient |= 1 << diff;
+        }
+        
+        return quotient;
+    }
+    
+    public static long uMod(long value, long mod)
+    {
+        long quotient = uDiv(value, mod);
+        return value - quotient * mod;
+    }
+    
+    /*
+    public static long uDivCeil(long value, long divisor)
     {
         long mod;
         
@@ -495,5 +541,234 @@ public final class LongUtils
         }
         
         return value / divisor + mod;
+    }
+    */
+    public static long bitReverse(long value)
+    {
+        long byte0 = getByte0(value);
+        long byte1 = getByte1(value);
+        long byte2 = getByte2(value);
+        long byte3 = getByte3(value);
+        long byte4 = getByte4(value);
+        long byte5 = getByte5(value);
+        long byte6 = getByte6(value);
+        long byte7 = getByte7(value);
+        
+        byte0 = ByteUtils.getReversedByte(byte0);
+        byte1 = ByteUtils.getReversedByte(byte1);
+        byte2 = ByteUtils.getReversedByte(byte2);
+        byte3 = ByteUtils.getReversedByte(byte3);
+        byte4 = ByteUtils.getReversedByte(byte4);
+        byte5 = ByteUtils.getReversedByte(byte5);
+        byte6 = ByteUtils.getReversedByte(byte6);
+        byte7 = ByteUtils.getReversedByte(byte7);
+        
+        long rValue = 0;
+        rValue |= byte0 << 56;
+        rValue |= byte1 << 48;
+        rValue |= byte2 << 40;
+        rValue |= byte3 << 32;
+        rValue |= byte4 << 24;
+        rValue |= byte5 << 16;
+        rValue |= byte6 << 8;
+        rValue |= byte7;
+        
+        return rValue;
+    }
+    
+    public static boolean ugt(long a, long b)
+    {
+        return ult(b, a);
+    }
+    
+    public static boolean ugte(long a, long b)
+    {
+        return ulte(b, a);
+    }
+    
+    public static boolean ulte(long a, long b)
+    {
+        return a == b || ult(a, b);
+    }
+    
+    public static boolean ult(long a, long b)
+    {
+        if(a > 0L)
+        {
+            if(b > 0L)
+            {
+                if(a < b)
+                {
+                    return true;
+                }
+                
+                return false;
+            }
+            else if(b == 0L)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if(a == 0)
+        {
+            if(b == 0)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        else
+        {
+            if(b >= 0L)
+            {
+                return false;
+            }
+            else
+            {
+                return a > b;
+            }
+        }
+    }
+    
+    public static int uCompareTo(long a, long b)
+    {
+        if(a == b)
+        {
+            return 0;
+        }
+        
+        if(ult(a, b))
+        {
+            return -1;
+        }
+        
+        return 1;
+    }
+    
+    public static long urs(long value, long shift)
+    {
+        if(value >= 0L)
+        {
+            return value >> shift;
+        }
+        
+        shift %= 64;
+        shift += 64;
+        shift %= 64;
+        
+        if(shift == 0)
+        {
+            return value;
+        }
+        
+        shift--;
+        value = (value >> 1L) & 0x7FFFFFFFFFFFFFFFL;
+        return value >> shift;
+    }
+    
+    public static long getByte0(long val)
+    {
+        return val & 0xFF;
+    }
+    
+    public static long getByte1(long val)
+    {
+        return (val >> 8) & 0xFF;
+    }
+    
+    public static long getByte2(long val)
+    {
+        return (val >> 16) & 0xFF;
+    }
+    
+    public static long getByte3(long val)
+    {
+        return (val >> 24) & 0xFF;
+    }
+    
+    public static long getByte4(long val)
+    {
+        return (val >> 32) & 0xFF;
+    }
+    
+    public static long getByte5(long val)
+    {
+        return (val >> 40) & 0xFF;
+    }
+    
+    public static long getByte6(long val)
+    {
+        return (val >> 48) & 0xFF;
+    }
+    
+    public static long getByte7(long val)
+    {
+        return (val >> 56) & 0xFF;
+    }
+    
+    public static boolean bitSet(long value, long bit)
+    {
+        return (value & (1L << bit)) > 0L;
+    }
+    
+    public static long maxSetBitPosition(long value)
+    {
+        if(value == 0L)
+        {
+            return -1L;
+        }
+        
+        for(int bitCounter = 0;
+            bitCounter < 64;
+            bitCounter++)
+        {
+            value = value >> 1L;
+            
+            if(value == 0L)
+            {
+                return bitCounter;
+            }
+        }
+        
+        return 63;
+    }
+    
+    public String uToOctalString(long value)
+    {
+        return uToString(value, 8);
+    }
+    
+    public String uToHexString(long value)
+    {
+        return uToString(value, 16);
+    }
+    
+    public String uToString(long value)
+    {
+        return uToString(value, 10);
+    }
+    
+    public String uToString(long value, int radix)
+    {
+        if(value == 0L)
+        {
+            return "0";
+        }
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for(;
+            LongUtils.ugt(value, 0L);
+            value = LongUtils.uDiv(value, radix))
+        {
+            sb.append(LongUtils.uMod(value, radix));
+        }
+        
+        return sb.toString();
     }
 }

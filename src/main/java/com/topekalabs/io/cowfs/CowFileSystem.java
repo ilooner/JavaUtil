@@ -13,39 +13,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.datastruct;
+package com.topekalabs.io.cowfs;
 
 import com.topekalabs.java.utils.ExceptionUtils;
-import java.util.HashMap;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
 
 /**
  *
  * @author Topeka Labs
  */
-public class NNHashMap<K, V> extends HashMap<K, V>
+public class CowFileSystem
 {
-    @Override
-    public V put(K key, V value)
+    private FileSystem fs;
+    
+    public CowFileSystem(FileSystem fs)
     {
-        ExceptionUtils.isNullException(key, "key");
-        ExceptionUtils.isNullException(value, "value");
-        
-        return super.put(key, value);
+        setFileSystem(fs);
     }
     
-    @Override
-    public V remove(Object key)
+    private void setFileSystem(FileSystem fs)
     {
-        ExceptionUtils.isNullException(key, "key");
-        
-        return super.remove(key);
+        ExceptionUtils.isNullException(fs);
+        this.fs = fs;
     }
     
-    @Override
-    public V get(Object key)
+    public <T> CowTempArray<T> createTempArray(Path directory,
+                                               String arrayName)
     {
-        ExceptionUtils.isNullException(key, "key");
-        
-        return super.get(key);
+        return null;
     }
 }
