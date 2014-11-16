@@ -2,3 +2,4 @@
 *.jar
 nb-configuration.xml
 .netbeans*
+target/
