@@ -520,29 +520,25 @@ public final class LongUtils
         return quotient;
     }
     
+    public static long uDivCeil(long value, long divisor)
+    {
+        long quotient = uDiv(value, divisor);
+        long modValue = uMod(value, divisor);
+        
+        if(modValue != 0L)
+        {
+            quotient++;
+        }
+        
+        return quotient;
+    }
+    
     public static long uMod(long value, long mod)
     {
         long quotient = uDiv(value, mod);
         return value - quotient * mod;
     }
     
-    /*
-    public static long uDivCeil(long value, long divisor)
-    {
-        long mod;
-        
-        if(value % divisor == 0L)
-        {
-            mod = 0L;
-        }
-        else
-        {
-            mod = 1L;
-        }
-        
-        return value / divisor + mod;
-    }
-    */
     public static long bitReverse(long value)
     {
         long byte0 = getByte0(value);
@@ -738,22 +734,22 @@ public final class LongUtils
         return 63;
     }
     
-    public String uToOctalString(long value)
+    public static String uToOctalString(long value)
     {
         return uToString(value, 8);
     }
     
-    public String uToHexString(long value)
+    public static String uToHexString(long value)
     {
         return uToString(value, 16);
     }
     
-    public String uToString(long value)
+    public static String uToString(long value)
     {
         return uToString(value, 10);
     }
     
-    public String uToString(long value, int radix)
+    public static String uToString(long value, int radix)
     {
         if(value == 0L)
         {

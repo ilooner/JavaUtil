@@ -13,43 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.synchronization;
+package com.topekalabs.java.utils;
 
-/**
- *
- * @author Topeka Labs
- */
-public class Semaphore
+public class ArrayFactoryDouble implements ArrayFactory<double[]>
 {
-    private Mutex mutex = new Mutex();
-    private ConditionVariable cond = new ConditionVariable();
-    private long count = 0;
-    
-    public Semaphore(long count)
+    public ArrayFactoryDouble()
     {
-        this.count = count;
+        //Do nothing
     }
     
-    public void acquire()
+    @Override
+    public double[] createArray(int length)
     {
-        mutex.lock();
-        
-        if(count == 0)
-        {
-            cond.wait(mutex);
-        }
-        
-        count--;
-        
-        mutex.unlock();
+        return new double[length];
     }
-    
-    public void release()
-    {
-        mutex.lock();
-        count++;
-        mutex.unlock();
-        
-        cond.signal();
-    }    
 }

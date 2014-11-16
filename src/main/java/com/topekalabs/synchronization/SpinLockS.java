@@ -15,41 +15,41 @@
  */
 package com.topekalabs.synchronization;
 
+import com.topekalabs.java.utils.ExceptionUtils;
+
 /**
  *
  * @author Topeka Labs
  */
-public class Semaphore
+public class SpinLockS extends SpinLock
 {
-    private Mutex mutex = new Mutex();
-    private ConditionVariable cond = new ConditionVariable();
-    private long count = 0;
+    private volatile long threadId;
     
-    public Semaphore(long count)
+    public SpinLockS()
     {
-        this.count = count;
     }
     
-    public void acquire()
+    @Override
+    public void lock()
     {
-        mutex.lock();
+        super.lock();
         
-        if(count == 0)
+        threadId = Thread.currentThread().getId();
+    }
+    
+    @Override
+    public void unlock()
+    {
+        long unlockId = Thread.currentThread().getId();
+        
+        if(threadId != unlockId)
         {
-            cond.wait(mutex);
+            ExceptionUtils.thisShouldNotHappen("The mutex is being unlocked by thread " +
+                                               unlockId +
+                                               " but it is owned by thread " +
+                                               threadId);
         }
         
-        count--;
-        
-        mutex.unlock();
+        super.unlock();
     }
-    
-    public void release()
-    {
-        mutex.lock();
-        count++;
-        mutex.unlock();
-        
-        cond.signal();
-    }    
 }

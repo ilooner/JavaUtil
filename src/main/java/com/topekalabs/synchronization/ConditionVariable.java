@@ -21,8 +21,48 @@ package com.topekalabs.synchronization;
  */
 public class ConditionVariable
 {
+    private ThreadList threadList = new ThreadList();
+    private Mutex listLock = new Mutex();
+    
     public ConditionVariable()
     {
+    }
+    
+    public void wait(Mutex mutex)
+    {
+        listLock.lock();
+        ThreadScheduleHandle handle = threadList.enqueue();
+        listLock.unlock();
+        mutex.unlock();
         
+        handle.deschedule();
+        
+        mutex.lock();
+    }
+    
+    public void signal()
+    {
+        listLock.lock();
+        ThreadScheduleHandle handle = threadList.enqueue();
+        listLock.unlock();
+        
+        handle.reschedule();
+    }
+    
+    public void broadCast()
+    {
+        listLock.lock();
+        
+        ThreadList oldThreadList = threadList;
+        threadList = new ThreadList();
+        
+        listLock.unlock();
+        
+        ThreadScheduleHandle handle;
+        
+        while((handle = oldThreadList.dequeue()) != null)
+        {
+            handle.reschedule();
+        }
     }
 }

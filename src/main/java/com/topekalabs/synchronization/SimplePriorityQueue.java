@@ -19,37 +19,7 @@ package com.topekalabs.synchronization;
  *
  * @author Topeka Labs
  */
-public class Semaphore
+public class SimplePriorityQueue
 {
-    private Mutex mutex = new Mutex();
-    private ConditionVariable cond = new ConditionVariable();
-    private long count = 0;
     
-    public Semaphore(long count)
-    {
-        this.count = count;
-    }
-    
-    public void acquire()
-    {
-        mutex.lock();
-        
-        if(count == 0)
-        {
-            cond.wait(mutex);
-        }
-        
-        count--;
-        
-        mutex.unlock();
-    }
-    
-    public void release()
-    {
-        mutex.lock();
-        count++;
-        mutex.unlock();
-        
-        cond.signal();
-    }    
 }

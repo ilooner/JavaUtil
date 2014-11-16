@@ -16,8 +16,7 @@
 package com.topekalabs.synchronization;
 
 import com.topekalabs.java.utils.ExceptionUtils;
-import com.topekalabs.math.utils.LongUtils;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.concurrent.Semaphore;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,55 +24,41 @@ import java.util.logging.Logger;
  *
  * @author Topeka Labs
  */
-public class SpinWaitLock
+class ThreadScheduleHandle
 {
-    public static final long DEFAULT_WAIT_TIME = 1000;
+    private Object lock = new Object();
+    private volatile boolean flag = true;
+    private volatile long threadId;
     
-    private long waitTime = DEFAULT_WAIT_TIME;
-    AtomicReference<Integer> csw = new AtomicReference<Integer>(0);
-    private final Object lock = new Object();
-    
-    public SpinWaitLock()
+    public ThreadScheduleHandle()
     {
-        //Do Nothing
     }
     
-    public SpinWaitLock(long waitTime)
-    {
-        setWaitTime(waitTime);
-    }
-    
-    private void setWaitTime(long waitTime)
-    {
-        LongUtils.isNonPositiveException(waitTime, "waitTime");
-        this.waitTime = waitTime;
-    }
-    
-    public void lock()
+    public void deschedule()
     {
         synchronized(lock)
         {
-            while(!csw.compareAndSet(0, 1))
+            while(flag)
             {
                 try
                 {
-                    lock.wait(waitTime);
+                    lock.wait();
                 }
                 catch(InterruptedException ex)
                 {
-                    ExceptionUtils.thisShouldNotHappen(ex);
+                    //Do nothing
                 }
             }
         }
     }
     
-    public void unlock()
+    public void reschedule()
     {
-        ExceptionUtils.thisShouldNotHappen(!csw.compareAndSet(1, 0),
-                                           "This spin lock is not locked.");
         synchronized(lock)
         {
-            lock.notify();
+            flag = false;
         }
+        
+        lock.notify();
     }
 }

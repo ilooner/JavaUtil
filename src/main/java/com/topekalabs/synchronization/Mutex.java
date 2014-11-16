@@ -15,16 +15,48 @@
  */
 package com.topekalabs.synchronization;
 
+import com.topekalabs.java.utils.ExceptionUtils;
+import java.util.concurrent.atomic.AtomicReference;
+
 
 /**
  * @author Topeka Labs
  */
-public class Mutex extends SpinWaitLock
+public class Mutex
 {
-    public static final long DEFAULT_WAIT_TIME = 5000;
+    AtomicReference<Integer> csw = new AtomicReference<Integer>(0);
+    private final Object lock = new Object();
     
     public Mutex()
     {
-        super(DEFAULT_WAIT_TIME);
+        //Do Nothing
+    }
+    
+    public void lock()
+    {
+        synchronized(lock)
+        {
+            while(!csw.compareAndSet(0, 1))
+            {
+                try
+                {
+                    lock.wait();
+                }
+                catch(InterruptedException ex)
+                {
+                    //Do nothing
+                }
+            }
+        }
+    }
+    
+    public void unlock()
+    {
+        ExceptionUtils.thisShouldNotHappen(!csw.compareAndSet(1, 0),
+                                           "This spin lock is not locked.");
+        synchronized(lock)
+        {
+            lock.notify();
+        }
     }
 }

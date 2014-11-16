@@ -13,43 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.synchronization;
+package com.topekalabs.big.array;
+
+import com.topekalabs.math.utils.LongUtils;
 
 /**
  *
  * @author Topeka Labs
  */
-public class Semaphore
+public class JumboArrayIndexOutOfBoundsException extends IndexOutOfBoundsException
 {
-    private Mutex mutex = new Mutex();
-    private ConditionVariable cond = new ConditionVariable();
-    private long count = 0;
-    
-    public Semaphore(long count)
+    public JumboArrayIndexOutOfBoundsException(long index)
     {
-        this.count = count;
+        super("Invalid index at: " +
+              LongUtils.uToString(index));
     }
-    
-    public void acquire()
-    {
-        mutex.lock();
-        
-        if(count == 0)
-        {
-            cond.wait(mutex);
-        }
-        
-        count--;
-        
-        mutex.unlock();
-    }
-    
-    public void release()
-    {
-        mutex.lock();
-        count++;
-        mutex.unlock();
-        
-        cond.signal();
-    }    
 }

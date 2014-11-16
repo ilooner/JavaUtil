@@ -16,6 +16,7 @@
 package com.topekalabs.math.utils;
 
 import com.topekalabs.big.BigHashCode;
+import java.util.Random;
 
 /**
  *
@@ -27,9 +28,16 @@ public class ULongLong extends Number implements Comparable<ULongLong>,
     private long lsbs = 0;
     private long msbs = 0;
     
+    public ULongLong(Random random)
+    {
+        lsbs = random.nextLong();
+        msbs = random.nextLong();
+    }
+    
     public ULongLong(int val)
     {
         lsbs = val;
+        lsbs &= 0xFFFFFFFF;
     }
     
     public ULongLong(long val)

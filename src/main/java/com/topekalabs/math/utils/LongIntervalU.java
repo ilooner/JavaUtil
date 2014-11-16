@@ -19,15 +19,15 @@ package com.topekalabs.math.utils;
  * This class represents a float interval.
  * @author Topeka Labs
  */
-public class LongInterval extends LongIntervalAbstract<LongInterval>
+public class LongIntervalU extends LongIntervalAbstract<LongIntervalU>
 {
-    public LongInterval(long numVals)
+    public LongIntervalU(long numVals)
     {
         this(0, numVals - 1);
     }
     
-    public LongInterval(long startInterval,
-                        long endInterval)
+    public LongIntervalU(long startInterval,
+                         long endInterval)
     {
         super(CompareFactoryLong.getInstance(),
               startInterval,

@@ -15,11 +15,49 @@
  */
 package com.topekalabs.big.array;
 
-/**
- *
- * @author Topeka Labs
- */
-public class JumboArrayLong
+import com.topekalabs.java.utils.ArrayFactoryLong;
+import com.topekalabs.math.utils.LongIntervalU;
+import java.util.List;
+
+public class JumboArrayLong extends JumboArrayAbstract
 {
+    public JumboArrayLong(LongIntervalU longInterval)
+    {
+        super(new ArrayFactoryLong(),
+              longInterval);
+        
+    }
     
+    public JumboArrayLong(LongIntervalU longInterval,
+                          int subArrayLength)
+    {
+        super(new ArrayFactoryLong(),
+              longInterval,
+              subArrayLength);
+    }
+    
+    protected JumboArrayLong(long length,
+                             int subArrayLength)
+    {
+        super(new ArrayFactoryLong(),
+              length,
+              subArrayLength);
+    }
+    
+    public JumboArrayLong(long length)
+    {
+        super(new ArrayFactoryLong(),
+              length);
+    }
+    
+    public long getLong(long index)
+    {
+        this.notInIntervalException(index);
+        
+        int index1 = calcIndex1(index);
+        int index2 = calcIndex2(index);
+        int index3 = calcIndex3(index);
+        
+        return ((List<long[]>) data.get(index1)).get(index2)[index3];
+    }
 }

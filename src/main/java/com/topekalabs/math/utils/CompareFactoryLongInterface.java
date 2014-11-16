@@ -13,43 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.synchronization;
+package com.topekalabs.math.utils;
 
 /**
  *
  * @author Topeka Labs
  */
-public class Semaphore
+public interface CompareFactoryLongInterface
 {
-    private Mutex mutex = new Mutex();
-    private ConditionVariable cond = new ConditionVariable();
-    private long count = 0;
-    
-    public Semaphore(long count)
-    {
-        this.count = count;
-    }
-    
-    public void acquire()
-    {
-        mutex.lock();
-        
-        if(count == 0)
-        {
-            cond.wait(mutex);
-        }
-        
-        count--;
-        
-        mutex.unlock();
-    }
-    
-    public void release()
-    {
-        mutex.lock();
-        count++;
-        mutex.unlock();
-        
-        cond.signal();
-    }    
+    public boolean lt(long a, long b);
+    public boolean lte(long a, long b);
+    public boolean gt(long a, long b);
+    public boolean gte(long a, long b);
+    public boolean eq(long a, long b);
 }

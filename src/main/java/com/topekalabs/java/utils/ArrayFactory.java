@@ -13,30 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.synchronization;
+package com.topekalabs.java.utils;
 
-import java.util.LinkedList;
-
-/**
- * @author Topeka Labs
- */
-class ThreadList
+public interface ArrayFactory<T>
 {
-    private volatile LinkedList<ThreadScheduleHandle> threadList = new LinkedList<ThreadScheduleHandle>();
-    
-    public ThreadList()
-    {
-    }
-    
-    public ThreadScheduleHandle enqueue()
-    {
-        ThreadScheduleHandle handle = new ThreadScheduleHandle();
-        threadList.offer(handle);
-        return handle;
-    }
-    
-    public ThreadScheduleHandle dequeue()
-    {
-        return threadList.poll();
-    }
+    public T createArray(int length);
 }
