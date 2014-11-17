@@ -33,4 +33,23 @@ public class LongInterval extends LongIntervalAbstract<LongInterval>
               startInterval,
               endInterval);
     }
+    
+    @Override
+    public boolean equals(Object o)
+    {
+        if(o == null)
+        {
+            return false;
+        }
+        
+        if(!(o instanceof LongInterval))
+        {
+            return false;
+        }
+        
+        LongInterval li = (LongInterval) o;
+        
+        return getStartInterval() == li.getStartInterval() &&
+               getEndInterval() == li.getEndInterval();
+    }
 }

@@ -29,18 +29,22 @@ public class JumboArrayLong extends JumboArrayAbstract
     }
     
     public JumboArrayLong(LongIntervalU longInterval,
+                          int listLength,
                           int subArrayLength)
     {
         super(new ArrayFactoryLong(),
               longInterval,
+              listLength,
               subArrayLength);
     }
     
     protected JumboArrayLong(long length,
+                             int listLength,
                              int subArrayLength)
     {
         super(new ArrayFactoryLong(),
               length,
+              listLength,
               subArrayLength);
     }
     
@@ -50,7 +54,7 @@ public class JumboArrayLong extends JumboArrayAbstract
               length);
     }
     
-    public long getLong(long index)
+    public long get(long index)
     {
         this.notInIntervalException(index);
         
@@ -59,5 +63,17 @@ public class JumboArrayLong extends JumboArrayAbstract
         int index3 = calcIndex3(index);
         
         return ((List<long[]>) data.get(index1)).get(index2)[index3];
+    }
+    
+    public void set(long index,
+                    long value)
+    {
+        this.notInIntervalException(index);
+        
+        int index1 = calcIndex1(index);
+        int index2 = calcIndex2(index);
+        int index3 = calcIndex3(index);
+        
+        ((List<long[]>) data.get(index1)).get(index2)[index3] = value;
     }
 }

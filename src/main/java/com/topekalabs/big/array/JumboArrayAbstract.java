@@ -22,6 +22,8 @@ import com.topekalabs.math.utils.IntUtils;
 import com.topekalabs.math.utils.LongIntervalU;
 import com.topekalabs.math.utils.LongUtils;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,12 +31,14 @@ import java.util.List;
  */
 public abstract class JumboArrayAbstract<T>
 {
+    private static final Logger logger = LoggerFactory.getLogger(JumboArrayAbstract.class.getName());
     private long index1Count = -1L;
     
     private long index2Count = -1L;
-    private int partialArrayLength2 = Integer.MIN_VALUE;
-    private boolean hasPartialArray2 = false;
+    private int finalArrayLength2 = -1;
+    private int finalArrayLength3 = -1;
     
+    private long listLength = Integer.MAX_VALUE;
     private long subArrayLength = Integer.MAX_VALUE;
     private long length;
     
@@ -47,10 +51,12 @@ public abstract class JumboArrayAbstract<T>
 
     protected JumboArrayAbstract(ArrayFactory<T> arrayFactory,
                                  long length,
+                                 int listLength,
                                  int subArrayLength)
     {
         setArrayFactory(arrayFactory);
         setLength(length);
+        setListLength(listLength);
         setSubArrayLength(subArrayLength);
         initialize();
     }
@@ -68,32 +74,34 @@ public abstract class JumboArrayAbstract<T>
     {
         setArrayFactory(arrayFactory);
         setIndexInterval(longInterval);
-        this.length = longInterval.getNumVals();
         initialize();
     }
     
     protected JumboArrayAbstract(ArrayFactory<T> arrayFactory,
                                  LongIntervalU longInterval,
+                                 int listLength,
                                  int subArrayLength)
     {
         setArrayFactory(arrayFactory);
         setIndexInterval(longInterval);
+        setListLength(listLength);
         setSubArrayLength(subArrayLength);
         initialize();
     }
     
     private void initialize()
     {
-        this.firstOrderArrayLength = LongUtils.INTEGER_MAX * subArrayLength;
+        this.firstOrderArrayLength = listLength * subArrayLength;
         
         calcIndex1Count();
-        
         calcIndex2Count();
-        calcPartialArrayLength2();
-        calcHasPartialArray2();
+        calcIndex3Count();
         
         data = Lists.newArrayList();
-        long listCounter2 = 0;
+        
+        logger.debug("Length: {}, index1Count: {}",
+                     getLength(),
+                     getIndex1Count());
         
         for(long listCounter1 = 0;
             listCounter1 < getIndex1Count() - 1;
@@ -101,8 +109,8 @@ public abstract class JumboArrayAbstract<T>
         {
             List<T> longLists = Lists.newArrayList();
             
-            for(;
-                listCounter2 < Integer.MAX_VALUE;
+            for(long listCounter2 = 0;
+                listCounter2 < listLength;
                 listCounter2++)
             {
                 longLists.add(arrayFactory.createArray((int) subArrayLength));
@@ -112,27 +120,19 @@ public abstract class JumboArrayAbstract<T>
         }
         
         {
-            
             List<T> longLists = Lists.newArrayList();
             
-            for(;
-                listCounter2 < getIndex2Count();
+            for(long listCounter2 = 0;
+                listCounter2 < getFinalArrayLength2() - 1;
                 listCounter2++)
             {
-
                 longLists.add(arrayFactory.createArray((int) subArrayLength));
-
             }
 
-            if(getHasPartialArray2())
-            {
-                longLists.add(arrayFactory.createArray(this.getPartialArrayLength2()));
-            }
+            longLists.add(arrayFactory.createArray(getFinalArrayLength3()));
         
             data.add(longLists);
         }
-        
-        List<T> longLists = Lists.newArrayList();
     }
     
     private void setArrayFactory(ArrayFactory<T> arrayFactory)
@@ -143,7 +143,7 @@ public abstract class JumboArrayAbstract<T>
     
     private void calcIndex1Count()
     {
-        index1Count = LongUtils.uDivCeil(index2Count, firstOrderArrayLength);
+        index1Count = LongUtils.uDivCeil(length, firstOrderArrayLength);
     }
     
     public final long getIndex1Count()
@@ -154,6 +154,12 @@ public abstract class JumboArrayAbstract<T>
     private void calcIndex2Count()
     {
         index2Count = LongUtils.uDivCeil(length, subArrayLength);
+        finalArrayLength2 = (int) LongUtils.uMod(LongUtils.uDivCeil(length, subArrayLength), listLength);
+        
+        if(finalArrayLength2 == 0)
+        {
+            finalArrayLength2 = (int) listLength;
+        }
     }
     
     public final long getIndex2Count()
@@ -161,30 +167,31 @@ public abstract class JumboArrayAbstract<T>
         return index2Count;
     }
     
-    private void calcHasPartialArray2()
+    public final int getFinalArrayLength2()
     {
-        hasPartialArray2 = LongUtils.uMod(length, subArrayLength) != 0L;
+        return finalArrayLength2;
     }
     
-    public final boolean getHasPartialArray2()
+    private void calcIndex3Count()
     {
-        return hasPartialArray2;
+        finalArrayLength3 = (int) LongUtils.uMod(length, subArrayLength);
+        
+        if(finalArrayLength3 == 0)
+        {
+            finalArrayLength3 = (int) subArrayLength;
+        }
     }
     
-    private void calcPartialArrayLength2()
+    public final int getFinalArrayLength3()
     {
-        partialArrayLength2 = (int) LongUtils.uMod(length, subArrayLength);
-    }
-    
-    public final int getPartialArrayLength2()
-    {
-        return partialArrayLength2;
+        return finalArrayLength3;
     }
     
     private void setIndexInterval(LongIntervalU indexInterval)
     {
         ExceptionUtils.isNullException(indexInterval, "indexInterval");
         this.indexInterval = indexInterval;
+        this.length = indexInterval.getNumVals();
     }
     
     public LongIntervalU getIndexInterval()
@@ -199,14 +206,26 @@ public abstract class JumboArrayAbstract<T>
     
     private void setSubArrayLength(int subArrayLength)
     {
-        IntUtils.isPositiveException(subArrayLength, "subArrayLength");
+        IntUtils.isNonPositiveException(subArrayLength, "subArrayLength");
         this.subArrayLength = subArrayLength;
+    }
+    
+    public int getListLength()
+    {
+        return (int) listLength;
+    }
+    
+    private void setListLength(int listLength)
+    {
+        IntUtils.isNonPositiveException(listLength, "listLength");
+        this.listLength = listLength;
     }
     
     private void setLength(long length)
     {
         LongUtils.isNonPositiveException(length, "length");
         this.length = length;
+        this.indexInterval = new LongIntervalU(0, length - 1);
     }
     
     public long getLength()
@@ -234,7 +253,7 @@ public abstract class JumboArrayAbstract<T>
         index = index - indexInterval.getStartInterval();
         
         return (int) LongUtils.uMod(LongUtils.uDiv(index, subArrayLength),
-                                    LongUtils.INTEGER_MAX);
+                                    listLength);
     }
     
     protected int calcIndex3(long index)

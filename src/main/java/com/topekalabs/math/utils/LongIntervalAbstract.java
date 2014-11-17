@@ -571,4 +571,10 @@ public class LongIntervalAbstract<T extends LongIntervalAbstract>
     {
         return startInterval + random.nextLong() % numVals;
     }
+    
+    @Override
+    public int hashCode()
+    {
+        return (int) (startInterval ^ endInterval);
+    }
 }
