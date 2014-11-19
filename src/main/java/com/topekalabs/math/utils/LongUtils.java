@@ -22,6 +22,19 @@ package com.topekalabs.math.utils;
  */
 public final class LongUtils
 {
+    public static final long POW_2_0 = 1L;
+    public static final long POW_2_8 = 256L;
+    public static final long POW_2_16 = POW_2_8 * POW_2_8;
+    public static final long POW_2_32 = POW_2_16 * POW_2_16;
+    
+    public static final long POW_2_10 = 1024L;
+    public static final long POW_2_20 = POW_2_10 * POW_2_10;
+    public static final long POW_2_30 = POW_2_10 * POW_2_20;
+    
+    public static final long KB = POW_2_10;
+    public static final long MB = POW_2_20;
+    public static final long GB = POW_2_30;
+    
     public static final long INTEGER_MAX = (long) ((int) Integer.MAX_VALUE);
     
     private LongUtils()
@@ -272,6 +285,25 @@ public final class LongUtils
                                                " must be less than " +
                                                threshold +
                                                ".");
+        }
+    }
+    
+    public static void isZeroException(long value)
+    {
+        if(value == 0L)
+        {
+            throw new IllegalArgumentException("The given value " + value + " cannot be zero.");
+        }
+    }
+    
+    public static void isZeroException(long value,
+                                       String valueName)
+    {
+        if(value == 0L)
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               valueName + " " + value +
+                                               " cannot be zero.");
         }
     }
     

@@ -19,7 +19,7 @@ package com.topekalabs.synchronization;
  *
  * @author Topeka Labs
  */
-public class SimplePriorityQueue
+public class JobQueue
 {
     
 }

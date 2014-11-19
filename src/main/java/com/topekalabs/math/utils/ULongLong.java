@@ -61,6 +61,14 @@ public class ULongLong extends Number implements Comparable<ULongLong>,
         return msbs;
     }
     
+    public void incr()
+    {
+        if(lsbs++ == 0)
+        {
+            msbs++;
+        }
+    }
+    
     /*
     public ULongLong add(ULongLong val)
     {

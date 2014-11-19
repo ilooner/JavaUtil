@@ -15,8 +15,6 @@
  */
 package com.topekalabs.math.utils;
 
-import static com.topekalabs.math.utils.LongUtils.maxSetBitPosition;
-
 /**
  * This is a class which provides common utility methods for dealing with
  * integers.
@@ -24,6 +22,19 @@ import static com.topekalabs.math.utils.LongUtils.maxSetBitPosition;
  */
 public final class IntUtils
 {
+    public static final int POW_2_0 = 1;
+    public static final int POW_2_8 = 256;
+    public static final int POW_2_16 = POW_2_8 * POW_2_8;
+    public static final int POW_2_32 = POW_2_16 * POW_2_16;
+    
+    public static final int POW_2_10 = 1024;
+    public static final int POW_2_20 = POW_2_10 * POW_2_10;
+    public static final int POW_2_30 = POW_2_10 * POW_2_20;
+    
+    public static final int KB = POW_2_10;
+    public static final int MB = POW_2_20;
+    public static final int GB = POW_2_30;
+    
     public static final IntInterval BIT_INTERVAL = new IntInterval(0, 31);
     
     private IntUtils()
@@ -301,6 +312,25 @@ public final class IntUtils
         if(value <= 0)
         {
             throw new IllegalArgumentException("The given value " + valueName + " " + value + " must be positive.");
+        }
+    }
+    
+    public static void isZeroException(int value)
+    {
+        if(value == 0)
+        {
+            throw new IllegalArgumentException("The given value " + value + " cannot be zero.");
+        }
+    }
+    
+    public static void isZeroException(int value,
+                                       String valueName)
+    {
+        if(value == 0)
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               valueName + " " + value +
+                                               " cannot be zero.");
         }
     }
     
