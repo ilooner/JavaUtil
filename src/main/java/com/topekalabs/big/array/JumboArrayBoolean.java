@@ -15,46 +15,50 @@
  */
 package com.topekalabs.big.array;
 
-import com.topekalabs.java.utils.ArrayFactoryLong;
+import com.topekalabs.java.utils.ArrayFactoryBoolean;
+import com.topekalabs.math.utils.BooleanUtils;
 import com.topekalabs.math.utils.LongIntervalU;
-import com.topekalabs.math.utils.LongUtils;
 
-public class JumboArrayLong extends JumboArrayAbstract<long[]>
+/**
+ *
+ * @author Topeka Labs
+ */
+public class JumboArrayBoolean extends JumboArrayAbstract<boolean[]>
 {
-    public JumboArrayLong(LongIntervalU longInterval)
+    public JumboArrayBoolean(LongIntervalU longInterval)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryBoolean(),
               longInterval);
         
     }
     
-    public JumboArrayLong(LongIntervalU longInterval,
+    public JumboArrayBoolean(LongIntervalU longInterval,
                           int listLength,
                           int subArrayLength)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryBoolean(),
               longInterval,
               listLength,
               subArrayLength);
     }
     
-    protected JumboArrayLong(long length,
+    protected JumboArrayBoolean(long length,
                              int listLength,
                              int subArrayLength)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryBoolean(),
               length,
               listLength,
               subArrayLength);
     }
     
-    public JumboArrayLong(long length)
+    public JumboArrayBoolean(long length)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryBoolean(),
               length);
     }
     
-    public long get(long index)
+    public boolean get(long index)
     {
         this.notInIntervalException(index);
         
@@ -66,7 +70,7 @@ public class JumboArrayLong extends JumboArrayAbstract<long[]>
     }
     
     public void set(long index,
-                    long value)
+                    boolean value)
     {
         this.notInIntervalException(index);
         
@@ -82,14 +86,6 @@ public class JumboArrayLong extends JumboArrayAbstract<long[]>
                          int offset,
                          byte[] bytes)
     {
-        long value = get(index);
-        bytes[offset] = LongUtils.getByte0B(value);
-        bytes[++offset] = LongUtils.getByte1B(value);
-        bytes[++offset] = LongUtils.getByte2B(value);
-        bytes[++offset] = LongUtils.getByte3B(value);
-        bytes[++offset] = LongUtils.getByte4B(value);
-        bytes[++offset] = LongUtils.getByte5B(value);
-        bytes[++offset] = LongUtils.getByte6B(value);
-        bytes[++offset] = LongUtils.getByte7B(value);
+        bytes[offset] = BooleanUtils.toByte(get(index));
     }
 }

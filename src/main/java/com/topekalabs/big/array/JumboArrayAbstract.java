@@ -262,4 +262,13 @@ public abstract class JumboArrayAbstract<T>
         
         return (int) LongUtils.uMod(index, subArrayLength);
     }
+    
+    protected List<List<T>> getData()
+    {
+        return data;
+    }
+    
+    public abstract void setBytes(long index,
+                                  int offset,
+                                  byte[] bytes);
 }

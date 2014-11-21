@@ -15,46 +15,50 @@
  */
 package com.topekalabs.big.array;
 
-import com.topekalabs.java.utils.ArrayFactoryLong;
+import com.topekalabs.java.utils.ArrayFactoryShort;
 import com.topekalabs.math.utils.LongIntervalU;
-import com.topekalabs.math.utils.LongUtils;
+import com.topekalabs.math.utils.ShortUtils;
 
-public class JumboArrayLong extends JumboArrayAbstract<long[]>
+/**
+ *
+ * @author Topeka Labs
+ */
+public class JumboArrayShort extends JumboArrayAbstract<short[]>
 {
-    public JumboArrayLong(LongIntervalU longInterval)
+    public JumboArrayShort(LongIntervalU longInterval)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryShort(),
               longInterval);
         
     }
     
-    public JumboArrayLong(LongIntervalU longInterval,
+    public JumboArrayShort(LongIntervalU longInterval,
                           int listLength,
                           int subArrayLength)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryShort(),
               longInterval,
               listLength,
               subArrayLength);
     }
     
-    protected JumboArrayLong(long length,
+    protected JumboArrayShort(long length,
                              int listLength,
                              int subArrayLength)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryShort(),
               length,
               listLength,
               subArrayLength);
     }
     
-    public JumboArrayLong(long length)
+    public JumboArrayShort(long length)
     {
-        super(new ArrayFactoryLong(),
+        super(new ArrayFactoryShort(),
               length);
     }
     
-    public long get(long index)
+    public short get(long index)
     {
         this.notInIntervalException(index);
         
@@ -66,7 +70,7 @@ public class JumboArrayLong extends JumboArrayAbstract<long[]>
     }
     
     public void set(long index,
-                    long value)
+                    short value)
     {
         this.notInIntervalException(index);
         
@@ -82,14 +86,8 @@ public class JumboArrayLong extends JumboArrayAbstract<long[]>
                          int offset,
                          byte[] bytes)
     {
-        long value = get(index);
-        bytes[offset] = LongUtils.getByte0B(value);
-        bytes[++offset] = LongUtils.getByte1B(value);
-        bytes[++offset] = LongUtils.getByte2B(value);
-        bytes[++offset] = LongUtils.getByte3B(value);
-        bytes[++offset] = LongUtils.getByte4B(value);
-        bytes[++offset] = LongUtils.getByte5B(value);
-        bytes[++offset] = LongUtils.getByte6B(value);
-        bytes[++offset] = LongUtils.getByte7B(value);
+        short value = get(index);
+        bytes[offset] = ShortUtils.getByte0B(value);
+        bytes[++offset] = ShortUtils.getByte1B(value);
     }
 }

@@ -517,21 +517,21 @@ public final class IntUtils
         return ult(b, a);
     }
     
-    public static boolean ugte(long a, long b)
+    public static boolean ugte(int a, int b)
     {
         return ulte(b, a);
     }
     
-    public static boolean ulte(long a, long b)
+    public static boolean ulte(int a, int b)
     {
         return a == b || ult(a, b);
     }
     
-    public static boolean ult(long a, long b)
+    public static boolean ult(int a, int b)
     {
-        if(a > 0L)
+        if(a > 0)
         {
-            if(b > 0L)
+            if(b > 0)
             {
                 if(a < b)
                 {
@@ -540,7 +540,7 @@ public final class IntUtils
                 
                 return false;
             }
-            else if(b == 0L)
+            else if(b == 0)
             {
                 return false;
             }
@@ -560,7 +560,7 @@ public final class IntUtils
         }
         else
         {
-            if(b >= 0L)
+            if(b >= 0)
             {
                 return false;
             }
@@ -571,7 +571,7 @@ public final class IntUtils
         }
     }
     
-    public static int uCompareTo(long a, long b)
+    public static int uCompareTo(int a, int b)
     {
         if(a == b)
         {
@@ -678,9 +678,19 @@ public final class IntUtils
         return val & 0xFF;
     }
     
+    public static byte getByte0B(int val)
+    {
+        return (byte) getByte0(val);
+    }
+    
     public static int getByte1(int val)
     {
         return (val >> 8) & 0xFF;
+    }
+    
+    public static byte getByte1B(int val)
+    {
+        return (byte) getByte1(val);
     }
     
     public static int getByte2(int val)
@@ -688,9 +698,29 @@ public final class IntUtils
         return (val >> 16) & 0xFF;
     }
     
+    public static byte getByte2B(int val)
+    {
+        return (byte) getByte2(val);
+    }
+    
     public static int getByte3(int val)
     {
         return (val >> 24) & 0xFF;
+    }
+    
+    public static byte getByte3B(int val)
+    {
+        return (byte) getByte3(val);
+    }
+    
+    public static void setBytes(int value,
+                                int offset,
+                                byte[] bytes)
+    {
+        bytes[offset] = getByte0B(value);
+        bytes[++offset] = getByte1B(value);
+        bytes[++offset] = getByte2B(value);
+        bytes[++offset] = getByte3B(value);
     }
     
     public static boolean bitSet(int value, int bit)
@@ -748,7 +778,7 @@ public final class IntUtils
             IntUtils.ugt(value, 0);
             value = IntUtils.uDiv(value, radix))
         {
-            sb.append(LongUtils.uMod(value, radix));
+            sb.append(IntUtils.uMod(value, radix));
         }
         
         return sb.toString();

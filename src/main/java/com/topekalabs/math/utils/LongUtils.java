@@ -641,9 +641,9 @@ public final class LongUtils
                 return true;
             }
         }
-        else if(a == 0)
+        else if(a == 0L)
         {
-            if(b == 0)
+            if(b == 0L)
             {
                 return false;
             }
@@ -704,9 +704,19 @@ public final class LongUtils
         return val & 0xFF;
     }
     
+    public static byte getByte0B(long val)
+    {
+        return (byte) getByte0(val);
+    }
+    
     public static long getByte1(long val)
     {
         return (val >> 8) & 0xFF;
+    }
+    
+    public static byte getByte1B(long val)
+    {
+        return (byte) getByte1(val);
     }
     
     public static long getByte2(long val)
@@ -714,9 +724,19 @@ public final class LongUtils
         return (val >> 16) & 0xFF;
     }
     
+    public static byte getByte2B(long val)
+    {
+        return (byte) getByte2(val);
+    }
+    
     public static long getByte3(long val)
     {
         return (val >> 24) & 0xFF;
+    }
+    
+    public static byte getByte3B(long val)
+    {
+        return (byte) getByte3(val);
     }
     
     public static long getByte4(long val)
@@ -724,9 +744,19 @@ public final class LongUtils
         return (val >> 32) & 0xFF;
     }
     
+    public static byte getByte4B(long val)
+    {
+        return (byte) getByte4(val);
+    }
+    
     public static long getByte5(long val)
     {
         return (val >> 40) & 0xFF;
+    }
+    
+    public static byte getByte5B(long val)
+    {
+        return (byte) getByte5(val);
     }
     
     public static long getByte6(long val)
@@ -734,9 +764,33 @@ public final class LongUtils
         return (val >> 48) & 0xFF;
     }
     
+    public static byte getByte6B(long val)
+    {
+        return (byte) getByte6(val);
+    }
+    
     public static long getByte7(long val)
     {
         return (val >> 56) & 0xFF;
+    }
+    
+    public static byte getByte7B(long val)
+    {
+        return (byte) getByte7(val);
+    }
+    
+    public static void setBytes(long value,
+                                int offset,
+                                byte[] bytes)
+    {
+        bytes[offset] = getByte0B(value);
+        bytes[++offset] = getByte1B(value);
+        bytes[++offset] = getByte2B(value);
+        bytes[++offset] = getByte3B(value);
+        bytes[++offset] = getByte4B(value);
+        bytes[++offset] = getByte5B(value);
+        bytes[++offset] = getByte6B(value);
+        bytes[++offset] = getByte7B(value);
     }
     
     public static boolean bitSet(long value, long bit)
