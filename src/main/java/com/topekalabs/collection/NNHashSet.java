@@ -15,7 +15,7 @@
  */
 package com.topekalabs.collection;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
 import java.util.Collection;
 import java.util.HashSet;
 

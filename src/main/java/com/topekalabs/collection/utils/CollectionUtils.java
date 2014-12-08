@@ -15,7 +15,7 @@
  */
 package com.topekalabs.collection.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
 import java.util.Collection;
 
 /**
@@ -62,7 +62,7 @@ public final class CollectionUtils
      * empty, and a NullPointerException if any of the elements are null.
      * @param collection The collection to check.
      */
-    public static void isPopulatedException(Collection collection)
+    public static void isNotPopulatedException(Collection collection)
     {
         isEmptyException(collection);
         
@@ -79,7 +79,7 @@ public final class CollectionUtils
      * @param collection The collection to check.
      * @param collectionName The name of the collection.
      */
-    public static void isPopulatedException(Collection collection,
+    public static void isNotPopulatedException(Collection collection,
                                             String collectionName)
     {
         isEmptyException(collection, collectionName);

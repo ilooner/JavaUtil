@@ -15,7 +15,7 @@
  */
 package com.topekalabs.synchronization;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
 import java.util.concurrent.atomic.AtomicReference;
 
 /**
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class SpinLock
 {
-    private final AtomicReference<Integer> csw = new AtomicReference<Integer>(0);
+    private final AtomicReference<Integer> csw = new AtomicReference<>(0);
     
     public SpinLock()
     {

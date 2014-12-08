@@ -15,6 +15,8 @@
  */
 package com.topekalabs.math.utils;
 
+import com.topekalabs.math.compare.utils.CompareFactoryLong;
+
 /**
  * This class represents a float interval.
  * @author Topeka Labs

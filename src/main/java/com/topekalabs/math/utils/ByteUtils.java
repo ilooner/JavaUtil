@@ -125,5 +125,160 @@ public class ByteUtils
                                            " must be less than or equal to 0xFF");
     }
     
+    //SWAR
+    public static int numOneBits(byte v)
+    {
+        return numOneBits((int) v);
+    }
+
+    private static int numOneBits(int v)
+    {
+        v = (v & 0x5555) + ((v >> 1) & 0x5555);
+        v = (v & 0x3333) + ((v >> 2) & 0x3333);
+        v = (v & 0x0f0f) + ((v >> 4) & 0x0f0f);
+        
+        return v;
+    }
     
+    public static int maxSetBitPosition(byte value)
+    {
+        int t = (int) value;
+        t |= t >> 1;
+        t |= t >> 2;
+        t |= t >> 4;
+        
+        return numOneBits(t) - 1;
+    }
+    
+    public static boolean ugt(byte a, byte b)
+    {
+        return ult(b, a);
+    }
+    
+    public static boolean ugte(byte a, byte b)
+    {
+        return ulte(b, a);
+    }
+    
+    public static boolean ulte(byte a, byte b)
+    {
+        return a == b || ult(a, b);
+    }
+    
+    public static boolean ult(byte a, byte b)
+    {
+        if(a > 0)
+        {
+            if(b > 0)
+            {
+                if(a < b)
+                {
+                    return true;
+                }
+                
+                return false;
+            }
+            else if(b == 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+        else if(a == 0)
+        {
+            if(b == 0)
+            {
+                return false;
+            }
+            
+            return true;
+        }
+        else
+        {
+            if(b >= 0)
+            {
+                return false;
+            }
+            else
+            {
+                return a > b;
+            }
+        }
+    }
+    
+    public static long divCeil(byte value, byte divisor)
+    {
+        long result = value / divisor;
+        
+        if(value % divisor != 0)
+        {
+            result++;
+        }
+        
+        return result;
+    }
+    
+    public static int uCompareTo(byte a, byte b)
+    {
+        if(a == b)
+        {
+            return 0;
+        }
+        
+        if(ult(a, b))
+        {
+            return -1;
+        }
+        
+        return 1;
+    }
+    
+    public static int uDiv(byte value, byte divisor)
+    {
+        if(divisor == 0)
+        {
+            throw new IllegalArgumentException("Should not divide by zero.");
+        }
+        
+        if(value == 0)
+        {
+            return 0;
+        }
+        
+        if(IntUtils.ult(value, divisor))
+        {
+            return 0;
+        }
+        
+        int maxBitPosValue = maxSetBitPosition(value);
+        int maxBitPosDivisor = maxSetBitPosition(divisor);
+        int quotient = 0;
+        
+        for(int diff = maxBitPosValue - maxBitPosDivisor;
+            diff >= 0;
+            diff--)
+        {
+            int tempDivisor = divisor << diff;
+            
+            if(IntUtils.ult(value, tempDivisor))
+            {
+                continue;
+            }
+            
+            value -= tempDivisor;
+            quotient |= 1 << diff;
+        }
+        
+        return quotient;
+    }
+    
+    public static int uMod(byte value, byte mod)
+    {
+        int quotient = uDiv(value, mod);
+        return value - quotient * mod;
+    }
+
 }

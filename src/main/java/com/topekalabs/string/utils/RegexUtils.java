@@ -13,18 +13,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.string.utils;
 
-public class ArrayFactoryFloat implements ArrayFactory<float[]>
-{
-    public ArrayFactoryFloat()
+import com.topekalabs.error.utils.ExceptionUtils;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+/**
+ *
+ * @author Topeka Labs
+ */
+public class RegexUtils
+{   
+    private RegexUtils()
     {
         //Do nothing
     }
     
-    @Override
-    public float[] createArray(int length)
+    public static boolean match(String regex, String string)
     {
-        return new float[length];
-    }   
+        ExceptionUtils.isNullException(regex, "regex");
+        ExceptionUtils.isNullException(regex, "string");
+        
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(string);
+        
+        return matcher.matches();
+    }
 }

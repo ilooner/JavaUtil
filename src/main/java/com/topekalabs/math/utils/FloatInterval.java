@@ -15,7 +15,7 @@
  */
 package com.topekalabs.math.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
 import java.util.Random;
 
 /**

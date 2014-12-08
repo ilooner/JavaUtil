@@ -13,22 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.array.utils;
 
-/**
- *
- * @author Topeka Labs
- */
-public class ArrayFactoryInt implements ArrayFactory<int[]>
+public class ArrayFactoryFloat implements ArrayFactory<float[]>
 {
-    public ArrayFactoryInt()
+    public ArrayFactoryFloat()
     {
         //Do nothing
     }
     
     @Override
-    public int[] createArray(int length)
+    public float[] createArray(int length)
     {
-        return new int[length];
+        return new float[length];
+    }   
+
+    @Override
+    public float[] reallocArray(float[] array, int newLength)
+    {
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

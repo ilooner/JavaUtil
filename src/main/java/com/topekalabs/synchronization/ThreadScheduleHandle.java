@@ -15,20 +15,14 @@
  */
 package com.topekalabs.synchronization;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-import java.util.concurrent.Semaphore;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 /**
  *
  * @author Topeka Labs
  */
 class ThreadScheduleHandle
 {
-    private Object lock = new Object();
+    private final Object lock = new Object();
     private volatile boolean flag = true;
-    private volatile long threadId;
     
     public ThreadScheduleHandle()
     {
@@ -52,13 +46,23 @@ class ThreadScheduleHandle
         }
     }
     
+    public void descheduleInterruptable() throws InterruptedException
+    {
+        synchronized(lock)
+        {
+            while(flag)
+            {
+                lock.wait();
+            }
+        }        
+    }
+    
     public void reschedule()
     {
         synchronized(lock)
         {
             flag = false;
+            lock.notify();
         }
-        
-        lock.notify();
     }
 }

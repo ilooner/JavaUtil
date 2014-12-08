@@ -21,8 +21,8 @@ package com.topekalabs.synchronization;
  */
 public class Semaphore
 {
-    private Mutex mutex = new Mutex();
-    private ConditionVariable cond = new ConditionVariable();
+    private final Mutex mutex = new Mutex();
+    private final ConditionVariable cond = new ConditionVariable();
     private long count = 0;
     
     public Semaphore(long count)
@@ -44,6 +44,20 @@ public class Semaphore
         mutex.unlock();
     }
     
+    public void acquireInterruptable() throws InterruptedException
+    {
+        mutex.lockInterruptable();
+        
+        if(count == 0)
+        {
+            cond.waitInterruptable(mutex);
+        }
+        
+        count--;
+        
+        mutex.unlock();
+    }
+    
     public void release()
     {
         mutex.lock();
@@ -51,5 +65,14 @@ public class Semaphore
         mutex.unlock();
         
         cond.signal();
-    }    
+    }
+    
+    public void releaseInterruptable() throws InterruptedException
+    {
+        mutex.lockInterruptable();
+        count++;
+        mutex.unlock();
+        
+        cond.signalInterruptable();
+    }
 }

@@ -15,8 +15,8 @@
  */
 package com.topekalabs.config.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-import com.topekalabs.java.utils.RegexUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
+import com.topekalabs.string.utils.RegexUtils;
 import java.io.InputStream;
 import java.util.Scanner;
 

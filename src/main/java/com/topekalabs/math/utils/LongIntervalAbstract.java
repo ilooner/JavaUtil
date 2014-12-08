@@ -15,7 +15,8 @@
  */
 package com.topekalabs.math.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.math.compare.utils.CompareFactoryLong;
+import com.topekalabs.error.utils.ExceptionUtils;
 import java.util.Random;
 
 /**
@@ -61,11 +62,6 @@ public class LongIntervalAbstract<T extends LongIntervalAbstract>
                                 long startInterval,
                                 long endInterval)
     {
-        if(startInterval >= endInterval)
-        {
-            throw new IllegalArgumentException("The startInterval must be less than the endInterval: (" + startInterval + ", " + endInterval + ")");
-        }
-        
         setCompareFactory(cl);
         setStartInterval(startInterval);
         setEndInterval(endInterval);
@@ -77,6 +73,11 @@ public class LongIntervalAbstract<T extends LongIntervalAbstract>
      */
     private void initialize()
     {
+        if(cl.gt(startInterval, endInterval))
+        {
+            throw new IllegalArgumentException("The startInterval must be less than the endInterval: (" + startInterval + ", " + endInterval + ")");
+        }
+        
         range = endInterval - startInterval;
         numVals = range + 1;
     }

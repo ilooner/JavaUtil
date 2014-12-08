@@ -366,4 +366,52 @@ public final class FloatUtils
             array[counter] = 0.0f;
         }
     }
+    
+    public static int getByte0(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte0(bits);
+    }
+
+    public static int getByte0B(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte0B(bits);
+    }
+    
+    public static int getByte1(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte1(bits);
+    }
+    
+    public static int getByte1B(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte1B(bits);
+    }
+    
+    public static int getByte2(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte2(bits);
+    }
+    
+    public static int getByte2B(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte2B(bits);
+    }
+        
+    public static int getByte3(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte3(bits);
+    }
+        
+    public static int getByte3B(float val)
+    {
+        int bits = Float.floatToIntBits(val);
+        return IntUtils.getByte3B(bits);
+    }
 }

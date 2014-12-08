@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.string.utils;
 
 import com.google.common.collect.Lists;
 import com.topekalabs.collection.utils.CollectionUtils;
@@ -50,7 +50,7 @@ public class StringUtils
     
     public static String toSeperatedString(String seperator, List<String> strings)
     {
-        CollectionUtils.isPopulatedException(strings, "strings");
+        CollectionUtils.isNotPopulatedException(strings, "strings");
         
         StringBuilder sb = new StringBuilder();
         
@@ -86,7 +86,18 @@ public class StringUtils
                                            String substring,
                                            int index)
     {
-        return false;
-        //IntUtils.isNotInIntervalInclusiveException(index, index, index);
+        IntUtils.isGTEException(parentString.length(),
+                                substring.length(),
+                                "parentString",
+                                "substring");
+        IntUtils.isGTEException(parentString.length() - 1,
+                                index + substring.length() - 1,
+                                "last index of parent string",
+                                "last index of substring");
+        
+        String pSubString = parentString.substring(index,
+                                                   index + substring.length());
+        
+        return pSubString.equals(substring);
     }
 }

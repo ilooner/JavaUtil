@@ -36,6 +36,25 @@ public final class LongUtils
     public static final long GB = POW_2_30;
     
     public static final long INTEGER_MAX = (long) ((int) Integer.MAX_VALUE);
+            
+    public static final IntInterval BIT_INTERVAL = new IntInterval(0, 63);
+    public static final IntInterval BIT_COUNT = new IntInterval(1, 64);
+    
+    private static final long[] MASK_LSB = new long[64];
+    
+    static
+    {
+        //Initialize MASK_LSB
+        
+        for(int counter = 0;
+            counter < 64;
+            counter++)
+        {
+            long mask = 1 << counter;
+            mask = dragBitsRight(mask);
+            MASK_LSB[counter] = mask;
+        }
+    }
     
     private LongUtils()
     {
@@ -50,6 +69,30 @@ public final class LongUtils
         
         LongUtils.isGTException(endingIndex, value, "value");
         LongUtils.isLTException(startingIndex, value, "value");
+    }
+    
+    public static void isEqualToException(long equal,
+                                          long value)
+    {
+        if(equal == value)
+        {
+            throw new IllegalArgumentException("The given value " + value +
+                                               " cannot equal " + equal);
+        }
+    }
+
+    public static void isEqualToException(long equal,
+                                          long value,
+                                          String equalName,
+                                          String valueName)
+    {
+        if(equal == value)
+        {
+            throw new IllegalArgumentException("The given value " + valueName +
+                                               " " + value +
+                                               " cannot equal " + equalName +
+                                               " " + equal);
+        }
     }
     
     /**
@@ -168,7 +211,7 @@ public final class LongUtils
     public static void isLTException(long threshold,
                                      long value)
     {
-        if(value >= threshold)
+        if(value < threshold)
         {
             throw new IllegalArgumentException("The given value " +
                                                value +
@@ -189,7 +232,7 @@ public final class LongUtils
                                      long value,
                                      String valueName)
     {
-        if(value >= threshold)
+        if(value < threshold)
         {
             throw new IllegalArgumentException("The given value " +
                                                value +
@@ -201,7 +244,52 @@ public final class LongUtils
                                                ".");
         }
     }
+    
+    public static void isLTException(long threshold,
+                                     long value,
+                                     String thresholdName,
+                                     String valueName)
+    {
+        if(value < threshold)
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               valueName + " " + value +
+                                               " is less than " +
+                                               thresholdName + " " + threshold);
+        }        
+    }
 
+    public static void isLTUException(long threshold,
+                                      long value,
+                                      String valueName)
+    {
+        if(LongUtils.ult(value, threshold))
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               value +
+                                               " " +
+                                               valueName +
+                                               " " +
+                                               " must be greater than or equal to " +
+                                               threshold +
+                                               ".");
+        }
+    }
+   
+    public static void isLTUException(long threshold,
+                                      long value,
+                                      String thresholdName,
+                                      String valueName)
+    {
+        if(LongUtils.ult(value, threshold))
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               valueName + " " + value +
+                                               " is less than " +
+                                               thresholdName + " " + threshold);
+        }        
+    }
+    
     /**
      * This method throws an IllegalArgumentException if the given value is
      * greater than the threshold.
@@ -663,6 +751,18 @@ public final class LongUtils
         }
     }
     
+    public static long divCeil(long value, long divisor)
+    {
+        long result = value / divisor;
+        
+        if(value % divisor != 0L)
+        {
+            result++;
+        }
+        
+        return result;
+    }
+    
     public static int uCompareTo(long a, long b)
     {
         if(a == b)
@@ -678,25 +778,11 @@ public final class LongUtils
         return 1;
     }
     
-    public static long urs(long value, long shift)
+    public static boolean getBit(long val, int bit)
     {
-        if(value >= 0L)
-        {
-            return value >> shift;
-        }
+        LongUtils.BIT_INTERVAL.isInIntervalInclusiveException(bit, "bit");
         
-        shift %= 64;
-        shift += 64;
-        shift %= 64;
-        
-        if(shift == 0)
-        {
-            return value;
-        }
-        
-        shift--;
-        value = (value >> 1L) & 0x7FFFFFFFFFFFFFFFL;
-        return value >> shift;
+        return val >> bit != 0L;
     }
     
     public static long getByte0(long val)
@@ -793,31 +879,56 @@ public final class LongUtils
         bytes[++offset] = getByte7B(value);
     }
     
-    public static boolean bitSet(long value, long bit)
+    public static boolean isBitSet(long value, long bit)
     {
         return (value & (1L << bit)) > 0L;
     }
     
+    public static boolean isUPowerOf2(long value)
+    {
+        return (~value + 1L & value) == value;
+    }
+    
+    //SWAR
+    public static long numOneBits(long v)
+    {
+        v = (v & 0x5555555555555555L) + ((v >> 1) & 0x5555555555555555L);
+        v = (v & 0x3333333333333333L) + ((v >> 2) & 0x3333333333333333L);
+        v = (v & 0x0f0f0f0f0f0f0f0fL) + ((v >> 4) & 0x0f0f0f0f0f0f0f0fL);
+        v = (v & 0x00ff00ff00ff00ffL) + ((v >> 8) & 0x00ff00ff00ff00ffL);
+        v = (v & 0x0000ffff0000ffffL) + ((v >> 16) & 0x0000ffff0000ffffL);
+        v = (v & 0x00000000ffffffffL) + ((v >> 32) & 0x00000000ffffffffL);
+        
+        return v;
+    }
+    
     public static long maxSetBitPosition(long value)
     {
-        if(value == 0L)
-        {
-            return -1L;
-        }
+        value = dragBitsRight(value);
+        return numOneBits(value) - 1;
+    }
+    
+    public static long dragBitsRight(long value)
+    {
+        value |= value >> 1;
+        value |= value >> 2;
+        value |= value >> 4;
+        value |= value >> 8;
+        value |= value >> 16;
+        value |= value >> 32;
         
-        for(int bitCounter = 0;
-            bitCounter < 64;
-            bitCounter++)
-        {
-            value = value >> 1L;
-            
-            if(value == 0L)
-            {
-                return bitCounter;
-            }
-        }
-        
-        return 63;
+        return value;
+    }
+    
+    public static long maskLSB(int numBits)
+    {
+        LongUtils.BIT_COUNT.isInIntervalInclusiveException(numBits, "numBits");
+        return MASK_LSB[numBits - 1];
+    }
+    
+    public static long ulog2Floor(long value)
+    {
+        return maxSetBitPosition(value);
     }
     
     public static String uToOctalString(long value)

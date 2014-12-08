@@ -13,19 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.big.array;
-
-import com.topekalabs.math.utils.LongUtils;
+package com.topekalabs.array.utils;
 
 /**
  *
  * @author Topeka Labs
  */
-public class JumboArrayIndexOutOfBoundsException extends IndexOutOfBoundsException
+public class ArrayFactoryInt implements ArrayFactory<int[]>
 {
-    public JumboArrayIndexOutOfBoundsException(long index)
+    public ArrayFactoryInt()
     {
-        super("Invalid index at: " +
-              LongUtils.uToString(index));
+        //Do nothing
+    }
+    
+    @Override
+    public int[] createArray(int length)
+    {
+        return new int[length];
+    }
+
+    @Override
+    public int[] reallocArray(int[] array, int newLength)
+    {
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

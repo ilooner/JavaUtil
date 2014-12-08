@@ -13,10 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.array.utils;
 
+import com.google.common.collect.Sets;
+import com.topekalabs.error.utils.ExceptionUtils;
 import com.topekalabs.math.utils.IntInterval;
 import com.topekalabs.math.utils.IntUtils;
+import com.topekalabs.wrapper.utils.ReferenceWrapper;
+import java.util.Set;
 
 /**
  * This contains utilities for working with java arrays.
@@ -58,7 +62,7 @@ public class ArrayUtils
      * thrown.
      * @param array The input array to check.
      */
-    public static void isPopulatedException(Object[] array)
+    public static void isNotPopulatedException(Object[] array)
     {
         ArrayUtils.isEmptyException(array);
         
@@ -76,7 +80,7 @@ public class ArrayUtils
      * @param array The input array to check.
      * @param arrayName The name of the input array.
      */
-    public static void isPopulatedException(Object[] array,
+    public static void isNotPopulatedException(Object[] array,
                                             String arrayName)
     {
         ArrayUtils.isEmptyException(array, arrayName);
@@ -166,5 +170,69 @@ public class ArrayUtils
         IntUtils.isNonNegativeException(columnIndex);
         
         return stride * (rowIndex * columnCount + columnIndex) + component;
+    }
+    
+    /**
+     * Best effort at copying elements to target array.
+     */
+    public void copyBest(long[] source,
+                         int sourceOffset,
+                         long[] target,
+                         int targetOffset)
+    {
+        IntUtils.isLTEException(targetOffset,
+                                target.length,
+                                "target offset",
+                                "target length");
+        
+        IntUtils.isLTEException(targetOffset,
+                                target.length,
+                                "target offset",
+                                "target length");
+        
+    }
+    
+    
+    public void copy(long[] source,
+                     int sourceStart,
+                     int sourceEnd,
+                     long[] target,
+                     int targetStart,
+                     int targetEnd)
+    {
+        
+    }
+    
+    public static <T> void listContainsDuplicateReferencesException(T[] array)
+    {
+        Set<ReferenceWrapper<T>> elementSet = Sets.newHashSet();
+        
+        for(T element: array)
+        {
+            elementSet.add(new ReferenceWrapper<>(element));
+        }
+        
+        if(elementSet.size() != array.length)
+        {
+            throw new IllegalArgumentException("The given list contains duplicate references.");
+        }
+    }
+    
+    public static <T> void listContainsDuplicateReferencesException(T[] array,
+                                                                    String arrayName)
+    {
+        Set<ReferenceWrapper<T>> elementSet = Sets.newHashSet();
+        
+        for(T element: array)
+        {
+            elementSet.add(new ReferenceWrapper<>(element));
+        }
+        
+        if(elementSet.size() != array.length)
+        {
+            throw new IllegalArgumentException("The given list " +
+                                               arrayName +
+                                               " contains duplicate references.");
+        }
     }
 }

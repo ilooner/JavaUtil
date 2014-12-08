@@ -22,7 +22,7 @@ package com.topekalabs.synchronization;
 public class ConditionVariable
 {
     private ThreadList threadList = new ThreadList();
-    private Mutex listLock = new Mutex();
+    private final Mutex listLock = new Mutex();
     
     public ConditionVariable()
     {
@@ -40,6 +40,18 @@ public class ConditionVariable
         mutex.lock();
     }
     
+    public void waitInterruptable(Mutex mutex) throws InterruptedException
+    {
+        listLock.lockInterruptable();
+        ThreadScheduleHandle handle = threadList.enqueue();
+        listLock.unlock();
+        mutex.unlock();
+        
+        handle.descheduleInterruptable();
+        
+        mutex.lockInterruptable();
+    }
+    
     public void signal()
     {
         listLock.lock();
@@ -48,10 +60,36 @@ public class ConditionVariable
         
         handle.reschedule();
     }
+
+    public void signalInterruptable() throws InterruptedException
+    {
+        listLock.lockInterruptable();
+        ThreadScheduleHandle handle = threadList.enqueue();
+        listLock.unlock();
+        
+        handle.reschedule();
+    }    
     
     public void broadCast()
     {
         listLock.lock();
+        
+        ThreadList oldThreadList = threadList;
+        threadList = new ThreadList();
+        
+        listLock.unlock();
+        
+        ThreadScheduleHandle handle;
+        
+        while((handle = oldThreadList.dequeue()) != null)
+        {
+            handle.reschedule();
+        }
+    }
+    
+    public void broadCastInterruptable() throws InterruptedException
+    {
+        listLock.lockInterruptable();
         
         ThreadList oldThreadList = threadList;
         threadList = new ThreadList();

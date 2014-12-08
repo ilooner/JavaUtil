@@ -15,7 +15,7 @@
  */
 package com.topekalabs.synchronization;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
 
 /**
  *

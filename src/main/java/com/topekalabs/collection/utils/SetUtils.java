@@ -15,7 +15,7 @@
  */
 package com.topekalabs.collection.utils;
 
-import java.util.HashSet;
+import com.google.common.collect.Sets;
 import java.util.Set;
 
 /**
@@ -39,7 +39,7 @@ public class SetUtils
     public static <T> Set<T> unionSet(Set<T> setA,
                                       Set<T> setB)
     {
-        Set<T> unionSet = new HashSet<T>();
+        Set<T> unionSet = Sets.newHashSet();
         
         unionSet.addAll(setA);
         unionSet.addAll(setB);
@@ -57,12 +57,12 @@ public class SetUtils
     public static <T> Set<T> intersectSet(Set<T> setA,
                                           Set<T> setB)
     {
-        Set<T> unionSetTemp = new HashSet<T>();
+        Set<T> unionSetTemp = Sets.newHashSet();
         
         unionSetTemp.addAll(setA);
         unionSetTemp.removeAll(setB);
         
-        Set<T> unionSet = new HashSet<T>();
+        Set<T> unionSet = Sets.newHashSet();
         unionSet.addAll(setA);
         unionSet.removeAll(unionSetTemp);
         

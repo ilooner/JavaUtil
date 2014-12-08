@@ -15,14 +15,13 @@
  */
 package com.topekalabs.error.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-
 /**
  * This class represents an error.
  * @author Topeka Labs
  */
 public class Error
 {
+    private Class clazz;
     /**
      * This is an error code.
      */
@@ -34,14 +33,28 @@ public class Error
     
     /**
      * This creates an error from the given error code and error type.
+     * @param clazz The class in which the error occurred.
      * @param errorCode The error code of the error.
      * @param errorType The type of the error.
      */
-    public Error(ErrorCode errorCode,
+    public Error(Class clazz,
+                 ErrorCode errorCode,
                  ErrorType errorType)
     {
+        setClazz(clazz);
         setErrorCode(errorCode);
         setErrorType(errorType);
+    }
+    
+    private void setClazz(Class clazz)
+    {
+        ExceptionUtils.isNullException(clazz, "clazz");
+        this.clazz = clazz;
+    }
+    
+    public Class getClazz()
+    {
+        return clazz;
     }
     
     /**

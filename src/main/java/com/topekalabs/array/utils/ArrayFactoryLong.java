@@ -13,21 +13,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.array.utils;
 
-/**
- *
- * @author Topeka Labs
- */
-public class Utils
+public class ArrayFactoryLong implements ArrayFactory<long[]>
 {
-    private Utils()
+    public ArrayFactoryLong()
     {
         //Do nothing
     }
     
-    public static boolean isNull(Object object)
+    @Override
+    public long[] createArray(int length)
     {
-        return object == null;
+        return new long[length];
+    }   
+
+    @Override
+    public long[] reallocArray(long[] array, int newLength)
+    {
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

@@ -578,26 +578,21 @@ public class ShortUtils
         return 1;
     }
     
-    public static int urs(short value, int shift)
+    ////
+    
+    public static long divCeil(int value, int divisor)
     {
-        if(value >= 0)
+        long result = value / divisor;
+        
+        if(value % divisor != 0)
         {
-            return value >> shift;
+            result++;
         }
         
-        shift %= 16;
-        shift += 16;
-        shift %= 16;
-        
-        if(shift == 0)
-        {
-            return value;
-        }
-        
-        shift--;
-        value = (short) (((int) (value >> 1)) & ((int) 0x7FFF));
-        return value >> shift;
+        return result;
     }
+    
+    ////
     
     public static short uDiv(short value, short divisor)
     {
@@ -692,26 +687,31 @@ public class ShortUtils
         return (value & (1 << bit)) > 0;
     }
     
+    //SWAR
+    public static int numOneBits(short v)
+    {
+        return numOneBits((int) v);
+    }
+
+    private static int numOneBits(int v)
+    {
+        v = (v & 0x5555) + ((v >> 1) & 0x5555);
+        v = (v & 0x3333) + ((v >> 2) & 0x3333);
+        v = (v & 0x0f0f) + ((v >> 4) & 0x0f0f);
+        v = (v & 0x00ff) + ((v >> 8) & 0x00ff);
+        
+        return v;
+    }
+    
     public static int maxSetBitPosition(short value)
     {
-        if(value == 0)
-        {
-            return -1;
-        }
+        int t = (int) value;
+        t |= t >> 1;
+        t |= t >> 2;
+        t |= t >> 4;
+        t |= t >> 8;
         
-        for(int bitCounter = 0;
-            bitCounter < 16;
-            bitCounter++)
-        {
-            value = (short) (value >> 1);
-            
-            if(value == 0)
-            {
-                return bitCounter;
-            }
-        }
-        
-        return 15;
+        return numOneBits(t) - 1;
     }
     
     public String uToOctalString(short value)

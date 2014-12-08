@@ -15,8 +15,7 @@
  */
 package com.topekalabs.error.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-import com.topekalabs.java.utils.Utils;
+import com.topekalabs.java.utils.ObjectUtils;
 
 /**
  * This class is used to wrap a result, and provide additional fields for
@@ -39,11 +38,6 @@ public class ResultValue<T>
      * An error associated with the result.
      */
     private Error error;
-    
-    public ResultValue()
-    {
-        //Do nothing
-    }
     
     public ResultValue(T object)
     {
@@ -96,7 +90,7 @@ public class ResultValue<T>
     
     public boolean hasError()
     {
-        return !Utils.isNull(error);
+        return !ObjectUtils.isNull(error);
     }
     
     public void noErrorException()

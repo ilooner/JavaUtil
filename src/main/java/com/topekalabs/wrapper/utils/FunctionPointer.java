@@ -13,13 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.synchronization;
+package com.topekalabs.wrapper.utils;
 
 /**
  *
  * @author Topeka Labs
  */
-public class Job
+public interface FunctionPointer
 {
-    
+    public Object execute(Object... args);
 }

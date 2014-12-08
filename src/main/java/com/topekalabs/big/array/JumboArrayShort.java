@@ -15,33 +15,15 @@
  */
 package com.topekalabs.big.array;
 
-import com.topekalabs.java.utils.ArrayFactoryShort;
-import com.topekalabs.math.utils.LongIntervalU;
-import com.topekalabs.math.utils.ShortUtils;
+import com.topekalabs.array.utils.ArrayFactoryShort;
 
 /**
  *
  * @author Topeka Labs
  */
 public class JumboArrayShort extends JumboArrayAbstract<short[]>
-{
-    public JumboArrayShort(LongIntervalU longInterval)
-    {
-        super(new ArrayFactoryShort(),
-              longInterval);
-        
-    }
-    
-    public JumboArrayShort(LongIntervalU longInterval,
-                          int listLength,
-                          int subArrayLength)
-    {
-        super(new ArrayFactoryShort(),
-              longInterval,
-              listLength,
-              subArrayLength);
-    }
-    
+                             implements JumboArrayShortInterface
+{   
     protected JumboArrayShort(long length,
                              int listLength,
                              int subArrayLength)
@@ -60,8 +42,6 @@ public class JumboArrayShort extends JumboArrayAbstract<short[]>
     
     public short get(long index)
     {
-        this.notInIntervalException(index);
-        
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
@@ -72,22 +52,18 @@ public class JumboArrayShort extends JumboArrayAbstract<short[]>
     public void set(long index,
                     short value)
     {
-        this.notInIntervalException(index);
-        
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
         
         data.get(index1).get(index2)[index3] = value;
     }
-
+    
     @Override
-    public void setBytes(long index,
-                         int offset,
-                         byte[] bytes)
+    protected void localSwap(long indexA, long indexB)
     {
-        short value = get(index);
-        bytes[offset] = ShortUtils.getByte0B(value);
-        bytes[++offset] = ShortUtils.getByte1B(value);
+        short tempVal = get(indexA);
+        set(indexA, get(indexB));
+        set(indexB, tempVal);
     }
 }

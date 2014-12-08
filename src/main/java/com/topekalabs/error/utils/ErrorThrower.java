@@ -15,8 +15,6 @@
  */
 package com.topekalabs.error.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-
 /**
  * This is a helper class which contains methods to rethrow UnrecoverableErrors
  * appropriately.
@@ -64,9 +62,9 @@ public final class ErrorThrower
 
     /**
      * This method rethrows the given exception appropriately. If the given
-     * exception is an {@link RecoverableError}, {@link UnrecoverableError}, or
+     * exception is a {@link RecoverableError}, {@link UnrecoverableError}, or
      * a {@link RuntimeException} then the exception is not wrapped and is rethrown.
-     * If the exception is of another type then it is wrapped as an Unrecoverable
+     * If the exception is of another type then it is wrapped as an {@link RecoverableError}
      * exception and rethrown.
      * @param throwable The Throwable to rethrow. 
      */

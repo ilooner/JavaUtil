@@ -15,33 +15,15 @@
  */
 package com.topekalabs.big.array;
 
-import com.topekalabs.java.utils.ArrayFactoryInt;
-import com.topekalabs.math.utils.IntUtils;
-import com.topekalabs.math.utils.LongIntervalU;
+import com.topekalabs.array.utils.ArrayFactoryInt;
 
 /**
  *
  * @author Topeka Labs
  */
 public class JumboArrayInt extends JumboArrayAbstract<int[]>
+                           implements JumboArrayIntInterface
 {
-    public JumboArrayInt(LongIntervalU longInterval)
-    {
-        super(new ArrayFactoryInt(),
-              longInterval);
-        
-    }
-    
-    public JumboArrayInt(LongIntervalU longInterval,
-                          int listLength,
-                          int subArrayLength)
-    {
-        super(new ArrayFactoryInt(),
-              longInterval,
-              listLength,
-              subArrayLength);
-    }
-    
     protected JumboArrayInt(long length,
                              int listLength,
                              int subArrayLength)
@@ -60,8 +42,6 @@ public class JumboArrayInt extends JumboArrayAbstract<int[]>
     
     public int get(long index)
     {
-        this.notInIntervalException(index);
-        
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
@@ -72,24 +52,18 @@ public class JumboArrayInt extends JumboArrayAbstract<int[]>
     public void set(long index,
                     int value)
     {
-        this.notInIntervalException(index);
-        
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
         
         data.get(index1).get(index2)[index3] = value;
     }
-
+    
     @Override
-    public void setBytes(long index,
-                         int offset,
-                         byte[] bytes)
+    protected void localSwap(long indexA, long indexB)
     {
-        int value = get(index);
-        bytes[offset] = IntUtils.getByte0B(value);
-        bytes[++offset] = IntUtils.getByte1B(value);
-        bytes[++offset] = IntUtils.getByte2B(value);
-        bytes[++offset] = IntUtils.getByte3B(value);
+        int tempVal = get(indexA);
+        set(indexA, get(indexB));
+        set(indexB, tempVal);
     }
 }

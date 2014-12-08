@@ -13,18 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.math.compare.utils;
 
-public class ArrayFactoryDouble implements ArrayFactory<double[]>
+/**
+ *
+ * @author Topeka Labs
+ */
+public interface CompareFactoryLongInterface
 {
-    public ArrayFactoryDouble()
-    {
-        //Do nothing
-    }
-    
-    @Override
-    public double[] createArray(int length)
-    {
-        return new double[length];
-    }
+    public boolean lt(long a, long b);
+    public boolean lte(long a, long b);
+    public boolean gt(long a, long b);
+    public boolean gte(long a, long b);
+    public boolean eq(long a, long b);
 }

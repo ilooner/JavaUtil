@@ -36,6 +36,23 @@ public final class IntUtils
     public static final int GB = POW_2_30;
     
     public static final IntInterval BIT_INTERVAL = new IntInterval(0, 31);
+    public static final IntInterval BIT_COUNT = new IntInterval(1, 32);
+    
+    private static final int[] MASK_LSB = new int[64];
+    
+    static
+    {
+        //Initialize MASK_LSB
+        
+        for(int counter = 0;
+            counter < 64;
+            counter++)
+        {
+            int mask = 1 << counter;
+            mask = dragBitsRight(mask);
+            MASK_LSB[counter] = mask;
+        }
+    }
     
     private IntUtils()
     {
@@ -115,7 +132,7 @@ public final class IntUtils
                                                ".");
         }
     }
-    
+
     /**
      * This method throws an IllegalArgumentException if the given value is
      * less than or equal to the threshold.
@@ -156,6 +173,21 @@ public final class IntUtils
                                                " must be greater than " +
                                                threshold +
                                                ".");
+        }
+    }
+
+    public static void isLTEException(int threshold,
+                                      int value,
+                                      String thresholdName,
+                                      String valueName)
+    {
+        if(value <= threshold)
+        {
+            throw new IllegalArgumentException("The given value " + value +
+                                               " " + valueName +
+                                               " must be greater than " +
+                                               thresholdName + " " +
+                                               threshold + ".");
         }
     }
     
@@ -199,6 +231,27 @@ public final class IntUtils
                                                threshold +
                                                ".");
         }
+    }
+
+    /**
+     * 
+     * @param threshold
+     * @param value
+     * @param thresholdName
+     * @param valueName 
+     */
+    public static void isLTException(int threshold,
+                                     int value,
+                                     String thresholdName,
+                                     String valueName)
+    {
+        if(value < threshold)
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               valueName + " " + value +
+                                               " is less than " +
+                                               thresholdName + " " + threshold);
+        }        
     }
 
     /**
@@ -283,6 +336,26 @@ public final class IntUtils
                                                " " +
                                                " must be less than " +
                                                threshold +
+                                               ".");
+        }
+    }
+
+    public static void isGTEException(int threshold,
+                                      int value,
+                                      String thresholdName,
+                                      String valueName)
+    {
+        if(value >= threshold)
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               value +
+                                               " " +
+                                               valueName +
+                                               " " +
+                                               " must be less than " +
+                                               threshold +
+                                               " " +
+                                               thresholdName +
                                                ".");
         }
     }
@@ -407,6 +480,41 @@ public final class IntUtils
         {
             throw new IllegalArgumentException("The given value " + valueName + " " + value + " must be nonpositive.");
         }
+    }
+    
+    public static void isNotUnsignedPowerOf2Exception(int value)
+    {
+        if(!IntUtils.isUPowerOf2(value))
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               IntUtils.uToString(value) +
+                                               " is not a power of 2");
+        }
+    }
+
+    public static void isNotUnsignedPowerOf2Exception(int value,
+                                                      String valueName)
+    {
+        if(!IntUtils.isUPowerOf2(value))
+        {
+            throw new IllegalArgumentException("The given value " +
+                                               valueName + " " +
+                                               IntUtils.uToString(value) +
+                                               " is not a power of 2");
+        }
+    }
+    
+    public static void isTrivialNonPositivePowerOf2Exception(int value)
+    {
+        isLTException(1, value);
+        isNotUnsignedPowerOf2Exception(value);
+    }
+    
+    public static void isTrivialNonPositivePowerOf2Exception(int value,
+                                                      String valueName)
+    {
+        isLTException(1, value, valueName);
+        isNotUnsignedPowerOf2Exception(value, valueName);
     }
     
     /**
@@ -571,6 +679,18 @@ public final class IntUtils
         }
     }
     
+    public static int divCeil(int value, int divisor)
+    {
+        int result = value / divisor;
+        
+        if(value % divisor != 0)
+        {
+            result++;
+        }
+        
+        return result;
+    }
+    
     public static int uCompareTo(int a, int b)
     {
         if(a == b)
@@ -584,27 +704,6 @@ public final class IntUtils
         }
         
         return 1;
-    }
-    
-    public static int urs(int value, int shift)
-    {
-        if(value >= 0)
-        {
-            return value >> shift;
-        }
-        
-        shift %= 32;
-        shift += 32;
-        shift %= 32;
-        
-        if(shift == 0)
-        {
-            return value;
-        }
-        
-        shift--;
-        value = (value >> 1) & 0x7FFFFFFF;
-        return value >> shift;
     }
     
     public static int uDiv(int value, int divisor)
@@ -723,49 +822,72 @@ public final class IntUtils
         bytes[++offset] = getByte3B(value);
     }
     
-    public static boolean bitSet(int value, int bit)
+    public static boolean isUPowerOf2(int value)
+    {
+        return (~value + 1L & value) == value;
+    }
+    
+    public static boolean isBitSet(int value, int bit)
     {
         return (value & (1 << bit)) > 0;
     }
     
-    public static int maxSetBitPosition(int value)
+    //SWAR
+    public static int numOneBits(int v)
     {
-        if(value == 0)
-        {
-            return -1;
-        }
+        v = (v & 0x55555555) + ((v >> 1) & 0x55555555);
+        v = (v & 0x33333333) + ((v >> 2) & 0x33333333);
+        v = (v & 0x0f0f0f0f) + ((v >> 4) & 0x0f0f0f0f);
+        v = (v & 0x00ff00ff) + ((v >> 8) & 0x00ff00ff);
+        v = (v & 0x0000ffff) + ((v >> 16) & 0x0000ffff);
         
-        for(int bitCounter = 0;
-            bitCounter < 32;
-            bitCounter++)
-        {
-            value = value >> 1;
-            
-            if(value == 0)
-            {
-                return bitCounter;
-            }
-        }
-        
-        return 31;
+        return v;
     }
     
-    public String uToOctalString(int value)
+    public static int maxSetBitPosition(int value)
+    {
+        value = dragBitsRight(value);
+        return numOneBits(value) - 1;
+    }
+    
+    public static int dragBitsRight(int value)
+    {
+        value |= value >> 1;
+        value |= value >> 2;
+        value |= value >> 4;
+        value |= value >> 8;
+        value |= value >> 16;
+        
+        return value;
+    }
+    
+     public static int maskLSB(int numBits)
+    {
+        IntUtils.BIT_COUNT.isInIntervalInclusiveException(numBits, "numBits");
+        return MASK_LSB[numBits - 1];
+    }
+    
+    public static int ulog2Floor(int value)
+    {
+        return maxSetBitPosition(value);
+    }
+    
+    public static String uToOctalString(int value)
     {
         return uToString(value, 8);
     }
     
-    public String uToHexString(int value)
+    public static String uToHexString(int value)
     {
         return uToString(value, 16);
     }
     
-    public String uToString(int value)
+    public static String uToString(int value)
     {
         return uToString(value, 10);
     }
     
-    public String uToString(int value, int radix)
+    public static String uToString(int value, int radix)
     {
         if(value == 0)
         {

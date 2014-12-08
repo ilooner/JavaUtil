@@ -16,10 +16,10 @@
 package com.topekalabs.big.array;
 
 import com.google.common.collect.Lists;
-import com.topekalabs.java.utils.ArrayFactory;
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.array.utils.ArrayFactory;
+import com.topekalabs.error.utils.ExceptionUtils;
 import com.topekalabs.math.utils.IntUtils;
-import com.topekalabs.math.utils.LongIntervalU;
+import com.topekalabs.math.utils.LongInterval;
 import com.topekalabs.math.utils.LongUtils;
 import java.util.List;
 import org.slf4j.Logger;
@@ -29,7 +29,7 @@ import org.slf4j.LoggerFactory;
  *
  * @author Topeka Labs
  */
-public abstract class JumboArrayAbstract<T>
+public abstract class JumboArrayAbstract<T> implements JumboArray
 {
     private static final Logger logger = LoggerFactory.getLogger(JumboArrayAbstract.class.getName());
     private long index1Count = -1L;
@@ -44,11 +44,13 @@ public abstract class JumboArrayAbstract<T>
     
     private long firstOrderArrayLength;
     
-    private LongIntervalU indexInterval;
     private ArrayFactory<T> arrayFactory;
     
+    private List<JumboArrayAbstract<T>> parallelArrays = Lists.newArrayList();
+    
     protected List<List<T>> data;
-
+    protected LongInterval indexInterval;
+    
     protected JumboArrayAbstract(ArrayFactory<T> arrayFactory,
                                  long length,
                                  int listLength,
@@ -69,28 +71,9 @@ public abstract class JumboArrayAbstract<T>
         initialize();
     }
     
-    protected JumboArrayAbstract(ArrayFactory<T> arrayFactory,
-                                 LongIntervalU longInterval)
-    {
-        setArrayFactory(arrayFactory);
-        setIndexInterval(longInterval);
-        initialize();
-    }
-    
-    protected JumboArrayAbstract(ArrayFactory<T> arrayFactory,
-                                 LongIntervalU longInterval,
-                                 int listLength,
-                                 int subArrayLength)
-    {
-        setArrayFactory(arrayFactory);
-        setIndexInterval(longInterval);
-        setListLength(listLength);
-        setSubArrayLength(subArrayLength);
-        initialize();
-    }
-    
     private void initialize()
     {
+        
         this.firstOrderArrayLength = listLength * subArrayLength;
         
         calcIndex1Count();
@@ -143,7 +126,7 @@ public abstract class JumboArrayAbstract<T>
     
     private void calcIndex1Count()
     {
-        index1Count = LongUtils.uDivCeil(length, firstOrderArrayLength);
+        index1Count = LongUtils.divCeil(length, firstOrderArrayLength);
     }
     
     public final long getIndex1Count()
@@ -153,8 +136,8 @@ public abstract class JumboArrayAbstract<T>
     
     private void calcIndex2Count()
     {
-        index2Count = LongUtils.uDivCeil(length, subArrayLength);
-        finalArrayLength2 = (int) LongUtils.uMod(LongUtils.uDivCeil(length, subArrayLength), listLength);
+        index2Count = LongUtils.divCeil(length, subArrayLength);
+        finalArrayLength2 = (int) (LongUtils.divCeil(length, subArrayLength) % listLength);
         
         if(finalArrayLength2 == 0)
         {
@@ -174,7 +157,7 @@ public abstract class JumboArrayAbstract<T>
     
     private void calcIndex3Count()
     {
-        finalArrayLength3 = (int) LongUtils.uMod(length, subArrayLength);
+        finalArrayLength3 = (int) (length % subArrayLength);
         
         if(finalArrayLength3 == 0)
         {
@@ -185,18 +168,6 @@ public abstract class JumboArrayAbstract<T>
     public final int getFinalArrayLength3()
     {
         return finalArrayLength3;
-    }
-    
-    private void setIndexInterval(LongIntervalU indexInterval)
-    {
-        ExceptionUtils.isNullException(indexInterval, "indexInterval");
-        this.indexInterval = indexInterval;
-        this.length = indexInterval.getNumVals();
-    }
-    
-    public LongIntervalU getIndexInterval()
-    {
-        return indexInterval;
     }
     
     public int getSubArrayLength()
@@ -223,9 +194,10 @@ public abstract class JumboArrayAbstract<T>
     
     private void setLength(long length)
     {
-        LongUtils.isNonPositiveException(length, "length");
+        LongUtils.isEqualToException(0, length, "zero", "length");
+        
         this.length = length;
-        this.indexInterval = new LongIntervalU(0, length - 1);
+        this.indexInterval = new LongInterval(0, length -1);
     }
     
     public long getLength()
@@ -233,33 +205,19 @@ public abstract class JumboArrayAbstract<T>
         return length;
     }
     
-    protected void notInIntervalException(long index)
-    {
-        if(!indexInterval.isInIntervalInclusive(index))
-        {
-            throw new JumboArrayIndexOutOfBoundsException(index);
-        }
-    }
-    
     protected int calcIndex1(long index)
-    {
-        index = index - indexInterval.getStartInterval();
-        
+    {   
         return (int) LongUtils.uDiv(index, firstOrderArrayLength);
     }
     
     protected int calcIndex2(long index)
     {
-        index = index - indexInterval.getStartInterval();
-        
         return (int) LongUtils.uMod(LongUtils.uDiv(index, subArrayLength),
                                     listLength);
     }
     
     protected int calcIndex3(long index)
     {
-        index = index - indexInterval.getStartInterval();
-        
         return (int) LongUtils.uMod(index, subArrayLength);
     }
     
@@ -268,7 +226,23 @@ public abstract class JumboArrayAbstract<T>
         return data;
     }
     
-    public abstract void setBytes(long index,
-                                  int offset,
-                                  byte[] bytes);
+    @Override
+    public LongInterval getIndexInterval()
+    {
+        return indexInterval;
+    }
+    
+    public void swap(long indexA, long indexB)
+    {
+        for(int arrayCounter = 0;
+            arrayCounter < parallelArrays.size();
+            arrayCounter++)
+        {
+            parallelArrays.get(arrayCounter).localSwap(indexA, indexB);
+        }
+        
+        localSwap(indexA, indexB);
+    }
+    
+    protected abstract void localSwap(long indexA, long indexB);
 }

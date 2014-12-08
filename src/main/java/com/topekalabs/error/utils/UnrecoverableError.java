@@ -15,61 +15,26 @@
  */
 package com.topekalabs.error.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-import com.topekalabs.java.utils.Utils;
-
 /**
  * This Exception is meant to be thrown for Unrecoverable Errors
  * @author Topeka Labs
  */
-public class UnrecoverableError extends RuntimeException
+public class UnrecoverableError extends ThrownError
 {
-    private ResultValue resultValue;
-    private Throwable throwable;
-    
-    public UnrecoverableError(ResultValue resultValue)
+    public UnrecoverableError(Error error)
     {
-        setResultValue(resultValue);
+        super(error);
     }
     
     public UnrecoverableError(Throwable throwable)
     {
         super(throwable);
-        setThrowable(throwable);
     }
     
-    public UnrecoverableError(ResultValue resultVlaue,
+    public UnrecoverableError(Error error,
                               Throwable throwable)
     {
-        super(throwable);
-        setResultValue(resultValue);
-        setThrowable(throwable);
+        super(error,
+              throwable);
     }
-
-    public boolean hasResultValue()
-    {
-        return !Utils.isNull(resultValue);
-    }
-    
-    public boolean hasThrowable()
-    {
-        return !Utils.isNull(throwable);
-    }
-    
-    private void setResultValue(ResultValue resultValue)
-    {
-        ExceptionUtils.isNullException(resultValue, "resultValue");
-        
-        this.resultValue = resultValue;
-    }
-    
-    private void setThrowable(Throwable throwable)
-    {
-        ExceptionUtils.isNullException(throwable, "throwable");
-        
-        if(throwable instanceof RecoverableError)
-        {
-            ExceptionUtils.thisShouldNotHappen(throwable);
-        }
-    }    
 }

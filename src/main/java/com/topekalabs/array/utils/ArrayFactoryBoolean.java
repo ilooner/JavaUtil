@@ -13,17 +13,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.array.utils;
 
 /**
  *
  * @author Topeka Labs
  */
-public class ArrayFactoryByte implements ArrayFactory<byte[]>
+public class ArrayFactoryBoolean implements ArrayFactory<boolean[]>
 {
     @Override
-    public byte[] createArray(int length)
+    public boolean[] createArray(int length)
     {
-        return new byte[length];
+        return new boolean[length];
+    }
+
+    @Override
+    public boolean[] reallocArray(boolean[] array, int newLength)
+    {
+        throw new UnsupportedOperationException("Not implemented yet.");
     }
 }

@@ -15,33 +15,15 @@
  */
 package com.topekalabs.big.array;
 
-import com.topekalabs.java.utils.ArrayFactoryBoolean;
-import com.topekalabs.math.utils.BooleanUtils;
-import com.topekalabs.math.utils.LongIntervalU;
+import com.topekalabs.array.utils.ArrayFactoryBoolean;
 
 /**
  *
  * @author Topeka Labs
  */
 public class JumboArrayBoolean extends JumboArrayAbstract<boolean[]>
-{
-    public JumboArrayBoolean(LongIntervalU longInterval)
-    {
-        super(new ArrayFactoryBoolean(),
-              longInterval);
-        
-    }
-    
-    public JumboArrayBoolean(LongIntervalU longInterval,
-                          int listLength,
-                          int subArrayLength)
-    {
-        super(new ArrayFactoryBoolean(),
-              longInterval,
-              listLength,
-              subArrayLength);
-    }
-    
+                               implements JumboArrayBooleanInterface
+{   
     protected JumboArrayBoolean(long length,
                              int listLength,
                              int subArrayLength)
@@ -60,8 +42,6 @@ public class JumboArrayBoolean extends JumboArrayAbstract<boolean[]>
     
     public boolean get(long index)
     {
-        this.notInIntervalException(index);
-        
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
@@ -72,8 +52,6 @@ public class JumboArrayBoolean extends JumboArrayAbstract<boolean[]>
     public void set(long index,
                     boolean value)
     {
-        this.notInIntervalException(index);
-        
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
@@ -82,10 +60,10 @@ public class JumboArrayBoolean extends JumboArrayAbstract<boolean[]>
     }
 
     @Override
-    public void setBytes(long index,
-                         int offset,
-                         byte[] bytes)
+    protected void localSwap(long indexA, long indexB)
     {
-        bytes[offset] = BooleanUtils.toByte(get(index));
+        boolean tempVal = get(indexA);
+        set(indexA, get(indexB));
+        set(indexB, tempVal);
     }
 }

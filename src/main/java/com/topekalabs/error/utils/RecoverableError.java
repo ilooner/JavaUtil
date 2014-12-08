@@ -15,66 +15,26 @@
  */
 package com.topekalabs.error.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-
 /**
  * This exception represents a recoverable error.
  * @author Topeka Labs
  */
-public class RecoverableError extends RuntimeException
+public class RecoverableError extends ThrownError
 {
-    /**
-     * The value of the recoverable error.
-     */
-    private ResultValue resultValue;
-    
-    /**
-     * Creates a recoverable error with the given value.
-     * @param resultValue The result value.
-     */
-    public RecoverableError(ResultValue resultValue)
+    public RecoverableError(Error error)
     {
-        setResultValue(resultValue);
+        super(error);
     }
     
-    /**
-     * This creates a recoverable error which wraps the given throwable.
-     * @param throwable The throwable to wrap.
-     */
     public RecoverableError(Throwable throwable)
     {
         super(throwable);
     }
     
-    /**
-     * This creates a recoverable error with the given result value and wraps
-     * the given throwable.
-     * @param resultValue The result value.
-     * @param throwable The throwable to wrap.
-     */
-    public RecoverableError(ResultValue resultValue,
+    public RecoverableError(Error error,
                             Throwable throwable)
     {
-        super(throwable);
-        setResultValue(resultValue);
-    }
-    
-    /**
-     * This sets the result value of the recoverable error.
-     * @param resultValue The result value of the recoverable error.
-     */
-    private void setResultValue(ResultValue resultValue)
-    {
-        ExceptionUtils.isNullException(resultValue);
-        this.resultValue = resultValue;
-    }
-    
-    /**
-     * This gets the result value of the recoverable error.
-     * @return The result value of the recoverable error.
-     */
-    public ResultValue getResultValue()
-    {
-        return resultValue;
+        super(error,
+              throwable);
     }
 }

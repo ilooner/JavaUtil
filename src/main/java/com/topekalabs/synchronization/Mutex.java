@@ -15,7 +15,7 @@
  */
 package com.topekalabs.synchronization;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
 import java.util.concurrent.atomic.AtomicReference;
 
 
@@ -24,7 +24,7 @@ import java.util.concurrent.atomic.AtomicReference;
  */
 public class Mutex
 {
-    AtomicReference<Integer> csw = new AtomicReference<Integer>(0);
+    AtomicReference<Integer> csw = new AtomicReference<>(0);
     private final Object lock = new Object();
     
     public Mutex()
@@ -48,6 +48,17 @@ public class Mutex
                 }
             }
         }
+    }
+    
+    public void lockInterruptable() throws InterruptedException
+    {
+        synchronized(lock)
+        {
+            while(!csw.compareAndSet(0, 1))
+            {
+                lock.wait();
+            }
+        }        
     }
     
     public void unlock()

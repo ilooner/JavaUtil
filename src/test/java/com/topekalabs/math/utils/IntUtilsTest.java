@@ -15,8 +15,8 @@
  */
 package com.topekalabs.math.utils;
 
-import com.topekalabs.java.utils.ExceptionUtils;
-import com.topekalabs.java.utils.FunctionPointer;
+import com.topekalabs.error.utils.ExceptionUtils;
+import com.topekalabs.wrapper.utils.FunctionPointer;
 import org.junit.Assert;
 import org.junit.Test;
 

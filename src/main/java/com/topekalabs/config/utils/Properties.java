@@ -17,8 +17,8 @@ package com.topekalabs.config.utils;
 
 import com.google.common.collect.Maps;
 import com.topekalabs.collection.utils.MapUtils;
-import com.topekalabs.java.utils.ExceptionUtils;
-import com.topekalabs.java.utils.Utils;
+import com.topekalabs.error.utils.ExceptionUtils;
+import com.topekalabs.java.utils.ObjectUtils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -63,7 +63,7 @@ public class Properties implements Cloneable
         
         String value = map.get(key);
         
-        ExceptionUtils.thisShouldNotHappen(Utils.isNull(value),
+        ExceptionUtils.thisShouldNotHappen(ObjectUtils.isNull(value),
                                            "The given key is not contained in the properties.");
         
         return value;

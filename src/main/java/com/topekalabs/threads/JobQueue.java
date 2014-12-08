@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.threads;
 
 /**
  *
  * @author Topeka Labs
  */
-public class ArrayFactoryShort implements ArrayFactory<short[]>
+public class JobQueue
 {
-    @Override
-    public short[] createArray(int length)
-    {
-        return new short[length];
-    }   
+    
 }

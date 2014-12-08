@@ -15,32 +15,15 @@
  */
 package com.topekalabs.big.array;
 
-import com.topekalabs.java.utils.ArrayFactoryByte;
-import com.topekalabs.math.utils.LongIntervalU;
+import com.topekalabs.array.utils.ArrayFactoryByte;
 
 /**
  *
  * @author Topeka Labs
  */
 public class JumboArrayByte extends JumboArrayAbstract<byte[]>
+                            implements JumboArrayByteInterface
 {
-    public JumboArrayByte(LongIntervalU longInterval)
-    {
-        super(new ArrayFactoryByte(),
-              longInterval);
-        
-    }
-    
-    public JumboArrayByte(LongIntervalU longInterval,
-                          int listLength,
-                          int subArrayLength)
-    {
-        super(new ArrayFactoryByte(),
-              longInterval,
-              listLength,
-              subArrayLength);
-    }
-    
     protected JumboArrayByte(long length,
                              int listLength,
                              int subArrayLength)
@@ -59,8 +42,6 @@ public class JumboArrayByte extends JumboArrayAbstract<byte[]>
     
     public byte get(long index)
     {
-        this.notInIntervalException(index);
-        
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
@@ -70,9 +51,7 @@ public class JumboArrayByte extends JumboArrayAbstract<byte[]>
     
     public void set(long index,
                     byte value)
-    {
-        this.notInIntervalException(index);
-        
+    {  
         int index1 = calcIndex1(index);
         int index2 = calcIndex2(index);
         int index3 = calcIndex3(index);
@@ -81,10 +60,10 @@ public class JumboArrayByte extends JumboArrayAbstract<byte[]>
     }
 
     @Override
-    public void setBytes(long index,
-                         int offset,
-                         byte[] bytes)
+    protected void localSwap(long indexA, long indexB)
     {
-        bytes[offset] = get(index);
+        byte tempVal = get(indexA);
+        set(indexA, get(indexB));
+        set(indexB, tempVal);
     }
 }

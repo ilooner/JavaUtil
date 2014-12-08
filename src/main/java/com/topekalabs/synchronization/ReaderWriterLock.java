@@ -15,7 +15,7 @@
  */
 package com.topekalabs.synchronization;
 
-import com.topekalabs.java.utils.ExceptionUtils;
+import com.topekalabs.error.utils.ExceptionUtils;
 
 /**
  *
@@ -58,6 +58,33 @@ public class ReaderWriterLock
             if(count > 0)
             {
                 cond.wait(countLock);
+            }
+        }
+        else
+        {
+            ExceptionUtils.thisShouldNotHappen();
+        }
+    }
+    
+    public void lockInterruptable(Type type) throws InterruptedException
+    {
+        enterLock.lockInterruptable();
+        countLock.lockInterruptable();
+        
+        if(type == Type.READER)
+        {
+            count++;
+            
+            countLock.unlock();
+            enterLock.unlock();
+        }
+        else if(type == Type.WRITER)
+        {
+            threadId = Thread.currentThread().getId();
+            
+            if(count > 0)
+            {
+                cond.waitInterruptable(countLock);
             }
         }
         else

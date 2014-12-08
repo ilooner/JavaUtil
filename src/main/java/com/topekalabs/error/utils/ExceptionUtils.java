@@ -13,9 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.error.utils;
 
+import com.topekalabs.wrapper.utils.FunctionPointer;
 import com.topekalabs.error.utils.CodingError;
+import java.io.File;
 
 /**
  * This class contains utility methods for throwing exceptions.
@@ -117,6 +119,14 @@ public final class ExceptionUtils
     {
         throw new UnsupportedOperationException(message);
     }
+
+    public static void unsupported(boolean throwFlag, String message)
+    {
+        if(throwFlag)
+        {
+            throw new UnsupportedOperationException(message);
+        }
+    }
     
     public static boolean executeAndCatchIllegalArgumentException(FunctionPointer fp)
     {
@@ -132,5 +142,13 @@ public final class ExceptionUtils
         }
         
         return caught;
+    }
+    
+    public static void fileDoesNotExistException(File file)
+    {
+        ExceptionUtils.thisShouldNotHappen(!file.exists(),
+                                           "The file " +
+                                           file.getAbsolutePath() +
+                                           " does not exist.");
     }
 }

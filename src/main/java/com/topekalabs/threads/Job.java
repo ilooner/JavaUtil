@@ -13,17 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.threads;
 
 /**
  *
  * @author Topeka Labs
  */
-public class ArrayFactoryBoolean implements ArrayFactory<boolean[]>
+public class Job
 {
-    @Override
-    public boolean[] createArray(int length)
-    {
-        return new boolean[length];
-    }
+    
 }

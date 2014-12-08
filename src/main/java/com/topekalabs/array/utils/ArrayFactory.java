@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.synchronization;
+package com.topekalabs.array.utils;
 
-/**
- *
- * @author Topeka Labs
- */
-public class JobQueue
+public interface ArrayFactory<T>
 {
-    
+    public T createArray(int length);
+    public T reallocArray(T array, int newLength);
 }

@@ -13,30 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.java.utils;
+package com.topekalabs.serializer.utils;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.io.Serializable;
 
 /**
  *
  * @author Topeka Labs
  */
-public class RegexUtils
-{   
-    private RegexUtils()
-    {
-        //Do nothing
-    }
-    
-    public static boolean match(String regex, String string)
-    {
-        ExceptionUtils.isNullException(regex, "regex");
-        ExceptionUtils.isNullException(regex, "string");
-        
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(string);
-        
-        return matcher.matches();
-    }
+public interface Serializer
+{
+    public byte[] serialize(Serializable object);
 }

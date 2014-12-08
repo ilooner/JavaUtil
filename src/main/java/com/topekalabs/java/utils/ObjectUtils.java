@@ -15,13 +15,19 @@
  */
 package com.topekalabs.java.utils;
 
-import java.io.Serializable;
-
 /**
  *
  * @author Topeka Labs
  */
-public interface Serializer
+public class ObjectUtils
 {
-    public byte[] serialize(Serializable object);
+    private ObjectUtils()
+    {
+        //Do nothing
+    }
+    
+    public static boolean isNull(Object object)
+    {
+        return object == null;
+    }
 }
