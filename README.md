@@ -1,5 +1,3 @@
-[![Build Status](https://www.timwiki.com:8443/jenkins/job/JavaUtils/badge/icon)](https://www.timwiki.com:8443/jenkins/job/JavaUtils/)
-
 JavaUtil
 ========
 
@@ -14,6 +12,6 @@ This project contains common utilities needed for writing java programs like che
         <dependency>
             <groupId>com.topekalabs</groupId>
             <artifactId>utils</artifactId>
-            <version>1.0</version>
+            <version>1.2</version>
         </dependency>
 
