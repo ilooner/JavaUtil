@@ -82,7 +82,8 @@ public class ClassUtils
         ExceptionUtils.fileDoesNotExistException(srcDirectory);
         String packageName = getFQClassNamePackage(className);
         
-        File file = new File(srcDirectory, packageName);
+        File file = new File(srcDirectory,
+                             JavaLangUtils.convertPackageNameToPath(packageName));
         ExceptionUtils.fileDoesNotExistException(file);
         
         return file;
