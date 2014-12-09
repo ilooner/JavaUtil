@@ -34,7 +34,7 @@ public class JavaLangUtils
     
     public static String convertPackageNameToPath(String packageName)
     {
-        ExceptionUtils.thisShouldNotHappen(isConventionalPackageName(packageName),
+        ExceptionUtils.thisShouldNotHappen(!isConventionalPackageName(packageName),
                                            packageName);
         
         return packageName.replaceAll(PACKAGE_DELIMETER, File.separator);
