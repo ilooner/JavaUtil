@@ -17,6 +17,9 @@ package com.topekalabs.java.utils;
 
 import com.topekalabs.error.utils.ExceptionUtils;
 import java.io.File;
+import java.util.regex.Pattern;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -24,7 +27,10 @@ import java.io.File;
  */
 public class JavaLangUtils
 {
+    private static final Logger logger = LoggerFactory.getLogger(JavaLangUtils.class.getName());
+    
     public static final String PACKAGE_DELIMETER = ".";
+    public static final String PACKAGE_DELIMETER_REGEX = Pattern.quote(PACKAGE_DELIMETER);
     public static final String INNER_CLASS_DELIMETER = "$";
     
     private JavaLangUtils()
@@ -37,7 +43,7 @@ public class JavaLangUtils
         ExceptionUtils.thisShouldNotHappen(!isConventionalPackageName(packageName),
                                            packageName);
         
-        return packageName.replaceAll(PACKAGE_DELIMETER, File.separator);
+        return packageName.replaceAll(PACKAGE_DELIMETER_REGEX, File.separator);
     }
     
     public static boolean isConventionalPackageName(String packageName)
@@ -57,7 +63,16 @@ public class JavaLangUtils
             return false;
         }
         
-        String[] packageParts = packageName.split(PACKAGE_DELIMETER);
+        String[] packageParts = packageName.split(PACKAGE_DELIMETER_REGEX);
+        
+        logger.debug("package name {} has package parts length {}",
+                     packageName,
+                     packageParts.length);
+        
+        if(packageParts.length == 1)
+        {
+            return false;
+        }
         
         for(String packagePart: packageParts)
         {
