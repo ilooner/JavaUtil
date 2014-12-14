@@ -12,6 +12,14 @@
         <netbeans.hint.license>apache20</netbeans.hint.license>
     </properties>
     
+    <repositories>
+        <repository>
+            <id>ip-172-31-32-140</id>
+            <name>ip-172-31-32-140-releases</name>
+            <url>https://www.timwiki.com:8443/artifactory/libs-release-local</url>
+        </repository>
+    </repositories>
+    
     <distributionManagement>
         <repository>
             <id>ip-172-31-32-140</id>
