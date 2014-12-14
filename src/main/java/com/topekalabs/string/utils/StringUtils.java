@@ -18,7 +18,10 @@ package com.topekalabs.string.utils;
 import com.google.common.collect.Lists;
 import com.topekalabs.collection.utils.CollectionUtils;
 import com.topekalabs.math.utils.IntUtils;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 
 /**
@@ -31,6 +34,81 @@ public class StringUtils
     
     private StringUtils()
     {
+    }
+    
+    public static void clear(StringBuilder sb)
+    {
+        sb.delete(0, sb.length());
+    }
+    
+    public static void appendToAll(String suffix, String... strings)
+    {
+        StringBuilder sb = new StringBuilder();
+        
+        for(int stringCounter = 0;
+            stringCounter < strings.length;
+            stringCounter++)
+        {
+            sb.append(strings[stringCounter]);
+            sb.append(suffix);
+            
+            strings[stringCounter] = sb.toString();
+            clear(sb);
+        }
+    }
+    
+    public static String[] appendToAllIm(String suffix, String... strings)
+    {
+        String[] newStrings = new String[strings.length];
+        StringBuilder sb = new StringBuilder();
+        
+        for(int stringCounter = 0;
+            stringCounter < strings.length;
+            stringCounter++)
+        {
+            sb.append(strings[stringCounter]);
+            sb.append(suffix);
+            
+            newStrings[stringCounter] = sb.toString();
+            clear(sb);
+        }
+        
+        return newStrings;
+    }
+    
+    public static void appendToAll(String suffix, List<String> strings)
+    {
+        StringBuilder sb = new StringBuilder();
+        
+        for(int stringCounter = 0;
+            stringCounter < strings.size();
+            stringCounter++)
+        {
+            sb.append(strings.get(stringCounter));
+            sb.append(suffix);
+            
+            strings.set(stringCounter, sb.toString());
+            clear(sb);
+        }
+    }
+    
+    public static List<String> appendToAllIm(String suffix, List<String> strings)
+    {
+        List<String> newStrings = new ArrayList<>(strings.size());
+        StringBuilder sb = new StringBuilder();
+        
+        for(int stringCounter = 0;
+            stringCounter < strings.size();
+            stringCounter++)
+        {
+            sb.append(strings.get(stringCounter));
+            sb.append(suffix);
+            
+            newStrings.add(sb.toString());
+            clear(sb);
+        }
+        
+        return newStrings;
     }
     
     public static String toCommaSeperatedString(String... strings)
@@ -48,21 +126,22 @@ public class StringUtils
         return toSeperatedString(seperator, Arrays.asList(strings));
     }
     
-    public static String toSeperatedString(String seperator, List<String> strings)
+    public static String toSeperatedString(String seperator, Collection<String> strings)
     {
         CollectionUtils.isNotPopulatedException(strings, "strings");
         
         StringBuilder sb = new StringBuilder();
+        Iterator<String> iterator = strings.iterator();
         
         for(int counter = 0;
             counter < strings.size() - 1;
             counter++)
         {
-            sb.append(strings.get(counter));
+            sb.append(iterator.next());
             sb.append(seperator);
         }
         
-        sb.append(strings.get(strings.size() - 1));
+        sb.append(iterator.next());
         
         return sb.toString();
     }

@@ -22,6 +22,8 @@ import java.util.Collection;
 import java.util.regex.Pattern;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  *
@@ -29,8 +31,11 @@ import org.apache.commons.io.filefilter.TrueFileFilter;
  */
 public class ClassUtils
 {
+    private static final Logger logger = LoggerFactory.getLogger(ClassUtils.class.getName());
+    
     public static final Pattern ANONYMOUS_CLASS_NAME_REGEX = Pattern.compile("\\d+");
     public static final String CLASS_FILE_SUFFIX = ".class";
+    public static final String CLASS_FILE_SUFFIX_REGEX = "\\.class";
     
     private ClassUtils()
     {
@@ -57,7 +62,8 @@ public class ClassUtils
         notFQClassNameException(className);
         
         int index = className.lastIndexOf(JavaLangUtils.PACKAGE_DELIMETER);
-        return className.substring(0, index);
+        String packageName = className.substring(0, index);
+        return packageName;
     }
     
     public static String getFQClassNameName(String className)
@@ -96,8 +102,9 @@ public class ClassUtils
         
         return FileUtils.listFiles(getFQClassPackageDirectory(srcDirectory,
                                                               className),
-                                   new IOFileFilterRegexName(getFQClassNameName(className)),
-                                   TrueFileFilter.INSTANCE);
+                                   new IOFileFilterRegexName(getFQClassNameName(className) +
+                                                             ".*" + CLASS_FILE_SUFFIX_REGEX),
+                                   null);
     }
     
     public static Collection<File> getClassFiles(File srcDirectory,
@@ -119,13 +126,13 @@ public class ClassUtils
         return FileUtils.listFiles(srcDirectory,
                                    new IOFileFilterRegexName(Pattern.quote(className) +
                                                              "(\\$.+)?" +
-                                                             CLASS_FILE_SUFFIX),
+                                                             CLASS_FILE_SUFFIX_REGEX),
                                    TrueFileFilter.INSTANCE);
     }
     
     public static void notClassNameException(String className)
     {
-        ExceptionUtils.thisShouldNotHappen(isClassName(className),
+        ExceptionUtils.thisShouldNotHappen(!isClassName(className),
                                            "This is not a class name.");
     }
     
