@@ -21,20 +21,53 @@ package com.topekalabs.error.utils;
  */
 public class UnrecoverableError extends ThrownError
 {
-    public UnrecoverableError(Error error)
+    protected UnrecoverableError(String namespace,
+                                 ErrorCode errorCode)
     {
-        super(error);
+        super(new Error(namespace,
+                        errorCode,
+                        ErrorType.UNRECOVERABLE_ERROR));
+    }
+
+    protected UnrecoverableError(String namespace,
+                                 String alias)
+    {
+        super(new Error(namespace,
+                        alias,
+                        ErrorType.UNRECOVERABLE_ERROR));
     }
     
-    public UnrecoverableError(Throwable throwable)
+    protected UnrecoverableError(String namespace,
+                                 ErrorCode errorCode,
+                                 Throwable throwable)
     {
-        super(throwable);
+        this(new Error(namespace,
+                       errorCode,
+                       ErrorType.UNRECOVERABLE_ERROR),
+             throwable);
     }
     
-    public UnrecoverableError(Error error,
-                              Throwable throwable)
+    protected UnrecoverableError(String namespace,
+                                 String alias,
+                                 Throwable throwable)
+    {
+        this(new Error(namespace,
+                       alias,
+                       ErrorType.UNRECOVERABLE_ERROR),
+             throwable);
+    }
+    
+    protected UnrecoverableError(Error error,
+                                 Throwable throwable)
     {
         super(error,
               throwable);
+        
+        error.notUnrecoverableException();
+    }
+    
+    protected UnrecoverableError(Error error)
+    {
+        super(error);
     }
 }

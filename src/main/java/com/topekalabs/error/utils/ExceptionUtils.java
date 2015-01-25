@@ -16,7 +16,6 @@
 package com.topekalabs.error.utils;
 
 import com.topekalabs.wrapper.utils.FunctionPointer;
-import com.topekalabs.error.utils.CodingError;
 import java.io.File;
 
 /**
@@ -25,6 +24,8 @@ import java.io.File;
  */
 public final class ExceptionUtils
 {
+    public static final ErrorThrower ERROR_THROWER = ErrorThrowerFactory.createThrower("javautil");
+    
     private ExceptionUtils()
     {
         //Do nothing
@@ -150,5 +151,26 @@ public final class ExceptionUtils
                                            "The file " +
                                            file.getAbsolutePath() +
                                            " does not exist.");
+    }
+    
+    public static void rethrow(Exception ex)
+    {
+        if(ex instanceof RuntimeException)
+        {
+            throw (RuntimeException) ex;
+        }
+        
+        throw new RuntimeException(ex);
+    }
+    
+    public static void rethrow(String message,
+                               Exception ex)
+    {
+        if(ex instanceof RuntimeException)
+        {
+            throw (RuntimeException) ex;
+        }
+        
+        throw new RuntimeException(message, ex);
     }
 }

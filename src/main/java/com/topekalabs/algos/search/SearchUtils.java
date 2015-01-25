@@ -16,7 +16,9 @@
 package com.topekalabs.algos.search;
 
 import com.topekalabs.big.array.JumboArrayLongInterface;
+import com.topekalabs.collection.utils.CollectionUtils;
 import com.topekalabs.error.utils.ExceptionUtils;
+import com.topekalabs.java.utils.ComparableUtils;
 import com.topekalabs.math.compare.utils.CompareFactoryInt;
 import com.topekalabs.math.compare.utils.CompareFactoryIntInterface;
 import com.topekalabs.math.compare.utils.CompareFactoryIntU;
@@ -28,6 +30,7 @@ import com.topekalabs.math.utils.LongUtils;
 import com.topekalabs.wrapper.utils.WrapperInt;
 import com.topekalabs.wrapper.utils.WrapperLong;
 import com.topekalabs.wrapper.utils.WrapperLongInterval;
+import java.util.List;
 
 /**
  *
@@ -95,6 +98,83 @@ public class SearchUtils
         result.valid = false;
     }
 
+    /**
+     * This method gets the last value in the list less than or equal to the
+     * given value.
+     * @param array
+     * @param value
+     * @return 
+     */
+    public static Comparable binarySearchgLLE(List<Comparable> array,
+                                              Comparable value)
+    {
+        int arrayStart = 0;
+        int arrayEnd = CollectionUtils.sizeM1(array);
+        
+        int startIndex = arrayStart;
+        int endIndex = arrayEnd;
+        
+        while(startIndex <= endIndex)
+        {
+            int currentIndex = startIndex + 
+                                ((endIndex - startIndex) / 2);
+            
+            Comparable tempValue = array.get(currentIndex);
+            
+            if(tempValue.equals(value))
+            {
+                if(currentIndex ==
+                   arrayStart)
+                {
+                    return value;
+                }
+                else if(startIndex == endIndex)
+                {
+                    return array.get(currentIndex - 1);
+                }
+                else
+                {
+                    endIndex = currentIndex - 1;
+                }
+            }
+            else if(ComparableUtils.lt(tempValue, value))
+            {
+                if(currentIndex == arrayEnd)
+                {
+                    return tempValue;
+                }
+                else if(startIndex == endIndex)
+                {
+                    return tempValue;
+                }
+                else
+                {
+                    startIndex = currentIndex + 1;
+                }
+            }
+            //tempValue > value
+            else
+            {
+                if(currentIndex == arrayStart)
+                {
+                    return null;
+                }
+                else if(startIndex == endIndex)
+                {
+                    return array.get(currentIndex - 1);
+                }
+                else
+                {
+                    endIndex = currentIndex - 1;   
+                }
+            }
+        }
+        
+        ExceptionUtils.thisShouldNotHappen();
+        //Make compiler happy
+        return null;
+    }
+    
     /** TODO
      * This binary search finds the last value in the array less then the given value.
      * @param array
@@ -121,6 +201,13 @@ public class SearchUtils
                        CompareFactoryLongU.getInstance());
     }
     
+    /**
+     * This method returns the index at of the correct value, NOT the value itself.
+     * @param array
+     * @param value
+     * @param result
+     * @param cfli 
+     */
     private static void binarySearchLL(JumboArrayLongInterface array,
                                        long value,
                                        WrapperLong result,

@@ -23,12 +23,6 @@ import com.topekalabs.math.utils.IntUtils;
  */
 public class ErrorCode
 {
-    //Loading errors from properties file
-    static
-    {
-        
-    }
-    
     /**
      * The value of the error code.
      */
@@ -49,7 +43,7 @@ public class ErrorCode
      */
     private void setErrorCode(int errorCode)
     {
-        IntUtils.isPositiveException(errorCode, "errorCode");
+        IntUtils.isNegativeException(errorCode, "errorCode");
         this.errorCode = errorCode;
     }
     

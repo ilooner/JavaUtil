@@ -15,6 +15,7 @@
  */
 package com.topekalabs.collection.utils;
 
+import com.topekalabs.collection.NNHashMap;
 import com.topekalabs.error.utils.ExceptionUtils;
 import java.util.Map;
 
@@ -90,5 +91,10 @@ public class MapUtils
             ExceptionUtils.isNullException(key, mapName + " key");
             ExceptionUtils.isNullException(map.get(key), mapName + " value");
         }
+    }
+    
+    public static <K, V> Map<K, V> newNNHashMap()
+    {
+        return new NNHashMap<>();
     }
 }

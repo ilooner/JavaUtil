@@ -24,13 +24,16 @@ import java.util.regex.Pattern;
  * @author Topeka Labs
  */
 public class RegexUtils
-{   
+{
+    public static final String FILE_PATH_SEPERATOR_CHARACTER_CLASS = "[\\\\/]";
+    public static final String FILE_PATH_SEPERATOR_NOT_CHARACTER_CLASS = "[^\\\\/]";
+    
     private RegexUtils()
     {
         //Do nothing
     }
     
-    public static boolean match(String regex, String string)
+    public static boolean matches(String regex, String string)
     {
         ExceptionUtils.isNullException(regex, "regex");
         ExceptionUtils.isNullException(regex, "string");
@@ -39,5 +42,25 @@ public class RegexUtils
         Matcher matcher = pattern.matcher(string);
         
         return matcher.matches();
+    }
+    
+    public static boolean matches(Pattern pattern,
+                                  String string)
+    {
+        return pattern.matcher(string).matches();
+    }
+    
+    public static String getGroup(Pattern pattern,
+                                  int group,
+                                  String string)
+    {
+        Matcher matcher = pattern.matcher(string);
+        
+        if(!matcher.matches())
+        {
+            throw new IllegalArgumentException("The given string must match the given pattern.");
+        }
+        
+        return matcher.group(group);
     }
 }

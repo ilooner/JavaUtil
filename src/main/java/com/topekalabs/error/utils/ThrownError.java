@@ -25,19 +25,9 @@ public class ThrownError extends RuntimeException
 {
     private Error error;
 
-    public ThrownError(Error error)
+    protected ThrownError(Error error)
     {
         setError(error);
-    }
-
-    /**
-     * This creates a recoverable error which wraps the given throwable.
-     *
-     * @param throwable The throwable to wrap.
-     */
-    public ThrownError(Throwable throwable)
-    {
-        super(throwable);
     }
 
     /**
@@ -47,8 +37,8 @@ public class ThrownError extends RuntimeException
      * @param error The error.
      * @param throwable The throwable to wrap.
      */
-    public ThrownError(Error error,
-                       Throwable throwable)
+    protected ThrownError(Error error,
+                          Throwable throwable)
     {
         super(throwable);
         setError(error);

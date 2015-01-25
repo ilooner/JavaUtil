@@ -89,4 +89,39 @@ public final class CollectionUtils
             ExceptionUtils.isNullException(object, "object in " + collectionName);
         }
     }
+    
+    public static int sizeM1(Collection<?> collection)
+    {
+        isEmptyException(collection);
+        return collection.size() - 1;
+    }
+    
+    public static void isNotSize1Exception(Collection collection,
+                                           String collectionName)
+    {
+        if(collection.size() != 1)
+        {
+            throw new IllegalArgumentException("The size of " + collectionName +
+                                               " is " + collection.size() +
+                                               " when it should be 1");
+        }
+    }
+    
+    public static void isNotSize1Exception(Collection collection)
+    {
+        isNotSize1Exception(collection,
+                            "the collection");
+    }
+    
+    public static <T> T getSingleElement(Collection<T> collection)
+    {
+        isEmptyException(collection);
+        return collection.iterator().next();
+    }
+    
+    public static <T> T getElementFromSize1(Collection<T> collection)
+    {
+        isNotSize1Exception(collection);
+        return getSingleElement(collection);
+    }
 }

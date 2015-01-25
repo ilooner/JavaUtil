@@ -26,6 +26,7 @@ public class FileUtils
 {
     private FileUtils()
     {
+        //Do nothing
     }
     
     public static File rebase(File oldParent, File newParent, File child)

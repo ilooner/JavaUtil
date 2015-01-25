@@ -16,6 +16,7 @@
 package com.topekalabs.collection.utils;
 
 import com.google.common.collect.Sets;
+import com.topekalabs.collection.NNHashSet;
 import java.util.Set;
 
 /**
@@ -67,5 +68,10 @@ public class SetUtils
         unionSet.removeAll(unionSetTemp);
         
         return unionSet;
+    }
+    
+    public static <T> Set<T> newNNHashSet()
+    {
+        return new NNHashSet<>();
     }
 }

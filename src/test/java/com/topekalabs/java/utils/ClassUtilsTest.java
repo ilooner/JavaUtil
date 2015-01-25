@@ -318,7 +318,7 @@ public class ClassUtilsTest
                 }
                 catch(IOException ex)
                 {
-                    ErrorThrower.rethrowUnrecoverable(ex);
+                    ErrorThrower.kill(ex);
                 }
             }
         }

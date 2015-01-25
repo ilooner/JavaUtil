@@ -21,7 +21,7 @@ package com.topekalabs.error.utils;
  */
 public class Error
 {
-    private Class clazz;
+    private String namespace;
     /**
      * This is an error code.
      */
@@ -31,30 +31,71 @@ public class Error
      */
     private ErrorType errorType;
     
+    private String message;
+    private String alias;
+    
     /**
      * This creates an error from the given error code and error type.
-     * @param clazz The class in which the error occurred.
+     * @param namespace The class in which the error occurred.
      * @param errorCode The error code of the error.
      * @param errorType The type of the error.
      */
-    public Error(Class clazz,
+    public Error(String namespace,
                  ErrorCode errorCode,
                  ErrorType errorType)
     {
-        setClazz(clazz);
+        setNamespace(namespace);
         setErrorCode(errorCode);
         setErrorType(errorType);
+        
+        setMessage(namespace,
+                   errorCode);
+        setAlias(namespace,
+                 errorCode);
     }
     
-    private void setClazz(Class clazz)
+    public Error(String namespace,
+                 String alias,
+                 ErrorType errorType)
     {
-        ExceptionUtils.isNullException(clazz, "clazz");
-        this.clazz = clazz;
+        this(namespace,
+             ErrorLoader.getErrorCode(namespace,
+                                      alias),
+             errorType);
     }
     
-    public Class getClazz()
+    private void setAlias(String namespace,
+                          ErrorCode errorCode)
     {
-        return clazz;
+        alias = ErrorLoader.getAlias(namespace, errorCode);
+    }
+    
+    public String getAlias()
+    {
+        return alias;
+    }
+    
+    private void setMessage(String namespace,
+                            ErrorCode errorCode)
+    {
+        message = ErrorLoader.getErrorMessage(namespace,
+                                              errorCode);
+    }
+    
+    public String getMessage()
+    {
+        return message;
+    }
+    
+    private void setNamespace(String namespace)
+    {
+        ExceptionUtils.isNullException(namespace, "namespace");
+        this.namespace = namespace;
+    }
+    
+    public String getNamespace()
+    {
+        return namespace;
     }
     
     /**
@@ -112,6 +153,22 @@ public class Error
     public void unrecoverableException()
     {
         if(errorType == ErrorType.UNRECOVERABLE_ERROR)
+        {
+            ExceptionUtils.thisShouldNotHappen();
+        }
+    }
+    
+    public void notRecoverableException()
+    {
+        if(errorType != ErrorType.RECOVERABLE_ERROR)
+        {
+            ExceptionUtils.thisShouldNotHappen();
+        }
+    }
+    
+    public void notUnrecoverableException()
+    {
+        if(errorType != ErrorType.UNRECOVERABLE_ERROR)
         {
             ExceptionUtils.thisShouldNotHappen();
         }
