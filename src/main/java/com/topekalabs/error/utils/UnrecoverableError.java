@@ -22,38 +22,46 @@ package com.topekalabs.error.utils;
 public class UnrecoverableError extends ThrownError
 {
     protected UnrecoverableError(String namespace,
-                                 ErrorCode errorCode)
+                                 ErrorCode errorCode,
+                                 Object... errorData)
     {
         super(new Error(namespace,
                         errorCode,
-                        ErrorType.UNRECOVERABLE_ERROR));
+                        ErrorType.UNRECOVERABLE_ERROR,
+                        errorData));
     }
 
     protected UnrecoverableError(String namespace,
-                                 String alias)
+                                 String alias,
+                                 Object... errorData)
     {
         super(new Error(namespace,
                         alias,
-                        ErrorType.UNRECOVERABLE_ERROR));
+                        ErrorType.UNRECOVERABLE_ERROR,
+                        errorData));
     }
     
     protected UnrecoverableError(String namespace,
                                  ErrorCode errorCode,
-                                 Throwable throwable)
+                                 Throwable throwable,
+                                 Object... errorData)
     {
         this(new Error(namespace,
                        errorCode,
-                       ErrorType.UNRECOVERABLE_ERROR),
+                       ErrorType.UNRECOVERABLE_ERROR,
+                       errorData),
              throwable);
     }
     
     protected UnrecoverableError(String namespace,
                                  String alias,
-                                 Throwable throwable)
+                                 Throwable throwable,
+                                 Object... errorData)
     {
         this(new Error(namespace,
                        alias,
-                       ErrorType.UNRECOVERABLE_ERROR),
+                       ErrorType.UNRECOVERABLE_ERROR,
+                       errorData),
              throwable);
     }
     

@@ -33,6 +33,7 @@ public class Error
     
     private String message;
     private String alias;
+    private Object[] errorData;
     
     /**
      * This creates an error from the given error code and error type.
@@ -42,11 +43,13 @@ public class Error
      */
     public Error(String namespace,
                  ErrorCode errorCode,
-                 ErrorType errorType)
+                 ErrorType errorType,
+                 Object... errorData)
     {
         setNamespace(namespace);
         setErrorCode(errorCode);
         setErrorType(errorType);
+        setErrorData(errorData);
         
         setMessage(namespace,
                    errorCode);
@@ -56,12 +59,24 @@ public class Error
     
     public Error(String namespace,
                  String alias,
-                 ErrorType errorType)
+                 ErrorType errorType,
+                 Object... errorData)
     {
         this(namespace,
              ErrorLoader.getErrorCode(namespace,
                                       alias),
-             errorType);
+             errorType,
+             errorData);
+    }
+    
+    private void setErrorData(Object[] errorData)
+    {
+        this.errorData = errorData;
+    }
+    
+    public Object[] getErrorData()
+    {
+        return errorData;
     }
     
     private void setAlias(String namespace,

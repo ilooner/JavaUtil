@@ -52,43 +52,55 @@ public class ErrorThrower
     ////////////////////////////////////////////////////////////////////////////
     
     public void throwRecoverableError(ErrorCode errorCode,
-                                      Throwable throwable)
+                                      Throwable throwable,
+                                      Object... errorData)
     {
         throw new RecoverableError(namespace,
                                    errorCode,
-                                   throwable);
+                                   throwable,
+                                   errorData);
     }
     
     public void throwRecoverableError(int errorCode,
-                                      Throwable throwable)
+                                      Throwable throwable,
+                                      Object... errorData)
     {
         throwRecoverableError(new ErrorCode(errorCode),
-                              throwable);
+                              throwable,
+                              errorData);
     }    
     
-    public void throwRecoverableError(ErrorCode errorCode)
+    public void throwRecoverableError(ErrorCode errorCode,
+                                      Object... errorData)
     {
         throw new RecoverableError(namespace,
-                                   errorCode);
+                                   errorCode,
+                                   errorData);
     }
     
-    public void throwRecoverableError(int errorCode)
+    public void throwRecoverableError(int errorCode,
+                                      Object... errorData)
     {
-        throwRecoverableError(new ErrorCode(errorCode));
+        throwRecoverableError(new ErrorCode(errorCode),
+                              errorData);
     }
     
     public void throwRecoverableError(String alias,
-                                      Throwable throwable)
+                                      Throwable throwable,
+                                      Object... errorData)
     {
         throw new RecoverableError(namespace,
                                    alias,
-                                   throwable);
+                                   throwable,
+                                   errorData);
     }
     
-    public void throwRecoverableError(String alias)
+    public void throwRecoverableError(String alias,
+                                      Object... errorData)
     {
         throw new RecoverableError(namespace,
-                                   alias);
+                                   alias,
+                                   errorData);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -100,43 +112,55 @@ public class ErrorThrower
     ////////////////////////////////////////////////////////////////////////////
     
     public void throwUnrecoverableError(ErrorCode errorCode,
-                                        Throwable throwable)
+                                        Throwable throwable,
+                                        Object... errorData)
     {
         throw new UnrecoverableError(namespace,
                                      errorCode,
-                                     throwable);
+                                     throwable,
+                                     errorData);
     }
     
     public void throwUnrecoverableError(int errorCode,
-                                        Throwable throwable)
+                                        Throwable throwable,
+                                        Object... errorData)
     {
         throwUnrecoverableError(new ErrorCode(errorCode),
-                                throwable);
+                                throwable,
+                                errorData);
     }
     
-    public void throwUnrecoverableError(ErrorCode errorCode)
+    public void throwUnrecoverableError(ErrorCode errorCode,
+                                        Object... errorData)
     {
         throw new UnrecoverableError(namespace,
-                                     errorCode);
+                                     errorCode,
+                                     errorData);
     }
     
-    public void throwUnrecoverableError(int errorCode)
+    public void throwUnrecoverableError(int errorCode,
+                                        Object... errorData)
     {
-        throwUnrecoverableError(new ErrorCode(errorCode));
+        throwUnrecoverableError(new ErrorCode(errorCode),
+                                errorData);
     }
 
     public void throwUnrecoverableError(String alias,
-                                        Throwable throwable)
+                                        Throwable throwable,
+                                        Object... errorData)
     {
         throw new UnrecoverableError(namespace,
                                      alias,
-                                     throwable);
+                                     throwable,
+                                     errorData);
     }
     
-    public void throwUnrecoverableError(String alias)
+    public void throwUnrecoverableError(String alias,
+                                        Object... errorData)
     {
         throw new UnrecoverableError(namespace,
-                                     alias);
+                                     alias,
+                                     errorData);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -148,35 +172,43 @@ public class ErrorThrower
     ////////////////////////////////////////////////////////////////////////////
     
     public static void throwUnrecoverableError(String namespace,
-                                               ErrorCode errorCode)
-    {
-        throw new UnrecoverableError(namespace,
-                                     errorCode);
-    }
-    
-    public static void throwUnrecoverableError(String namespace,
-                                               int errorCode)
-    {
-        throwUnrecoverableError(namespace,
-                                new ErrorCode(errorCode));
-    }
-    
-    public static void throwUnrecoverableError(String namespace,
                                                ErrorCode errorCode,
-                                               Throwable throwable)
+                                               Object... errorData)
     {
         throw new UnrecoverableError(namespace,
                                      errorCode,
-                                     throwable);
+                                     errorData);
     }
     
     public static void throwUnrecoverableError(String namespace,
                                                int errorCode,
-                                               Throwable throwable)
+                                               Object... errorData)
     {
         throwUnrecoverableError(namespace,
                                 new ErrorCode(errorCode),
-                                throwable);
+                                errorData);
+    }
+    
+    public static void throwUnrecoverableError(String namespace,
+                                               ErrorCode errorCode,
+                                               Throwable throwable,
+                                               Object... errorData)
+    {
+        throw new UnrecoverableError(namespace,
+                                     errorCode,
+                                     throwable,
+                                     errorData);
+    }
+    
+    public static void throwUnrecoverableError(String namespace,
+                                               int errorCode,
+                                               Throwable throwable,
+                                               Object... errorData)
+    {
+        throwUnrecoverableError(namespace,
+                                new ErrorCode(errorCode),
+                                throwable,
+                                errorData);
     }
     
     public static void throwUnrecoverableError(Error error,
@@ -192,19 +224,23 @@ public class ErrorThrower
     }
     
     public static void throwUnrecoverableError(String namespace,
-                                               String alias)
+                                               String alias,
+                                               Object... errorData)
     {
         throw new UnrecoverableError(namespace,
-                                     alias);
+                                     alias,
+                                     errorData);
     }
     
     public static void throwUnrecoverableError(String namespace,
                                                String alias,
-                                               Throwable throwable)
+                                               Throwable throwable,
+                                               Object... errorData)
     {
         throw new UnrecoverableError(namespace,
                                      alias,
-                                     throwable);
+                                     throwable,
+                                     errorData);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -216,35 +252,43 @@ public class ErrorThrower
     ////////////////////////////////////////////////////////////////////////////
     
     public static void throwRecoverableError(String namespace,
-                                             ErrorCode errorCode)
-    {
-        throw new RecoverableError(namespace,
-                                   errorCode);
-    }
-    
-    public static void throwRecoverableError(String namespace,
-                                             int errorCode)
-    {
-        throwRecoverableError(namespace,
-                              new ErrorCode(errorCode));
-    }
-    
-    public static void throwRecoverableError(String namespace,
                                              ErrorCode errorCode,
-                                             Throwable throwable)
+                                             Object... errorData)
     {
         throw new RecoverableError(namespace,
                                    errorCode,
-                                   throwable);
+                                   errorData);
     }
     
     public static void throwRecoverableError(String namespace,
                                              int errorCode,
-                                             Throwable throwable)
+                                             Object... errorData)
     {
         throwRecoverableError(namespace,
                               new ErrorCode(errorCode),
-                              throwable);
+                              errorData);
+    }
+    
+    public static void throwRecoverableError(String namespace,
+                                             ErrorCode errorCode,
+                                             Throwable throwable,
+                                             Object... errorData)
+    {
+        throw new RecoverableError(namespace,
+                                   errorCode,
+                                   throwable,
+                                   errorData);
+    }
+    
+    public static void throwRecoverableError(String namespace,
+                                             int errorCode,
+                                             Throwable throwable,
+                                             Object... errorData)
+    {
+        throwRecoverableError(namespace,
+                              new ErrorCode(errorCode),
+                              throwable,
+                              errorData);
     }
     
     public static void throwRecoverableError(Error error,
@@ -260,19 +304,23 @@ public class ErrorThrower
     }
     
     public static void throwRecoverableError(String namespace,
-                                             String alias)
+                                             String alias,
+                                             Object... errorData)
     {
         throw new RecoverableError(namespace,
-                                   alias);
+                                   alias,
+                                   errorData);
     }
     
     public static void throwRecoverableError(String namespace,
                                              String alias,
-                                             Throwable throwable)
+                                             Throwable throwable,
+                                             Object... errorData)
     {
         throw new RecoverableError(namespace,
                                    alias,
-                                   throwable);
+                                   throwable,
+                                   errorData);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -284,7 +332,8 @@ public class ErrorThrower
     ////////////////////////////////////////////////////////////////////////////
     
     public void rethrowUnrecoverable(ErrorCode errorCode,
-                                     Throwable throwable)
+                                     Throwable throwable,
+                                     Object... errorData)
     {
         if(throwable instanceof RecoverableError)
         {
@@ -308,22 +357,27 @@ public class ErrorThrower
         
         throw new UnrecoverableError(namespace,
                                      errorCode,
-                                     throwable);
+                                     throwable,
+                                     errorData);
     }
     
     public void rethrowUnrecoverable(int errorCode,
-                                     Throwable throwable)
+                                     Throwable throwable,
+                                     Object... errorData)
     {
         rethrowUnrecoverable(new ErrorCode(errorCode),
-                             throwable);
+                             throwable,
+                             errorData);
     }
 
     public void rethrowUnrecoverable(String alias,
-                                     Throwable throwable)
+                                     Throwable throwable,
+                                     Object... errorData)
     {
         rethrowUnrecoverable(ErrorLoader.getErrorCode(namespace,
                                                       alias),
-                             throwable);
+                             throwable,
+                             errorData);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -335,7 +389,8 @@ public class ErrorThrower
     ////////////////////////////////////////////////////////////////////////////
     
     public void rethrowRecoverable(ErrorCode errorCode,
-                                   Throwable throwable)
+                                   Throwable throwable,
+                                   Object... errorData)
     {
         if(throwable instanceof RecoverableError)
         {
@@ -359,22 +414,27 @@ public class ErrorThrower
         
         throw new RecoverableError(namespace,
                                    errorCode,
-                                   throwable);
+                                   throwable,
+                                   errorData);
     }
 
     public void rethrowRecoverable(int errorCode,
-                                   Throwable throwable)
+                                   Throwable throwable,
+                                   Object... errorData)
     {
         rethrowRecoverable(new ErrorCode(errorCode),
-                           throwable);
+                           throwable,
+                           errorData);
     }
 
     public void rethrowRecoverable(String alias,
-                                   Throwable throwable)
+                                   Throwable throwable,
+                                   Object... errorData)
     {
         rethrowRecoverable(ErrorLoader.getErrorCode(namespace,
                                                     alias),
-                           throwable);
+                           throwable,
+                           errorData);
     }
     ////////////////////////////////////////////////////////////////////////////
     /// End - Fixed Names Space Recoverable Throwing Functions
@@ -394,7 +454,8 @@ public class ErrorThrower
      */
     public static void rethrowUnrecoverable(String namespace,
                                             ErrorCode errorCode,
-                                            Throwable throwable)
+                                            Throwable throwable,
+                                            Object... errorData)
     {
         if(throwable instanceof RecoverableError)
         {
@@ -418,27 +479,32 @@ public class ErrorThrower
         
         throw new UnrecoverableError(namespace,
                                      errorCode,
-                                     throwable);
+                                     throwable,
+                                     errorData);
     }
 
     public static void rethrowUnrecoverable(String namespace,
                                             int errorCode,
-                                            Throwable throwable)
+                                            Throwable throwable,
+                                            Object... errorData)
     {
         rethrowUnrecoverable(namespace,
                              new ErrorCode(errorCode),
-                             throwable);
+                             throwable,
+                             errorData);
     }
     
 
     public static void rethrowUnrecoverable(String namespace,
                                             String alias,
-                                            Throwable throwable)
+                                            Throwable throwable,
+                                            Object... errorData)
     {
         rethrowUnrecoverable(namespace,
                              ErrorLoader.getErrorCode(namespace,
                                                       alias),
-                             throwable);
+                             throwable,
+                             errorData);
     }
     
     ////////////////////////////////////////////////////////////////////////////
@@ -459,7 +525,8 @@ public class ErrorThrower
      */
     public static void rethrowRecoverable(String namespace,
                                           ErrorCode errorCode,
-                                          Throwable throwable)
+                                          Throwable throwable,
+                                          Object... errorData)
     {
         if(throwable instanceof RecoverableError)
         {
@@ -483,26 +550,31 @@ public class ErrorThrower
         
         throw new RecoverableError(namespace,
                                    errorCode,
-                                   throwable);
+                                   throwable,
+                                   errorData);
     }
 
     public static void rethrowRecoverable(String namespace,
                                           int errorCode,
-                                          Throwable throwable)
+                                          Throwable throwable,
+                                          Object... errorData)
     {
         rethrowRecoverable(namespace,
                            new ErrorCode(errorCode),
-                           throwable);
+                           throwable,
+                           errorData);
     }
     
     public static void rethrowRecoverable(String namespace,
                                           String alias,
-                                          Throwable throwable)
+                                          Throwable throwable,
+                                          Object... errorData)
     {
         rethrowRecoverable(namespace,
                            ErrorLoader.getErrorCode(namespace,
                                                     alias),
-                           throwable);
+                           throwable,
+                           errorData);
     }
     
     ////////////////////////////////////////////////////////////////////////////
