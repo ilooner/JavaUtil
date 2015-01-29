@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.topekalabs</groupId>
     <artifactId>utils</artifactId>
-    <version>1.3-SNAPSHOT</version>
+    <version>1.3</version>
     <packaging>jar</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -84,6 +84,8 @@
                 <configuration>
                     <systemPropertyVariables>
                         <java.testutils.build.dir>${project.build.directory}</java.testutils.build.dir>
+                        <java.testutils.resources.main>${project.build.resources[0].directory}</java.testutils.resources.main>
+                        <java.testutils.resources.test>${project.build.testResources[0].directory}</java.testutils.resources.test>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
@@ -148,7 +150,7 @@
         <dependency>
             <groupId>com.topekalabs</groupId>
             <artifactId>TestUtils</artifactId>
-            <version>1.0</version>
+            <version>1.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
