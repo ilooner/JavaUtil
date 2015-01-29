@@ -18,8 +18,8 @@ limitations under the License.
 
 <errors
     xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
-    xmlns:ns1='http://www.topekalabs.com'
-    xsi:schemaLocation='http://www.topekalabs.com file:/home/tfarkas/NetBeansProjects/utils/src/main/resources/error_properties.xsd'>
+    xmlns='http://www.topekalabs.com/javautil'
+    xsi:schemaLocation='http://www.topekalabs.com/javautil error_properties.xsd'>
     
     <!-- =================================================================== -->
     <!-- Start - Misc General Errors ======================================= -->
