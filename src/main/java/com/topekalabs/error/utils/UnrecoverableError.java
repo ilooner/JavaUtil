@@ -32,6 +32,14 @@ public class UnrecoverableError extends ThrownError
     }
 
     protected UnrecoverableError(String namespace,
+                                 ErrorCode errorCode)
+    {
+        this(namespace,
+             errorCode,
+             new Object[0]);
+    }
+    
+    protected UnrecoverableError(String namespace,
                                  String alias,
                                  Object... errorData)
     {
@@ -39,6 +47,14 @@ public class UnrecoverableError extends ThrownError
                         alias,
                         ErrorType.UNRECOVERABLE_ERROR,
                         errorData));
+    }
+    
+    protected UnrecoverableError(String namespace,
+                                 String alias)
+    {
+        this(namespace,
+             alias,
+             new Object[0]);
     }
     
     protected UnrecoverableError(String namespace,
@@ -52,6 +68,16 @@ public class UnrecoverableError extends ThrownError
                        errorData),
              throwable);
     }
+
+    protected UnrecoverableError(String namespace,
+                                 ErrorCode errorCode,
+                                 Throwable throwable)
+    {
+        this(namespace,
+             errorCode,
+             throwable,
+             new Object[0]);
+    }
     
     protected UnrecoverableError(String namespace,
                                  String alias,
@@ -62,6 +88,17 @@ public class UnrecoverableError extends ThrownError
                        alias,
                        ErrorType.UNRECOVERABLE_ERROR,
                        errorData),
+             throwable);
+    }
+
+    protected UnrecoverableError(String namespace,
+                                 String alias,
+                                 Throwable throwable)
+    {
+        this(new Error(namespace,
+                       alias,
+                       ErrorType.UNRECOVERABLE_ERROR,
+                       new Object[0]),
              throwable);
     }
     

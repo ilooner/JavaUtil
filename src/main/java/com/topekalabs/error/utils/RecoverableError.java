@@ -32,6 +32,15 @@ public class RecoverableError extends ThrownError
     }
 
     protected RecoverableError(String namespace,
+                               ErrorCode errorCode)
+    {
+        super(new Error(namespace,
+                        errorCode,
+                        ErrorType.UNRECOVERABLE_ERROR,
+                        new Object[0]));
+    }
+    
+    protected RecoverableError(String namespace,
                                String alias,
                                Object... errorData)
     {
@@ -39,6 +48,15 @@ public class RecoverableError extends ThrownError
                         alias,
                         ErrorType.UNRECOVERABLE_ERROR,
                         errorData));
+    }
+
+    protected RecoverableError(String namespace,
+                               String alias)
+    {
+        super(new Error(namespace,
+                        alias,
+                        ErrorType.UNRECOVERABLE_ERROR,
+                        new Object[0]));
     }
     
     protected RecoverableError(String namespace,
@@ -52,6 +70,17 @@ public class RecoverableError extends ThrownError
                        errorData),
              throwable);
     }
+
+    protected RecoverableError(String namespace,
+                               ErrorCode errorCode,
+                               Throwable throwable)
+    {
+        this(new Error(namespace,
+                       errorCode,
+                       ErrorType.UNRECOVERABLE_ERROR,
+                       new Object[0]),
+             throwable);
+    }
     
     protected RecoverableError(String namespace,
                                String alias,
@@ -62,6 +91,17 @@ public class RecoverableError extends ThrownError
                        alias,
                        ErrorType.UNRECOVERABLE_ERROR,
                        errorData),
+             throwable);
+    }
+
+    protected RecoverableError(String namespace,
+                               String alias,
+                               Throwable throwable)
+    {
+        this(new Error(namespace,
+                       alias,
+                       ErrorType.UNRECOVERABLE_ERROR,
+                       new Object[0]),
              throwable);
     }
     
