@@ -39,16 +39,31 @@ public final class Permutations
             return permutations;
         }
         
+        Map.Entry<L, Set<V>> mapEntry = CollectionUtils.getSingleElement(valuesMap.entrySet());
+        L label = mapEntry.getKey();
+        Set<V> values = mapEntry.getValue();
+        
         if(valuesMap.size() == 1) {
-           Map.Entry<L, Set<V>> mapEntry = CollectionUtils.getSingleElement(valuesMap.entrySet());
-           L label = mapEntry.getKey();
-           Set<V> values = mapEntry.getValue();
-           
            for(V value: values) {
                Map<L, V> permutation = Maps.newHashMap();
                permutation.put(label, value);
                permutations.add(permutation);
            }
+           
+           return permutations;
+        }
+        
+        Map<L, Set<V>> reducedValuesMap = Maps.newHashMap(valuesMap);
+        reducedValuesMap.remove(label);
+        
+        Set<Map<L, V>> reducedPermutations = labeledPermutations(reducedValuesMap);
+        
+        for(Map<L, V> reducedPermutation: reducedPermutations) {
+            for(V value: values) {
+                Map<L, V> permutation = Maps.newHashMap(reducedPermutation);
+                permutation.put(label, value);
+                permutations.add(permutation);
+            }
         }
         
         return permutations;
