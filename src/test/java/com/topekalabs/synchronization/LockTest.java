@@ -36,7 +36,7 @@ import org.junit.Test;
  *
  * @author Topeka Labs
  */
-public class LockTest
+public abstract class LockTest
 {
     private Class<? extends Lock> lockClass;
     
