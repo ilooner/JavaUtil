@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Topeka Labs.
+ * Copyright 2015 Topeka Labs.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,36 +13,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.topekalabs.synchronization;
-
-import com.topekalabs.error.utils.ExceptionUtils;
-import java.util.concurrent.atomic.AtomicReference;
+package com.topekalabs.wrapper.utils;
 
 /**
  *
  * @author Topeka Labs
  */
-public class SpinLock implements Lock
+public class MapperOneToOne<INPUT> implements Mapper<INPUT, INPUT>
 {
-    private final AtomicReference<Integer> csw = new AtomicReference<>(0);
-    
-    public SpinLock()
+    public MapperOneToOne()
     {
+        //Do nothing
     }
     
     @Override
-    public void lock()
+    public INPUT map(INPUT input)
     {
-        while(!csw.compareAndSet(0, 1))
-        {
-            //Do nothing
-        }
-    }
-    
-    @Override
-    public void unlock()
-    {
-        ExceptionUtils.thisShouldNotHappen(!csw.compareAndSet(1, 0),
-                                           "This spin lock is not locked.");
+        return input;
     }
 }

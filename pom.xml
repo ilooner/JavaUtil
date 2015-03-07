@@ -104,7 +104,6 @@
         </plugins>
     </reporting>
 
-
     <dependencies>
         <dependency>
             <groupId>org.reflections</groupId>
@@ -152,6 +151,11 @@
             <artifactId>TestUtils</artifactId>
             <version>1.2</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>it.unimi.dsi</groupId>
+            <artifactId>fastutil</artifactId>
+            <version>6.6.1</version>
         </dependency>
     </dependencies>
 </project>

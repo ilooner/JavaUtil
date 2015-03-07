@@ -112,6 +112,19 @@ public final class ExceptionUtils
         throw new CodingError(message, throwable);
     }
     
+    public static void illegal(boolean throwError, String message)
+    {
+        if(throwError)
+        {
+            throw new IllegalArgumentException(message);
+        }
+    }
+    
+    public static void illegal(String message)
+    {
+        throw new IllegalArgumentException(message);
+    }
+    
     /**
      * This is a convenience method for throwing an UnsupportedOperationException.
      * @param message This is a method to include in the unsupported operation exception.

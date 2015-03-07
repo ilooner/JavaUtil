@@ -235,4 +235,28 @@ public class ArrayUtils
                                                " contains duplicate references.");
         }
     }
+    
+    public static int truncateIndexOverflow(int index, int arrayLength)
+    {
+        IntUtils.isNonPositiveException(arrayLength, "arrayLength");
+        
+        if(index < 0 || index >= arrayLength)
+        {
+            return arrayLength - 1;
+        }
+        
+        return index;
+    }
+    
+    public static int truncateLengthOverflow(int length, int arrayLength)
+    {
+        IntUtils.isNonPositiveException(arrayLength, "arrayLength");
+        
+        if(length < 0 || length > arrayLength)
+        {
+            return arrayLength;
+        }
+        
+        return length;
+    }
 }

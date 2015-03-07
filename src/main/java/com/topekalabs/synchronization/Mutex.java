@@ -22,7 +22,7 @@ import java.util.concurrent.atomic.AtomicReference;
 /**
  * @author Topeka Labs
  */
-public class Mutex
+public class Mutex implements Lock
 {
     AtomicReference<Integer> csw = new AtomicReference<>(0);
     private final Object lock = new Object();
@@ -32,6 +32,7 @@ public class Mutex
         //Do Nothing
     }
     
+    @Override
     public void lock()
     {
         synchronized(lock)
@@ -61,6 +62,7 @@ public class Mutex
         }        
     }
     
+    @Override
     public void unlock()
     {
         ExceptionUtils.thisShouldNotHappen(!csw.compareAndSet(1, 0),

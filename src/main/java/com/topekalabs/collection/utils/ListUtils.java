@@ -16,7 +16,10 @@
 package com.topekalabs.collection.utils;
 
 import com.google.common.collect.Sets;
+import com.topekalabs.error.utils.ExceptionUtils;
 import com.topekalabs.wrapper.utils.ReferenceWrapper;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
@@ -57,5 +60,42 @@ public class ListUtils
                                                listName + 
                                                " contains duplicate references.");
         }
+    }
+    
+    public static <T> Collection<T> listToCollection(List<T> list)
+    {
+        return new ArrayList<>(list);
+    }
+    
+    public static <T> void listEmptyUnsupportedException(List<T> list)
+    {
+        ExceptionUtils.unsupported(list.isEmpty(),
+                                   "The given list cannot be empty.");
+    }
+    
+    public static <T> void listEmptyUnsupportedException(List<T> list,
+                                                         String name)
+    {
+        ExceptionUtils.unsupported(list.isEmpty(),
+                                   "The given list " + name + " cannot be empty.");
+    }
+    
+    public static <T> void listEmptyIllegalArgException(List<T> list)
+    {
+        ExceptionUtils.illegal(list.isEmpty(),
+                               "The given list cannot be empty.");
+    }
+    
+    public static <T> void listEmptyIllegalArgException(List<T> list,
+                                                         String name)
+    {
+        ExceptionUtils.illegal(list.isEmpty(),
+                               "The given list " + name + " cannot be empty.");
+    }
+    
+    public static <T> void removeLast(List<T> list)
+    {
+        ListUtils.listEmptyUnsupportedException(list, "list");
+        list.remove(list.size() - 1);
     }
 }

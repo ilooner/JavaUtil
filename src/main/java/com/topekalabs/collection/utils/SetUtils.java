@@ -70,7 +70,7 @@ public class SetUtils
         return unionSet;
     }
     
-    public static <T> Set<T> newNNHashSet()
+    public static <T> NNHashSet<T> newNNHashSet()
     {
         return new NNHashSet<>();
     }

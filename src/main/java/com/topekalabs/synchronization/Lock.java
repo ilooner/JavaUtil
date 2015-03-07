@@ -1,5 +1,5 @@
 /*
- * Copyright 2014 Topeka Labs.
+ * Copyright 2015 Topeka Labs.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,34 +15,12 @@
  */
 package com.topekalabs.synchronization;
 
-import com.topekalabs.error.utils.ExceptionUtils;
-import java.util.concurrent.atomic.AtomicReference;
-
 /**
  *
  * @author Topeka Labs
  */
-public class SpinLock implements Lock
+public interface Lock
 {
-    private final AtomicReference<Integer> csw = new AtomicReference<>(0);
-    
-    public SpinLock()
-    {
-    }
-    
-    @Override
-    public void lock()
-    {
-        while(!csw.compareAndSet(0, 1))
-        {
-            //Do nothing
-        }
-    }
-    
-    @Override
-    public void unlock()
-    {
-        ExceptionUtils.thisShouldNotHappen(!csw.compareAndSet(1, 0),
-                                           "This spin lock is not locked.");
-    }
+    public void lock();
+    public void unlock();
 }

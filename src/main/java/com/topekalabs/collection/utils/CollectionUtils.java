@@ -16,6 +16,7 @@
 package com.topekalabs.collection.utils;
 
 import com.topekalabs.error.utils.ExceptionUtils;
+import com.topekalabs.math.utils.IntUtils;
 import java.util.Collection;
 
 /**
@@ -42,6 +43,14 @@ public final class CollectionUtils
         }
     }
     
+    public static void isNotEmptyException(Collection collection)
+    {
+        if(!collection.isEmpty())
+        {
+            throw new IllegalArgumentException("The given collection cannot be non-empty.");
+        }
+    }
+    
     /**
      * This method throws an IllegalArgumentException if the given collection is
      * empty. The name of the collection is included in the exception message.
@@ -53,7 +62,20 @@ public final class CollectionUtils
     {
         if(collection.isEmpty())
         {
-            throw new IllegalArgumentException("The given collection " + collectionName + " cannot be empty.");
+            throw new IllegalArgumentException("The given collection " +
+                                               collectionName +
+                                               " cannot be empty.");
+        }
+    }
+
+    public static void isNotEmptyException(Collection collection,
+                                            String collectionName)
+    {
+        if(!collection.isEmpty())
+        {
+            throw new IllegalArgumentException("The given collection " +
+                                               collectionName +
+                                               " cannot be non-empty.");
         }
     }
     
@@ -123,5 +145,22 @@ public final class CollectionUtils
     {
         isNotSize1Exception(collection);
         return getSingleElement(collection);
+    }
+    
+    public static <DT, CT extends Collection<DT>> CT fillEmptyCollection(CT collection,
+                                                                         DT fillerObject,
+                                                                         int size)
+    {
+        CollectionUtils.isNotEmptyException(collection, "collection");
+        IntUtils.isNonPositiveException(size);
+        
+        for(int counter = 0;
+            counter < size;
+            counter++)
+        {
+            collection.add(fillerObject);
+        }
+        
+        return collection;
     }
 }

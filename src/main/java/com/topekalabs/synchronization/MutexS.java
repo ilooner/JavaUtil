@@ -38,6 +38,14 @@ public class MutexS extends Mutex
     }
     
     @Override
+    public void lockInterruptable() throws InterruptedException
+    {
+        super.lockInterruptable();
+        
+        threadId = Thread.currentThread().getId();
+    }
+    
+    @Override
     public void unlock()
     {
         long unlockId = Thread.currentThread().getId();
